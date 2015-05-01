@@ -1,11 +1,13 @@
 package db.xml.loader;
 
 import java.io.File;
+import java.util.Iterator;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 
 public class XmlLoader {
@@ -13,24 +15,40 @@ public class XmlLoader {
 	public static void main(String[] args){
 		Serializer serializer = new Persister();
 		
-//		File example = new File("XMLLoader/initial_data","Query2.xml");
 		try {						
 			Recipes recipes = serializer.read(Recipes.class, XmlLoader.class.getClassLoader().getResourceAsStream("initial_data/Query2.xml"));
-//			for (Recipe recipe : recipes.getList()) {
-//				System.out.println(recipe.toString());
-//			}
-			Recipe recipe = recipes.getList().get(0);
-			System.out.println("org recipe:\n" + recipe);
-			final String fileName =  recipe.getName().replace(" ", "_") + "_" + recipe.getAuthor().replace(" ", "_") + "_" + recipe.getType().replace(" ", "_");
-			System.out.println("fileName: " + fileName);
-			final File dest = new File(fileName + ".txt");
-			Files.write(recipe.toString(), dest, Charsets.UTF_8);
-			System.out.println("Done writing to file");
-			Recipe recipeFromText = RecipeTextLoader.readRecipeFromText(dest.toPath());
-			System.out.println("final recipe:\n" + recipeFromText);
+			Recipe recipe = null;
+			for(Iterator<Recipe> iterator = recipes.getList().iterator(); iterator.hasNext(); ){
+				recipe = iterator.next();
+				final String fileName =  removeSpecialChars(recipe.getName());// + "_" + removeSpecialChars(recipe.getAuthor()) + "_" + removeSpecialChars(recipe.getType());
+				System.out.println("fileName: " + fileName);
+				final File dest = new File("txt_files", fileName + ".txt");
+				Files.write(recipe.toString(), dest, Charsets.UTF_8);
+				System.out.println("Done writing to file");
+			}
+//			for(
+
+
+			
+			
+			
+			
+//			Recipe recipeFromText = RecipeTextLoader.readRecipeFromText(dest.toPath());
+//			System.out.println("final recipe:\n" + recipeFromText);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static String removeSpecialChars(String name) {		
+		if(Strings.isNullOrEmpty(name)){
+			return "";
+		}
+		else {
+			return name.replace(" ", "_").replace("\"", "").replace("\\", "-").replace("/", "").replace(File.pathSeparator,  "-").replace(":", "_");
+		}
+		
 	}
 }
