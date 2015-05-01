@@ -1,0 +1,22 @@
+Name:
+Beer Bread
+Type:
+Breads
+Country:
+USA
+Author:
+allenm@sna.com
+Ingredients:
+1 12 oz (336 grm). beer 
+2 tbsp (30 ml) sugar 
+3 cups (700 ml) self-rising flour
+Instructions:
+Mix all. 
+Pour in greased pan. 
+Press down with the back of a wet spoon. 
+Oil the top. 
+Bake at 350 degrees (175 C.) for 1 hr and 20 min.
+Serves:
+0
+Notes:
+null

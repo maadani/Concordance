@@ -1,0 +1,30 @@
+Name:
+Beer Chicken
+Type:
+Poultry
+Country:
+USA
+Author:
+Great American Recipes
+Ingredients:
+1 chicken, 3 pounds, cut-up 
+2 tablespoons vegetable oil 
+1 cup chopped red onion 
+1/2 cup chopped celery 
+2 cloves garlic, minced 
+1 can beer 
+Dash salt 
+Dash pepper 
+
+Instructions:
+1. Rinse chicken pieces with cool water. Pat dry with paper towels.
+2. In a large skillet, heat the oil.
+3. Brown chicken pieces on all sides.
+4. Sprinkle chopped onion, celery, garlic, salt and pepper over chicken.
+5. Add enough beer to barely cover chicken.
+6. Cover. Simmer for 30 minutes or until chicken is done to your liking. Juices should run clear when pierced with a fork.
+7. Serve hot with extra celery sprinkled over the top.
+Serves:
+4
+Notes:
+null

@@ -1,0 +1,28 @@
+Name:
+Classic Pizza
+Type:
+Pizza
+Country:
+Italy
+Author:
+Platina
+Ingredients:
+1 Platina cooked pizza crust 
+1/2 cup Mozzarella cheese 
+1/4 cup Parmesan cheese 
+1/4 cup cheddar cheese 
+1/2 cup sliced pepperoni 
+1/2 cup lightly steamed mushrooms 
+1/2 cup green pepper 
+3/4 cup browned ground beef (spiced & crumbled) 
+
+Instructions:
+Lightly coat crust with tomato sauce. Arrange grated cheese over sauce.
+Top with pepperoni, mushrooms, cooked ground beef and green pepper.
+Spiced ground beef preparation - Brown meat with onion and garlic (1 clove). Use either minced garlic or garlic salt and any other herbs to your liking. Add pepper and a little salt to taste.
+Bake in oven 10 - 15 minutes or until cheese has melted.
+
+Serves:
+0
+Notes:
+null

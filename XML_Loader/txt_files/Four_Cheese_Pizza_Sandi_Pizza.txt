@@ -1,0 +1,23 @@
+Name:
+Four Cheese Pizza
+Type:
+Pizza
+Country:
+Italy
+Author:
+Sandi
+Ingredients:
+1 large (12 inch) or 4 small (6 inch) Boboli Italian bread shell(s) 
+5 ounce pouch Boboli pizza sauce 
+1 ounce ricotta cheese 
+1 ounce Parmesan cheese, grated 
+1 ounce Kraft natural shredded cheddar cheese 
+3 ounces Kraft natural shredded mozzarella cheese 
+
+Instructions:
+Spread pizza sauce then ricotta cheese on top of bread shell. Sprinkle cheeses over sauce in order given. Bake at 450 degrees for 12 - 15 minutes (5 - 8 minutes for 6 inch shells).
+
+Serves:
+0
+Notes:
+null

@@ -1,0 +1,22 @@
+Name:
+Egg Soup (Sopa de Huevo)
+Type:
+Soups
+Country:
+Mexico
+Author:
+http://mexico.udg.mx
+Ingredients:
+3 eggs 
+6 cups of chicken broth 
+1 tablespoon of flour 
+1 pinch of chopped nuts 
+1 teaspoon of chopped parsley 
+salt and pepper 
+Instructions:
+Whip the eggs with the flour. 
+Boil the broth and then gently strain the egg mixture into the broth. Allow it to cook on low flame 10 minutes. Add the nuts, salt, pepper and chopped parsley
+Serves:
+0
+Notes:
+null

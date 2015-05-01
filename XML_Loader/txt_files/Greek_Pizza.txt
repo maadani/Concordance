@@ -1,0 +1,33 @@
+Name:
+Greek Pizza
+Type:
+Pizza
+Country:
+Greece
+Author:
+Sandi
+Ingredients:
+1 Platina pizza crust 
+3/4 cup tomato sauce 
+1/2 cup grated feta cheese 
+1/2 cup Parmesan cheese 
+2 tomatoes, sliced 
+1/2 cup Greek olives, sliced 
+1 teaspoon basil 
+  Olive oil 
+
+Instructions:
+Lightly brush Platina with olive oil.
+Spread thin layer of tomato sauce.
+Add grated cheeses to cover sauce surface.
+Top with fresh sliced tomatoes and Greek olives. Sprinkle with basil.
+
+Bake 10 - 15 minutes in moderate oven (350 - 375 degrees), until cheese is soft and melts.
+
+Serve with green salad.
+
+
+Serves:
+0
+Notes:
+null
