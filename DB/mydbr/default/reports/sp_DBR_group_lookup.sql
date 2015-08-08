@@ -1,7 +1,7 @@
 delimiter $$
-drop procedure if exists `sp_DBR`
+drop procedure if exists `sp_DBR_group_lookup`
 $$
-CREATE PROCEDURE `sp_DBR`(vGroupName varchar(45))
+CREATE PROCEDURE `sp_DBR_group_lookup`(vGroupName varchar(45))
 BEGIN
 
 select
