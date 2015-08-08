@@ -1,0 +1,24 @@
+/*
+	Outputted reports header row
+*/
+.row_header, .cell_ct, .pageview_cell1, .drill_header {
+	background-color: #FFFF00;
+}
+
+.odd:hover td, .even:hover td, .popuprow:hover, .autocomplete ul li.selected {
+	background-color: #B0FE86 !important; 
+}
+
+td.nobottom {
+	border-bottom: none;
+}
+
+.summary_level0 {
+	border-top: 1px solid #AAA;
+}
+
+th.pager_row > div.pager {
+	border-top: 1px solid black;
+}
+
+.pw_reset_link, .pw_reset_link:visited {color:black;}
