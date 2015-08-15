@@ -209,6 +209,26 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'concordancedb'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `get_group_names` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_group_names`()
+BEGIN
+	select groups.group_id as 'id', groups.group_name as 'name'
+    from groups;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_recipe_names` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -249,6 +269,45 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_words_for_group` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
+BEGIN
+	select * from words;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_word_list` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_word_list`()
+BEGIN
+	select words.id as 'id', words.value as 'value'
+    from words;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_new_group` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -278,7 +337,7 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-12 21:44:01
+-- Dump completed on 2015-08-15 21:53:11
 CREATE DATABASE  IF NOT EXISTS `mydbr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `mydbr`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
@@ -530,7 +589,7 @@ CREATE TABLE `mydbr_licenses` (
   `type` varchar(255) DEFAULT NULL,
   `version` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -539,7 +598,7 @@ CREATE TABLE `mydbr_licenses` (
 
 LOCK TABLES `mydbr_licenses` WRITE;
 /*!40000 ALTER TABLE `mydbr_licenses` DISABLE KEYS */;
-INSERT INTO `mydbr_licenses` VALUES (1,'-','evaluation','-','localhost','e6dfbff758ab1f176b3f039218677e0c50f58f0e','mysql','2015-08-14','community','4.5.1');
+INSERT INTO `mydbr_licenses` VALUES (1,'-','evaluation','-','localhost','e6dfbff758ab1f176b3f039218677e0c50f58f0e','mysql','2015-08-14','community','4.5.1'),(2,'Erez Maadani','erez.maadani@gmail.com','NA','localhost','c9c6d30997bfa32e4f980e5f36ba075d22d7e2dc','mysql','2015-09-14','community','4.5.1');
 /*!40000 ALTER TABLE `mydbr_licenses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -666,7 +725,7 @@ CREATE TABLE `mydbr_param_queries` (
 
 LOCK TABLES `mydbr_param_queries` WRITE;
 /*!40000 ALTER TABLE `mydbr_param_queries` DISABLE KEYS */;
-INSERT INTO `mydbr_param_queries` VALUES ('MonthAgo','select  cast(date_add(now(), interval -1 month) as date)\r\n',3,NULL),('Now','select cast(now() as date)',3,NULL),('Rec','concordancedb.get_recipe_names',0,'{}'),('Steps_5-10-20-100','select 5, 5\r\nunion\r\nselect 10, 10\r\nunion\r\nselect 20, 20\r\nunion\r\nselect 50, 50\r\nunion\r\nselect 100, 100\r\n\r\n',0,NULL),('Yes No','select 1, \'Yes\' \r\nunion \r\nselect 0, \'No\'',1,NULL);
+INSERT INTO `mydbr_param_queries` VALUES ('groups','concordancedb.get_group_names',0,'{\"find\":true}'),('MonthAgo','select  cast(date_add(now(), interval -1 month) as date)\r\n',3,NULL),('Now','select cast(now() as date)',3,NULL),('Rec','concordancedb.get_recipe_names',0,'{}'),('Steps_5-10-20-100','select 5, 5\r\nunion\r\nselect 10, 10\r\nunion\r\nselect 20, 20\r\nunion\r\nselect 50, 50\r\nunion\r\nselect 100, 100\r\n\r\n',0,NULL),('words','concordancedb.get_word_list',0,'{\"find\":true}'),('Yes No','select 1, \'Yes\' \r\nunion \r\nselect 0, \'No\'',1,NULL);
 /*!40000 ALTER TABLE `mydbr_param_queries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -697,7 +756,7 @@ CREATE TABLE `mydbr_params` (
 
 LOCK TABLES `mydbr_params` WRITE;
 /*!40000 ALTER TABLE `mydbr_params` DISABLE KEYS */;
-INSERT INTO `mydbr_params` VALUES ('sp_DBR_add_new_group','vGroupName',NULL,'Group Name',NULL,0,0,NULL,NULL),('sp_DBR_group_lookup','vGroupName',NULL,'Group Name',NULL,0,0,NULL,NULL),('sp_DBR_StatisticsReport','inEndDate',NULL,'End date','Now',0,0,NULL,NULL),('sp_DBR_StatisticsReport','inStartDate',NULL,'Start date','MonthAgo',0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inEndDate',NULL,'End date','Now',0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inRowCount','Steps_5-10-20-100','Row count',NULL,0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inStartDate',NULL,'Start date','MonthAgo',0,0,NULL,NULL),('sp_DBR_words_by_recipe','inRecipeId','Rec','Recipe',NULL,0,0,NULL,NULL);
+INSERT INTO `mydbr_params` VALUES ('sp_DBR_add_new_group','vGroupName',NULL,'Group Name',NULL,0,0,NULL,NULL),('sp_DBR_add_word_to_group','inGroupId','groups',NULL,NULL,0,0,NULL,NULL),('sp_DBR_add_word_to_group','inWordId','words',NULL,NULL,0,0,NULL,NULL),('sp_DBR_group_lookup','vGroupName',NULL,'Group Name',NULL,0,0,NULL,NULL),('sp_DBR_StatisticsReport','inEndDate',NULL,'End date','Now',0,0,NULL,NULL),('sp_DBR_StatisticsReport','inStartDate',NULL,'Start date','MonthAgo',0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inEndDate',NULL,'End date','Now',0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inRowCount','Steps_5-10-20-100','Row count',NULL,0,0,NULL,NULL),('sp_DBR_StatisticsSummary','inStartDate',NULL,'Start date','MonthAgo',0,0,NULL,NULL),('sp_DBR_words_by_recipe','inRecipeId','Rec','Recipe',NULL,0,0,NULL,NULL);
 /*!40000 ALTER TABLE `mydbr_params` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -824,7 +883,7 @@ CREATE TABLE `mydbr_reports` (
   PRIMARY KEY (`report_id`) USING BTREE,
   KEY `reportgroup` (`reportgroup`),
   CONSTRAINT `mydbr_reports_ibfk_1` FOREIGN KEY (`reportgroup`) REFERENCES `mydbr_reportgroups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -833,7 +892,7 @@ CREATE TABLE `mydbr_reports` (
 
 LOCK TABLES `mydbr_reports` WRITE;
 /*!40000 ALTER TABLE `mydbr_reports` DISABLE KEYS */;
-INSERT INTO `mydbr_reports` VALUES (1,'Statistics summary','sp_DBR_StatisticsSummary',2,'',1,NULL,NULL,NULL,NULL,NULL),(2,'Statistics for a report','sp_DBR_StatisticsReport',3,'',1,NULL,NULL,NULL,NULL,NULL),(5,'Add New Group','sp_DBR_add_new_group',1,'',1,NULL,'Add Group',NULL,NULL,NULL),(6,'Group Lookup','sp_DBR_group_lookup',1,'',1,NULL,'Search',NULL,NULL,NULL),(7,'Find Words For Recipe','sp_DBR_words_by_recipe',1,'',1,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `mydbr_reports` VALUES (1,'Statistics summary','sp_DBR_StatisticsSummary',2,'',1,NULL,NULL,NULL,NULL,NULL),(2,'Statistics for a report','sp_DBR_StatisticsReport',3,'',1,NULL,NULL,NULL,NULL,NULL),(5,'Add New Group','sp_DBR_add_new_group',1,'',1,NULL,'Add Group',NULL,NULL,NULL),(6,'Group Lookup','sp_DBR_group_lookup',1,'',1,NULL,'Search',NULL,NULL,NULL),(7,'Find Words For Recipe','sp_DBR_words_by_recipe',1,'',1,NULL,NULL,NULL,NULL,NULL),(9,'sp_add_word_to_group_rpt','sp_DBR_add_word_to_group',1,'',1,NULL,'Add Word To Group',NULL,NULL,NULL),(10,'sp_get_group_words','sp_DBR_get_words_for_group_id',1,'',1,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `mydbr_reports` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -908,7 +967,7 @@ CREATE TABLE `mydbr_statistics` (
   `user_agent_hash` varchar(50) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -917,7 +976,7 @@ CREATE TABLE `mydbr_statistics` (
 
 LOCK TABLES `mydbr_statistics` WRITE;
 /*!40000 ALTER TABLE `mydbr_statistics` DISABLE KEYS */;
-INSERT INTO `mydbr_statistics` VALUES ('sp_DBR','dba',2,'2015-08-07 15:20:08','2015-08-07 15:20:08','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',1),('sp_DBR','dba',2,'2015-08-07 15:20:32','2015-08-07 15:20:33','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',2),('sp_DBR','dba',2,'2015-08-07 15:33:06','2015-08-07 15:33:06','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',3),('sp_DBR','dba',2,'2015-08-08 20:56:21','2015-08-08 20:56:22','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',4),('sp_DBR','dba',2,'2015-08-08 21:10:39','2015-08-08 21:10:39','call sp_DBR(\'g\');','::1','e14f41f376cc3701f03d93ea21192f2a',5),('sp_DBR','dba',2,'2015-08-08 21:10:55','2015-08-08 21:10:55','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',6),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:16:25','2015-08-08 21:16:25','call sp_DBR_call_db_sp(\'test3\');','::1','e14f41f376cc3701f03d93ea21192f2a',7),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:16:54','2015-08-08 21:16:55','call sp_DBR_call_db_sp(\'test3\');','::1','e14f41f376cc3701f03d93ea21192f2a',8),('sp_DBR','dba',2,'2015-08-08 21:17:18','2015-08-08 21:17:19','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',9),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:17:39','2015-08-08 21:17:40','call sp_DBR_call_db_sp(\'test4\');','::1','e14f41f376cc3701f03d93ea21192f2a',10),('sp_DBR','dba',2,'2015-08-08 21:17:49','2015-08-08 21:17:49','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',11),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:18:43','2015-08-08 21:18:44','call sp_DBR_call_db_sp(\'test5\');','::1','e14f41f376cc3701f03d93ea21192f2a',12),('sp_DBR','dba',2,'2015-08-08 21:18:59','2015-08-08 21:18:59','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',13),('sp_DBR','dba',2,'2015-08-08 23:08:18','2015-08-08 23:08:18','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',14),('sp_DBR_add_new_group','dba',2,'2015-08-08 23:13:16','2015-08-08 23:13:17','call sp_DBR_add_new_group(\'e1\');','::1','e14f41f376cc3701f03d93ea21192f2a',15),('sp_DBR','dba',2,'2015-08-08 23:13:26','2015-08-08 23:13:27','call sp_DBR(\'e\');','::1','e14f41f376cc3701f03d93ea21192f2a',16),('sp_DBR','dba',2,'2015-08-08 23:13:37','2015-08-08 23:13:37','call sp_DBR(\'e1\');','::1','e14f41f376cc3701f03d93ea21192f2a',17),('sp_DBR_group_lookup','dba',2,'2015-08-08 23:15:53','2015-08-08 23:15:53','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',18),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:09:44','2015-08-12 21:09:45','call sp_DBR_words_by_recipe(50);','::1','e14f41f376cc3701f03d93ea21192f2a',19),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:17:18','2015-08-12 21:17:18','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',20),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:17:30','2015-08-12 21:17:30','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',21),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:21:03','2015-08-12 21:21:03','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',22),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:00','2015-08-12 21:26:00','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',23),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:33','2015-08-12 21:26:33','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',24),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:38','2015-08-12 21:26:38','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',25),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:45','2015-08-12 21:26:45','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',26),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:27:33','2015-08-12 21:27:33','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',27),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:27:51','2015-08-12 21:27:51','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',28),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:31:35','2015-08-12 21:31:35','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',29),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:39:44','2015-08-12 21:39:44','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',30),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:42:56','2015-08-12 21:42:56','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',31);
+INSERT INTO `mydbr_statistics` VALUES ('sp_DBR','dba',2,'2015-08-07 15:20:08','2015-08-07 15:20:08','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',1),('sp_DBR','dba',2,'2015-08-07 15:20:32','2015-08-07 15:20:33','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',2),('sp_DBR','dba',2,'2015-08-07 15:33:06','2015-08-07 15:33:06','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',3),('sp_DBR','dba',2,'2015-08-08 20:56:21','2015-08-08 20:56:22','call sp_DBR();','::1','e14f41f376cc3701f03d93ea21192f2a',4),('sp_DBR','dba',2,'2015-08-08 21:10:39','2015-08-08 21:10:39','call sp_DBR(\'g\');','::1','e14f41f376cc3701f03d93ea21192f2a',5),('sp_DBR','dba',2,'2015-08-08 21:10:55','2015-08-08 21:10:55','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',6),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:16:25','2015-08-08 21:16:25','call sp_DBR_call_db_sp(\'test3\');','::1','e14f41f376cc3701f03d93ea21192f2a',7),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:16:54','2015-08-08 21:16:55','call sp_DBR_call_db_sp(\'test3\');','::1','e14f41f376cc3701f03d93ea21192f2a',8),('sp_DBR','dba',2,'2015-08-08 21:17:18','2015-08-08 21:17:19','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',9),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:17:39','2015-08-08 21:17:40','call sp_DBR_call_db_sp(\'test4\');','::1','e14f41f376cc3701f03d93ea21192f2a',10),('sp_DBR','dba',2,'2015-08-08 21:17:49','2015-08-08 21:17:49','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',11),('sp_DBR_call_db_sp','dba',2,'2015-08-08 21:18:43','2015-08-08 21:18:44','call sp_DBR_call_db_sp(\'test5\');','::1','e14f41f376cc3701f03d93ea21192f2a',12),('sp_DBR','dba',2,'2015-08-08 21:18:59','2015-08-08 21:18:59','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',13),('sp_DBR','dba',2,'2015-08-08 23:08:18','2015-08-08 23:08:18','call sp_DBR(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',14),('sp_DBR_add_new_group','dba',2,'2015-08-08 23:13:16','2015-08-08 23:13:17','call sp_DBR_add_new_group(\'e1\');','::1','e14f41f376cc3701f03d93ea21192f2a',15),('sp_DBR','dba',2,'2015-08-08 23:13:26','2015-08-08 23:13:27','call sp_DBR(\'e\');','::1','e14f41f376cc3701f03d93ea21192f2a',16),('sp_DBR','dba',2,'2015-08-08 23:13:37','2015-08-08 23:13:37','call sp_DBR(\'e1\');','::1','e14f41f376cc3701f03d93ea21192f2a',17),('sp_DBR_group_lookup','dba',2,'2015-08-08 23:15:53','2015-08-08 23:15:53','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',18),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:09:44','2015-08-12 21:09:45','call sp_DBR_words_by_recipe(50);','::1','e14f41f376cc3701f03d93ea21192f2a',19),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:17:18','2015-08-12 21:17:18','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',20),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:17:30','2015-08-12 21:17:30','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',21),('sp_DBR_get_recipe_names','dba',2,'2015-08-12 21:21:03','2015-08-12 21:21:03','call sp_DBR_get_recipe_names();','::1','e14f41f376cc3701f03d93ea21192f2a',22),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:00','2015-08-12 21:26:00','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',23),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:33','2015-08-12 21:26:33','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',24),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:38','2015-08-12 21:26:38','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',25),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:26:45','2015-08-12 21:26:45','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',26),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:27:33','2015-08-12 21:27:33','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',27),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:27:51','2015-08-12 21:27:51','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',28),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:31:35','2015-08-12 21:31:35','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',29),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:39:44','2015-08-12 21:39:44','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',30),('sp_DBR_words_by_recipe','dba',2,'2015-08-12 21:42:56','2015-08-12 21:42:56','call sp_DBR_words_by_recipe(0);','::1','e14f41f376cc3701f03d93ea21192f2a',31),('sp_DBR_words_by_recipe','dba',2,'2015-08-14 00:29:05','2015-08-14 00:29:06','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',32),('sp_DBR_words_by_recipe','dba',2,'2015-08-14 00:53:23','2015-08-14 00:53:23','call sp_DBR_words_by_recipe(1);','::1','e14f41f376cc3701f03d93ea21192f2a',33),('sp_DBR_add_word_to_group','dba',2,'2015-08-14 10:58:55','2015-08-14 10:58:56','call sp_DBR_add_word_to_group(43,234);','::1','e14f41f376cc3701f03d93ea21192f2a',34),('sp_DBR_group_lookup','dba',2,'2015-08-14 17:59:43','2015-08-14 17:59:43','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',35),('sp_DBR_group_lookup','dba',2,'2015-08-14 18:11:02','2015-08-14 18:11:02','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',36),('sp_DBR_group_lookup','dba',2,'2015-08-14 18:13:28','2015-08-14 18:13:28','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',37),('sp_DBR_group_lookup','dba',2,'2015-08-14 18:15:13','2015-08-14 18:15:13','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',38),('sp_DBR_get_words_for_group_id','dba',2,'2015-08-14 18:15:20','2015-08-14 18:15:20','call sp_DBR_get_words_for_group_id(3);','::1','e14f41f376cc3701f03d93ea21192f2a',39),('sp_DBR_group_lookup','dba',2,'2015-08-14 18:15:33','2015-08-14 18:15:33','call sp_DBR_group_lookup(\'test\');','::1','e14f41f376cc3701f03d93ea21192f2a',40),('sp_DBR_get_words_for_group_id','dba',2,'2015-08-14 18:15:49','2015-08-14 18:15:50','call sp_DBR_get_words_for_group_id(4);','::1','e14f41f376cc3701f03d93ea21192f2a',41),('sp_DBR_get_words_for_group_id','dba',2,'2015-08-15 19:53:43','2015-08-15 19:53:43','call sp_DBR_get_words_for_group_id(4);','::1','1b1a9fe8dea603b93684d610b5808c02',42);
 /*!40000 ALTER TABLE `mydbr_statistics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1021,7 +1080,7 @@ CREATE TABLE `mydbr_update` (
 
 LOCK TABLES `mydbr_update` WRITE;
 /*!40000 ALTER TABLE `mydbr_update` DISABLE KEYS */;
-INSERT INTO `mydbr_update` VALUES ('4.5.1',1439498276,'http://www.mydbr.com/fileserve.php?get=mydbr_app.zip','http://www.mydbr.com/getpost.php?id=6432',1439325476,'02f7013428cb6cd9921a702cbf81c72dee7f6b51');
+INSERT INTO `mydbr_update` VALUES ('4.5.1',1439674133,'http://www.mydbr.com/fileserve.php?get=mydbr_app.zip','http://www.mydbr.com/getpost.php?id=6432',1439501333,'547626fcbef4362577f2d8f19bd271543abc523c');
 /*!40000 ALTER TABLE `mydbr_update` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1045,7 +1104,7 @@ CREATE TABLE `mydbr_user_agents` (
 
 LOCK TABLES `mydbr_user_agents` WRITE;
 /*!40000 ALTER TABLE `mydbr_user_agents` DISABLE KEYS */;
-INSERT INTO `mydbr_user_agents` VALUES ('e14f41f376cc3701f03d93ea21192f2a','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0');
+INSERT INTO `mydbr_user_agents` VALUES ('1b1a9fe8dea603b93684d610b5808c02','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0'),('e14f41f376cc3701f03d93ea21192f2a','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0');
 /*!40000 ALTER TABLE `mydbr_user_agents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1177,6 +1236,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_DBR_add_word_to_group` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_DBR_add_word_to_group`(inWordId int, inGroupId int)
+BEGIN
+
+select 'Hello';
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_DBR_call_db_sp` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1198,6 +1278,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_DBR_get_words_for_group_id` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_DBR_get_words_for_group_id`(inGroupId int)
+BEGIN
+
+call concordancedb.get_words_for_group(inGroupId);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_DBR_group_lookup` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1210,6 +1311,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_DBR_group_lookup`(vGroupName varchar(45))
 BEGIN
+
+select 'dbr.report', 'sp_DBR_get_words_for_group_id','inGroupId=Group_id';
 
 select
 	g.group_id as 'Group_id',
@@ -6252,4 +6355,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-12 21:44:01
+-- Dump completed on 2015-08-15 21:53:12
