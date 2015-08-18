@@ -19,8 +19,29 @@ Each extension is an array element with key defining the directory where the ext
 	                 other cmds array elements define the parameters and if the parameter is obligatory (1) or not (0)
 */
 
-$dbr_extensions['echart'] = (
-	array(
+$dbr_extensions = array (
+
+	'receipe_reader' => array(
+		'enabled' => true,
+		'autoload' => 1,
+		'php' => 'receipe_reader.php', 
+		// Define these if you want to do row by row handling
+		'row_by_row_initialization' => 'read_recipe',
+		'row_by_row_data_row' => '', 
+		'row_by_row_finish' => '',
+		// Define this if you want to do row by row handling
+		'single_pass_call' => '', 
+		'javascript' => array(), 
+		'css' => array(), 
+		'cmds' => array(
+			array (
+				'cmd' => 'dbr.read_recipe',
+				'file_name' => 1,
+			),
+		),
+	),
+	
+	'echart' => array(
 	'name' => 'Extended chart',
 	'enabled' => true, // Set to false in mdbr
 	'autoload' => 1,
@@ -70,4 +91,7 @@ $dbr_extensions['echart'] = (
 			'scale' => 1
 		)
 	)
-));
+),
+
+
+);

@@ -54,6 +54,7 @@ $dbr_extensions = array (
 	),
 	*/	
 	
+	
   // Enable this to see how extension functions are called
   // This will implement 2 commands (dbr.dummy and dbr.dummy_2nd_cmd) into the mydbr language
   // see implementation files for more info
@@ -69,7 +70,7 @@ $dbr_extensions = array (
 	end
 */
   'dummy' => array(
-		'enabled' => false,
+		'enabled' => true,
 		'autoload' => 1,
 		'php' => 'dummy.php', 
 		// Define these if you want to do row by row handling (and set single_pass_call =>'')
