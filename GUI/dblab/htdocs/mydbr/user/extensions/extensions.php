@@ -27,8 +27,8 @@ $dbr_extensions = array (
 		'php' => 'receipe_reader.php', 
 		// Define these if you want to do row by row handling
 		'row_by_row_initialization' => 'read_recipe',
-		'row_by_row_data_row' => '', 
-		'row_by_row_finish' => '',
+		'row_by_row_data_row' => 'read_recipe_row', 
+		'row_by_row_finish' => 'row_by_row_finish',
 		// Define this if you want to do row by row handling
 		'single_pass_call' => '', 
 		'javascript' => array(), 

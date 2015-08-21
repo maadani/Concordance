@@ -6,8 +6,8 @@ BEGIN
 
   select 'dbr.title', 'Title';
 
-	select 'dbr.read_recipe', 'ttt';
-    select '';#just to have a result set. We can use this for the words+location list. 
+	select 'dbr.read_recipe', 'Adrak';
+    SELECT * FROM concordancedb.words_in_recipes;
     select 'dbr.text', 'Text';
 
 END
