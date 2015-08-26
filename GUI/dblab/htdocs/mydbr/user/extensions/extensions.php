@@ -35,8 +35,7 @@ $dbr_extensions = array (
 		'css' => array(), 
 		'cmds' => array(
 			array (
-				'cmd' => 'dbr.read_recipe',
-				'file_name' => 1,
+				'cmd' => 'dbr.read_recipe',								
 			),
 		),
 	),
