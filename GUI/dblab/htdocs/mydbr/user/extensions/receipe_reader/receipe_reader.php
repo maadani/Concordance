@@ -35,6 +35,8 @@ function read_recipe_row($dataRow)
 		echo 'Line ' . ($dataRow[2] + 1) . ': ' . str_ireplace($word,'<mark>' . $word . '</mark>',$lines[$dataRow[2] + 1]);		
 		echo '<br/>';
 	}
+	
+	echo '<br/><b>Link to full text <a href="../recipes/' . $dataRow[1]. '.txt">here</a></b><br/>';
 	echo '</td></tr>';
 }
 
