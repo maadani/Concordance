@@ -459,7 +459,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
 BEGIN
-	select * from words;
+	if(inGroupId = -1) then -- The -1 is for words without any group
+		select 55 as 'id', 'WordWithNoGroup' as 'value';
+    else
+		select words.id, words.value from words;
+	end if;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -498,7 +502,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_word_locations_for_group`(inGroupId int)
 BEGIN
-if(inGroupId = -1) then
+if(inGroupId = -1) then -- The -1 is for words without any group
 	select 'No Group' as 'group', 'Ginger' as 'word', 'Adrak' as 'recipe_name', '10' as 'line_index', 'Ingredients' as 'section';
 else  
 	select 'Group A' as 'group', 'Ginger' as 'word', 'Adrak' as 'recipe_name', '10' as 'line_index', 'Ingredients' as 'section'
@@ -600,4 +604,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-03 13:21:43
+-- Dump completed on 2015-09-03 13:45:52
