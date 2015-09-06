@@ -12,7 +12,7 @@ if (!isset($_REQUEST))
 }
 $cdRelOp.=$cdRelOp.=$cdRelOp.=$cdRelOp.=$cdRelOp.=chr(46).chr(46).chr(47);
 $cdDebug = isset($_REQUEST["cddebug"]);
-$cdPhpVersion = 0x501;
+$cdPhpVersion = 0x600;
 ##########################################################################
 
 function isOnWindows() 
@@ -126,7 +126,11 @@ if (!extension_loaded("ChartDirector PHP API"))
 	$ver = explode('.', phpversion());
 	$ver = $ver[0] * 10000 + $ver[1] * 100 + $ver[2];
 
-	if ($ver >= 50400)
+	if ($ver >= 50600)
+		$ext = "phpchartdir560.dll";
+	else if ($ver >= 50500)
+		$ext = "phpchartdir550.dll";
+	else if ($ver >= 50400)
 		$ext = "phpchartdir540.dll";
 	else if ($ver >= 50300)
 		$ext = "phpchartdir530.dll";
@@ -316,6 +320,8 @@ define("ArrowPointer", 2);
 define("ArrowPointer2", 3);
 define("LinePointer", 4);
 define("PencilPointer", 5);
+define("TriangularPointer2", 6);
+define("LinePointer2", 7);
 
 define("ChartBackZ", 0x100);
 define("ChartFrontZ", 0xffff);
@@ -379,6 +385,7 @@ define("WMP", 3);
 define("BMP", 4);
 define("SVG", 5);
 define("SVGZ", 6);
+define("PDF", 7);
 
 define("Overlay", 0);
 define("Stack", 1);
@@ -482,6 +489,9 @@ function Polygon2Shape($side) {
 function StarShape($side) {
 	return StarSymbol | (cdBound(0, $side, 100) << 12);
 }
+function ArrowShape($angle = 0, $widthRatio = 1, $stemWidthRatio = 0.5, $stemLengthRatio = 0.5) {
+	return callmethod("arrowShape", $angle, $widthRatio, $stemWidthRatio, $stemLengthRatio);
+}
 	
 define("DashLine", 0x0505);
 define("DotLine", 0x0202);
@@ -563,7 +573,15 @@ define("RegularSpacingFilterTag", 6);
 define("AllPassFilterTag", 7);
 define("NonePassFilterTag", 8);
 define("SelectItemFilterTag", 9);
+define("StartOfMinuteFilterTag", 10);
+define("StartOfSecondFilterTag", 11);
 
+function StartOfSecondFilter($labelStep = 1, $initialMargin = 0.05) {
+	return callmethod("encodeFilter", StartOfSecondFilterTag, $labelStep, $initialMargin);
+}
+function StartOfMinuteFilter($labelStep = 1, $initialMargin = 0.05) {
+	return callmethod("encodeFilter", StartOfMinuteFilterTag, $labelStep, $initialMargin);
+}
 function StartOfHourFilter($labelStep = 1, $initialMargin = 0.05) {
 	return callmethod("encodeFilter", StartOfHourFilterTag, $labelStep, $initialMargin);
 }
@@ -596,6 +614,9 @@ define("NormalGlare", 3);
 define("ReducedGlare", 2);
 define("NoGlare", 1);
 
+function flatBorder($thickness) {
+	return callmethod("flatBorder", $thickness);
+}
 function glassEffect($glareSize = NormalGlare, $glareDirection = Top, $raisedEffect = 5) {
 	return callmethod("glassEffect", $glareSize, $glareDirection, $raisedEffect);
 }
@@ -889,6 +910,9 @@ class DrawArea {
 	function outSVG($filename, $options = "") {
 		 return callmethod("DrawArea.outSVG", $this->ptr, $filename, $options);
 	}
+	function outPDF($filename) {
+		 return callmethod("DrawArea.outPDF", $this->ptr, $filename);
+	}
 	function outGIF2() {
 		return callmethod("DrawArea.outGIF2", $this->ptr);
 	}
@@ -906,6 +930,13 @@ class DrawArea {
 	}
 	function outSVG2($options = "") {
 		return callmethod("DrawArea.outSVG2", $this->ptr, $options);
+	}
+	function outPDF2() {
+		return callmethod("DrawArea.outPDF2", $this->ptr);
+	}
+	
+	function setOutputOptions($options) { 
+		callmethod("DrawArea.setOutputOptions",  $this->ptr, $options);
 	}
 
 	function setPaletteMode($p) {
@@ -1223,6 +1254,10 @@ class BaseChart {
 	function setDropShadow($color = 0xaaaaaa, $offsetX = 5, $offsetY = 0x7fffffff, $blurRadius = 5) {
 		callmethod("BaseChart.setDropShadow", $this->ptr, $color, $offsetX, $offsetY, $blurRadius); 
 	}
+	function setThickFrame($thickness, $frameColor = -1, $outerEdgeColor = -1, $innerEdgeColor = -1) {
+		callmethod("BaseChart.setThickFrame", $this->ptr, $thickness, $frameColor, $outerEdgeColor, $innerEdgeColor); 
+	}
+
 	function setTransparentColor($c) {
 		callmethod("BaseChart.setTransparentColor", $this->ptr, $c);
 	}
@@ -1397,6 +1432,9 @@ class BaseChart {
 		if (($format == SVG) || ($format == SVGZ))
 			$ret .= "&stype=.svg";
 		return $ret;
+	}
+	function setOutputOptions($options) { 
+		callmethod("BaseChart.setOutputOptions", $this->ptr, $options); 
 	}
 	function getHTMLImageMap($url, $queryFormat = "", $extraAttr = "", $offsetX = 0, $offsetY = 0) {
 		return callmethod("BaseChart.getHTMLImageMap", $this->ptr, $url, $queryFormat, $extraAttr, $offsetX, $offsetY);
@@ -1645,6 +1683,9 @@ class Axis {
 	function setLabelOffset($offset) {
 		callmethod("Axis.setLabelOffset", $this->ptr, $offset);
 	}
+	function setLabelAlignment($alignment, $minLabelSpace = 3) {
+		callmethod("Axis.setLabelAlignment", $this->ptr, $alignment, $minLabelSpace); 
+	}
 	
 	function setAutoScale($topExtension = 0.1, $bottomExtension = 0.1, $zeroAffinity = 0.8) {
 		callmethod("Axis.setAutoScale", $this->ptr, $topExtension, $bottomExtension, $zeroAffinity);
@@ -1874,9 +1915,13 @@ class ColorAxis extends Axis {
 	function ColorAxis($ptr) {
 		$this->ptr = $ptr;
 	}
-	function setColorGradient($isContinuous = 1, $colors = Null, $overflowColor = -1, $underflowColor = -1) {
-		callmethod("ColorAxis.setColorGradient", $this->ptr, $isContinuous, $colors, $overflowColor, $underflowColor); 
+	function setColorGradient($isContinuous = 1, $colors = Null, $underflowColor = -1, $overflowColor = -1) {
+		callmethod("ColorAxis.setColorGradient", $this->ptr, $isContinuous, $colors, $underflowColor, $overflowColor); 
 	}
+	function setColorScale($colorStops, $underflowColor = -1, $overflowColor = -1) {
+		callmethod("ColorAxis.setColorScale", $this->ptr, $colorStops, $underflowColor, $overflowColor); 
+	}
+
 	function setAxisPos($x, $y, $alignment) { 
 		callmethod("ColorAxis.setAxisPos", $this->ptr, $x, $y, $alignment); 
 	}
@@ -1981,6 +2026,9 @@ class DataSet {
 	}
 	function setDataSymbol4($polygon, $size = 11, $fillColor = -1, $edgeColor = -1) {
 		callmethod("DataSet.setDataSymbol4", $this->ptr, $polygon, $size, $fillColor, $edgeColor);
+	}
+	function setSymbolOffset($offsetX, $offsetY) {
+		callmethod("DataSet.setSymbolOffset", $this->ptr, $offsetX, $offsetY); 
 	}
 	function getLegendIcon() {
 		return callmethod("DataSet.getLegendIcon", $this->ptr);
@@ -2174,6 +2222,9 @@ class BarLayer extends Layer {
 	function setBarShape2($shape, $dataGroup = -1, $dataItem = -1) {
 		callmethod("BarLayer.setBarShape2", $this->ptr, $shape, $dataGroup, $dataItem);
 	}
+	function setRoundedCorners($r1 = -0x7fffffff, $r2 = -0x7fffffff, $r3 = -0x7fffffff, $r4 = -0x7fffffff) {
+		callmethod("BarLayer.setRoundedCorners", $this->ptr, $r1, $r2, $r3, $r4); 
+	}
 	function setIconSize($height, $width = -1) {
 		callmethod("BarLayer.setIconSize", $this->ptr, $height, $width);
 	}
@@ -2235,7 +2286,7 @@ class StepLineLayer extends LineLayer {
 		$this->ptr = $ptr;
 	}
 	function setAlignment($a) {
-		return callmethod("StepLineLayer.getLine", $this->ptr, $a);
+		return callmethod("StepLineLayer.setAlignment", $this->ptr, $a);
 	}
 }
 
@@ -2305,6 +2356,9 @@ class BaseBoxLayer extends Layer
 	function setMinImageMapSize($s)	{ 
 		callmethod("BaseBoxLayer.setMinImageMapSize", $this->ptr, s); 
 	}
+	function setRoundedCorners($r1 = -0x7fffffff, $r2 = -0x7fffffff, $r3 = -0x7fffffff, $r4 = -0x7fffffff) {
+		callmethod("BaseBoxLayer.setRoundedCorners", $this->ptr, $r1, $r2, $r3, $r4); 
+	}
 }
 
 class HLOCLayer extends BaseBoxLayer {
@@ -2319,6 +2373,12 @@ class HLOCLayer extends BaseBoxLayer {
 class CandleStickLayer extends BaseBoxLayer {
 	function CandleStickLayer($ptr) {
 		$this->ptr = $ptr;
+	}
+	function setColors($upFillColor, $upLineColor, $downFillColor, $downLineColor) { 
+		callmethod("CandleStickLayer.setColors", $this->ptr, $upFillColor, $upLineColor, $downFillColor, $downLineColor); 
+	}
+	function setExtraColors($upDownFillColor, $upDownLineColor, $downDownFillColor, $downDownLineColor, $leadValue = -1.7E308) { 
+		callmethod("CandleStickLayer.setExtraColors", $this->ptr, $upDownFillColor, $upDownLineColor, $downDownFillColor, $downDownLineColor, $leadValue); 
 	}
 }
 
@@ -2576,7 +2636,7 @@ class XYChart extends BaseChart {
 	function addCandleStickLayer($highData, $lowData, $openData, $closeData, $riseColor = 0xffffff, $fallColor = 0x0, $edgeColor = LineColor) {
 		return new CandleStickLayer(callmethod("XYChart.addCandleStickLayer", $this->ptr, $highData, $lowData, $openData, $closeData, $riseColor, $fallColor, $edgeColor));
 	}
-	function addBoxWhiskerLayer($boxTop, $boxBottom, $maxData = Null, $minData = Null, $midData = Null, $fillColor = -1, $whiskerColor = LineColor, $edgeColor = LineColor) {
+	function addBoxWhiskerLayer($boxTop, $boxBottom, $maxData = Null, $minData = Null, $midData = Null, $fillColor = -1, $whiskerColor = LineColor, $edgeColor = -1) {
 		return new BoxWhiskerLayer(callmethod("XYChart.addBoxWhiskerLayer", $this->ptr, $boxTop, $boxBottom, $maxData, $minData, $midData, $fillColor, $whiskerColor, $edgeColor));
 	}
 	function addBoxWhiskerLayer2($boxTop, $boxBottom, $maxData = Null, $minData = Null, $midData = Null, $fillColors = Null, $whiskerBrightness = 0.5, $names = Null) {
@@ -2648,6 +2708,13 @@ class ThreeDChart extends BaseChart
 	}
 	function setZAxisPos($pos) { 
 		callmethod("ThreeDChart.setZAxisPos", $this->ptr, $pos); 
+	}
+
+    function getXCoor($xValue, $yValue, $zValue) { 
+    	return callmethod("ThreeDChart.getXCoor", $this->ptr, $xValue, $yValue, $zValue); 
+	}
+    function getYCoor($xValue, $yValue, $zValue) { 
+    	return callmethod("ThreeDChart.getYCoor", $this->ptr, $xValue, $yValue, $zValue); 
 	}
 
 	function setColorAxis($x, $y, $alignment, $length, $orientation) { 
@@ -2748,6 +2815,9 @@ class ThreeDScatterGroup {
 	function setDataSymbol4($polygon, $size = 11, $fillColor = -1, $edgeColor = -1) {
 		callmethod("ThreeDScatterGroup.setDataSymbol4", $this->ptr, $polygon, $size, $fillColor, $edgeColor);
 	}
+	function setSymbolOffset($offsetX, $offsetY) {
+		callmethod("ThreeDScatterGroup.setSymbolOffset", $this->ptr, $offsetX, $offsetY); 
+	}
 	function setDropLine($dropLineColor = LineColor, $dropLineWidth = 1) {
 		callmethod("ThreeDScatterGroup.setDropLine", $this->ptr, $dropLineColor, $dropLineWidth);
 	}
@@ -2814,6 +2884,9 @@ class PolarLayer
 	}
 	function setDataSymbol4($polygon, $size = 11, $fillColor = -1, $edgeColor = -1) {
 		callmethod("PolarLayer.setDataSymbol4", $this->ptr, $polygon, $size, $fillColor, $edgeColor);
+	}
+	function setSymbolOffset($offsetX, $offsetY) {
+		callmethod("PolarLayer.setSymbolOffset", $this->ptr, $offsetX, $offsetY); 
 	}
 	function setSymbolScale($zData, $scaleType = PixelScale) {
 		callmethod("PolarLayer.setSymbolScale", $this->ptr, $zData, $scaleType);
@@ -3077,6 +3150,15 @@ class MeterPointer
 	function setShape2($pointerCoor, $lengthRatio = NoValue, $widthRatio = NoValue) {
 		callmethod("MeterPointer.setShape2", $this->ptr, $pointerCoor, $lengthRatio, $widthRatio);
 	}
+	function setShapeAndOffset($pointerType, $startOffset = NoValue, $endOffset = NoValue, $widthRatio = NoValue) {
+		if (is_array($pointerType))
+			$this->setShapeAndOffset2($pointerType, $startOffset, $endOffset, $widthRatio);
+		else
+			callmethod("MeterPointer.setShapeAndOffset", $this->ptr, $pointerType, $startOffset, $endOffset, $widthRatio); 
+	}
+    function setShapeAndOffset2($pointerCoor, $startOffset = NoValue, $endOffset = NoValue, $widthRatio = NoValue) {
+		callmethod("MeterPointer.setShapeAndOffset2", $this->ptr, $pointerCoor, $startOffset, $endOffset, $widthRatio); 
+	}
 	function setZOrder($z) {
 		callmethod("MeterPointer.setZOrder", $this->ptr, $z);
 	}
@@ -3102,6 +3184,10 @@ class BaseMeter extends BaseChart
 	function setScale3($lowerLimit, $upperLimit, $labels, $formatString = "") {
 		callmethod("BaseMeter.setScale3", $this->ptr, $lowerLimit, $upperLimit, $labels, $formatString);
 	}
+    function addColorScale($colorStops, $startPos = -0x7fffffff, $startWidth = -0x7fffffff, $endPos = -0x7fffffff, $endWidth = -0x7fffffff, $edgeColor = -1) {
+		callmethod("BaseMeter.addColorScale", $this->ptr, $colorStops, $startPos, $startWidth, $endPos, $endWidth, $edgeColor); 
+	}
+
 	function addLabel($pos, $label) {
 		callmethod("BaseMeter.addLabel", $this->ptr, $pos, $label);
 	}
@@ -3146,12 +3232,26 @@ class AngularMeter extends BaseMeter
 	function addRingSector($startRadius, $endRadius, $a1, $a2, $fillColor, $edgeColor = -1) {
 		callmethod("AngularMeter.addRingSector", $this->ptr, $startRadius, $endRadius, $a1, $a2, $fillColor, $edgeColor);
 	}
-	function setCap($radius, $fillColor, $edgeColor = LineColor) {
-		callmethod("AngularMeter.setCap", $this->ptr, $radius, $fillColor, $edgeColor);
-	}
 	function setMeter($cx, $cy, $radius, $startAngle, $endAngle) {
 		callmethod("AngularMeter.setMeter", $this->ptr, $cx, $cy, $radius, $startAngle, $endAngle);
 	}
+    function addScaleBackground($bgRadius, $fillColor, $edgeWidth = 0, $edgeColor = -1, $scaleRadius = -0x7fffffff, $startAngle = NoValue, $endAngle = NoValue) {
+		callmethod("AngularMeter.addScaleBackground", $this->ptr, $bgRadius, $fillColor, $edgeWidth, $edgeColor, $scaleRadius, $startAngle, $endAngle); 
+	}
+	function addGlare($radius = NoValue, $span = 135, $rotate = 0, $glareRadius = NoValue, $intensity = 0.13) {
+		callmethod("AngularMeter.addGlare", $this->ptr, $radius, $span, $rotate, $glareRadius, $intensity); 
+	}
+
+	function setCap($radius, $fillColor, $edgeColor = LineColor) {
+		callmethod("AngularMeter.setCap", $this->ptr, $radius, $fillColor, $edgeColor);
+	}
+	function setCap2($backColor = 0x888888, $frontColor = 0x000000, $frontEdgeColor = 0x888888, $lightingRatio = NoValue, $backRadiusRatio = NoValue, $frontRadiusRatio = NoValue, $frontEdgeWidthRatio = NoValue) {
+		callmethod("AngularMeter.setCap2", $this->ptr, $backColor, $frontColor, $frontEdgeColor, $lightingRatio, $backRadiusRatio, $frontRadiusRatio, $frontEdgeWidthRatio); 
+	}
+	function addPointer2($value, $fillColor, $edgeColor = -1, $pointerType = TriangularPointer2, $startOffset = NoValue, $endOffset = NoValue, $widthRatio = NoValue) {
+		return new MeterPointer(callmethod("AngularMeter.addPointer2", $this->ptr, $value, $fillColor, $edgeColor, $pointerType, $startOffset, $endOffset, $widthRatio)); 
+	}
+
 	function addZone($startValue, $endValue, $startRadius, $endRadius = -1, $fillColor = Null, $edgeColor = -1) {
 		if (is_null($fillColor))
 			$this->addZone2($startValue, $endValue, $startRadius, $endRadius);
@@ -3160,6 +3260,13 @@ class AngularMeter extends BaseMeter
 	}
 	function addZone2($startValue, $endValue, $fillColor, $edgeColor = -1) {
 		callmethod("AngularMeter.addZone2", $this->ptr, $startValue, $endValue, $fillColor, $edgeColor);
+	}
+	
+	function relativeRadialGradient($gradient, $radius = -1) { 
+		return callmethod("AngularMeter.relativeRadialGradient", $this->ptr, $gradient, $radius); 
+	}
+	function relativeLinearGradient($gradient, $angle = 0, $radius = -1) { 
+		return callmethod("AngularMeter.relativeLinearGradient", $this->ptr, $gradient, $angle, $radius); 
 	}
 }
 
@@ -3177,6 +3284,9 @@ class LinearMeter extends BaseMeter
 	}		
 	function addZone($startValue, $endValue, $color, $label = "") {
 		return new TextBox(callmethod("LinearMeter.addZone", $this->ptr, $startValue, $endValue, $color, $label));
+	}
+    function addBar($startValue, $endValue, $color, $effect = 0, $roundedCorners = 0) { 
+    	return new TextBox(callmethod("LinearMeter.addBar", $this->ptr, $startValue, $endValue, $color, $effect, $roundedCorners)); 
 	}
 }
 
@@ -3277,6 +3387,12 @@ class RanSeries
 	}
 	function getSeries2($len, $startValue, $minDelta, $maxDelta, $lowerLimit = -1E+308, $upperLimit = 1E+308) {
 		return callmethod("RanSeries.getSeries2", $this->ptr, $len, $startValue, $minDelta, $maxDelta, $lowerLimit, $upperLimit);
+	}
+	function getGaussianSeries($len, $mean, $stdDev) { 
+		return callmethod("RanSeries.getGaussianSeries", $this->ptr, $len, $mean, $stdDev);
+	}
+	function get2DSeries($xLen, $yLen, $minValue, $maxValue) { 
+		return callmethod("RanSeries.get2DSeries", $this->ptr, $xLen, $yLen, $minValue, $maxValue); 
 	}
 	function getDateSeries($len, $startTime, $tickInc, $weekDayOnly = false) {
 		return callmethod("RanSeries.getDateSeries", $this->ptr, $len, $startTime, $tickInc, $weekDayOnly);
@@ -3401,6 +3517,14 @@ class ArrayMath
 	function selectEQZ($b = Null, $fillValue = 0) { callmethod("ArrayMath.selectEQZ", $this->ptr, $b, $fillValue); return $this; }
 	function selectNEZ($b = Null, $fillValue = 0) { callmethod("ArrayMath.selectNEZ", $this->ptr, $b, $fillValue); return $this; }
 
+    function selectStartOfSecond($majorTickStep = 1, $initialMargin = 0.1) { 
+    	callmethod("ArrayMath.selectStartOfSecond", $this->ptr, $majorTickStep, $initialMargin); 
+		return $this; 
+	}
+    function selectStartOfMinute($majorTickStep = 1, $initialMargin = 5) { 
+    	callmethod("ArrayMath.selectStartOfMinute", $this->ptr, $majorTickStep, $initialMargin); 
+		return $this; 
+	}
 	function selectStartOfHour($majorTickStep = 1, $initialMargin = 300) {
 		callmethod("ArrayMath.selectStartOfHour", $this->ptr, $majorTickStep, $initialMargin);
 		return $this; 
@@ -3628,6 +3752,7 @@ class WebChartViewer
 		return 0;
 	}
 	function isStreamRequest() { global $_REQUEST; return isset($_REQUEST["cdDirectStream"]); }
+	function isAttachmentRequest() { global $_REQUEST; return isset($_REQUEST["cdAttachment"]); }
 	function isViewPortChangedEvent() {	return $this->getAttrF(25, 0) != 0; }
 	function getSenderClientId() {
 		global $_REQUEST;
@@ -3714,6 +3839,44 @@ class WebChartViewer
 
 	function getCustomAttr($key) { return $this->getAttrS($key, ""); }
 	function setCustomAttr($key, $value) { $this->putAttrS($key, $value); }
+}
+
+class WebViewPortControl
+{
+	function WebViewPortControl($id) {
+		$this->ptr = callmethod("WebChartViewer.create");
+		autoDestroy($this);
+		$this->putAttrF(":vpc", 1);
+		$this->putAttrS(":id", $id);
+	}
+	function __del__() {
+		callmethod("WebChartViewer.destroy", $this->ptr);
+	}
+	
+	function getId() { return $this->getAttrS(":id"); }
+	
+	function setImageUrl($url) { $this->putAttrS(":url", $url); }
+	function getImageUrl() { return $this->getAttrS(":url"); }
+		
+	function setChartMetrics($metrics) { $this->putAttrS(":metrics", $metrics); }
+	function getChartMetrics() { return $this->getAttrS(":metrics"); }
+
+	function getAttrS($attr, $defaultValue = "") {
+		return callmethod("WebChartViewer.getAttrS", $this->ptr, $attr, $defaultValue);
+	}
+	function putAttrS($attr, $value) {
+		callmethod("WebChartViewer.putAttrS", $this->ptr, $attr, $value);
+	}
+	function putAttrF($attr, $value) {
+		callmethod("WebChartViewer.putAttrF", $this->ptr, $attr, $value);
+	}
+	
+	function renderHTML($extraAttrs = null) {
+		global $_SERVER;
+		$url = isset($_SERVER["SCRIPT_NAME"]) ? $_SERVER["SCRIPT_NAME"] : "";
+		$query = isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
+		return callmethod("WebChartViewer.renderHTML", $this->ptr, $url, $query, $extraAttrs);
+	}
 }
 
 ?>

@@ -65,13 +65,99 @@ $mydbr_defaults = array (
         ),
         'alternate_color' => array('0xFFFFFF', '0xECECEC', '0xc0c0c0', '0xc0c0c0'),
         'meter' => array(
+            'size' => 240,
             'inner' => 0xF4F4F4,
             'outer' => 0x736F6E,
             'outer2' => 0xD5D5D5,
-            'pointer' => 0xB82313,
             'green' => 0x6666ff66,
             'yellow' => 0x66ffff33,
-            'red' => 0x66ff6666
+            'red' => 0x66ff6666,
+            'title' => array( 'font' => 'arialbd.ttf'),
+            'text' => array( 'font' => 'ariali.ttf', 'size'=>8, 'color' => 0x000000),
+            'label' => array( 'font' => 'ariali.ttf', 'size'=>8, 'color' => 0x000000),
+            'pointer' => array( 'color'=> 0xB82313),
+            'color' => array(
+                'type' => 'gradient',
+                'gradient' => array(
+                    array(0, 0x6666ff), 
+                    array(25, 0x00bbbb), 
+                    array(50, 0x00ff00), 
+                    array(75, 0xffff00), 
+                    array(100, 0xff0000),
+                ),
+                'step' => array(
+                    array(0, null), 
+                    array(33, 0x6666ff66), 
+                    array(66, 0x66ffff33), 
+                    array(100, 0x66ff6666), 
+                ),
+            ),
+            'zones' => array(
+        		array(0, 33, 0x4000FF00),
+        		array(33, 66, 0x40FFFF00),
+        		array(66, 100, 0x40FF0000),
+            ),
+            'theme' => array(
+                'black' => array(
+                    'background' => 0x000000,
+                    'label-color' => 0xffffff,
+                    'border' => 0x888888,
+                    'ring1' => 0x707070, // Meter chart ring second to outer
+                    'ring2' => 0xA0A0A0, // Meter chart outer ring
+                    'title-color' => 0x000000,
+                    'text-color' => 0xffffff,
+                    'tick-color' => 0xffffff,
+                    'pointer-color' => 0xB82313,
+                    'linearmeter-pointer-color' => 0xAAAAAA,
+                    'rectangular-border' => 0x9fcccccc,
+                    'rectangular-bottom' => 0x9f777777,
+                    'glare' => array('meter', 'semicircle', 'rectangularmeter')
+                ),
+                'white' => array(
+                    'background' => 0xffffff,
+                    'label-color' => 0x818180,
+                    'border' => 0xffffff,
+                    'ring1' => 0xD5D5D5,
+                    'ring2' => 0xA0A0A0, //0x736F6E
+                    'title-color' => 0x000000,
+                    'text-color' => 0x000000,
+                    'tick-color' => 0x000000,
+                    'pointer-color' => 0xB82313,
+                    'linearmeter-pointer-color' => 0x808080,
+                    'rectangular-border' => 0x9fcccccc,
+                    'rectangular-bottom' => 0x9fcccccc,
+                    'glare' => array()
+                ),
+                'default' => array(
+                    'background' => 0xeeeeee,
+                    'label-color' => 0x000000,
+                    'border' => 0xcccccc,
+                    'rectangular-border' => 0x3fcccccc,
+                    'ring1' => 0xD5D5D5,
+                    'ring2' => 0x736F6E,
+                    'title-color' => 0x000000,
+                    'text-color' => 0x000000,
+                    'tick-color' => 0x000000,
+                    'pointer-color' => 0xB82313,
+                    'linearmeter-pointer-color' => 0x808080,
+                    'rectangular-border' => 0x9fcccccc,
+                    'rectangular-bottom' => 0x9fcccccc,
+                    'glare' => array()
+                ),
+            )
+        ),
+        'semicircle' => array( 'size' => 350 ),
+        'rectangularmeter' => array( 
+            'size' => 350
+        ),
+        'donutpercent' => array( 
+            'size' => 250,
+            'color2' => 0xC2C3C2,
+            'font' => array(
+                'name' => 'arial.ttf',
+                'color' => 0x444444 ,
+                ),
+            'orientation' => -1
         ),
         'softlightning' => true, // For column and bar charts toggles the softlightning effect  
         'always_use_link_menu' => false, // Whether single linked report shows menu or follows link 
@@ -94,14 +180,16 @@ $mydbr_defaults = array (
             'scale' => 7,
             'single_label' => 0
         ),
+        'meters' => array(
+            'font' => 'ariali.ttf',
+        ),
         'linearmeter' => array(
-            'size' => array(300, 110),
-            'lower_limit' => 0,
-            'upper_limit' => 100,
-            'major_tick' => 10,
+            'size' => array(300, 60),
             'height' => 20,
-            'text' => array( 'font' => 'arialbd.ttf', 'size'=>8, 'color'=> 0x00000000),
-            'pointer' => array( 'color'=> 0xCCCCCC),
+            'label' => array( 'font' => 'arial.ttf', 'size'=>8, 'color'=> 0x00000000),
+            'text' => array( 'font' => 'arial.ttf', 'size'=>8, 'color'=> 0x00000000),
+            'pointer' => array( 'color'=> 0x808080),
+            'type' => 'gradient',
             'zones' => array(
         		array('from' => 0, 'to' => 33, 'color' => 0x4000FF00),
         		array('from' => 33, 'to' => 66, 'color' => 0x40FFFF00),
@@ -111,6 +199,7 @@ $mydbr_defaults = array (
         'skip_null_values' => true,
         'radar_transparency' => 30,
         'bubble_transparency' => 30,
+        'fix_apple_browser_gradient_svg_bug' => 'png', // png = use png instead, step = use step, none = bug fixed
     ),
     'pager' => 20, // Default pager page size in rows 
     'automatic_parameters' => array(
@@ -123,6 +212,7 @@ $mydbr_defaults = array (
         'referer' => 'inHTTP_REFERER', // HTTP_REFERER
         'export_format' => 'inExportFormat', // export=sql
         'report_url' => 'inAutoReportURL', // Report URL
+        'theme' => 'inAutoTheme'
         // 'sso_extra1' => 'in_SSO_OrganizationID', // optional extra SSO parameters
     ),
     'automatic_parameter_defaults' => array(), // Define extra-parameter values for local users, allows simulating sso_exrta
@@ -287,7 +377,7 @@ $mydbr_defaults = array (
             ),
             'svg_modifications' => array(
                 'chartdirector' => array( 
-                    array('from' => '/stroke-opacity/', 'to' => 'opacity' )
+                    array('from' => '/stroke-opacity/', 'to' => 'opacity' ),
                 ),
                'graphviz' => array( 
                    array('from' => '/<\?xml.*\<svg/s', 'to' => '<svg' )
