@@ -455,14 +455,16 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
 BEGIN
 	if(inGroupId = -1) then -- The -1 is for words without any group
 		select 55 as 'id', 'WordWithNoGroup' as 'value';
     else
-		select words.id, words.value from words;
+		select value from words LEFT JOIN (words_in_groups)
+        ON (words.id=words_in_groups.word_id AND words_in_groups.group_id=inGroupId)
+        where (words_in_groups.group_id=inGroupId);
 	end if;
 END ;;
 DELIMITER ;
@@ -604,4 +606,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-07 22:42:24
+-- Dump completed on 2015-09-08  1:04:35
