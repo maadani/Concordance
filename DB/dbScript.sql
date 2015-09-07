@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `concordancedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `concordancedb`;
--- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: concordancedb
+-- Host: localhost    Database: concordancedb
 -- ------------------------------------------------------
--- Server version	5.6.25
+-- Server version	5.7.8-rc-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -604,4 +604,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-03 13:45:52
+-- Dump completed on 2015-09-07 22:42:24
