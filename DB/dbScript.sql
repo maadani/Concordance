@@ -135,7 +135,7 @@ CREATE TABLE `words` (
   `num_of_recipes_appearance` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `value_UNIQUE` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `words` (
 
 LOCK TABLES `words` WRITE;
 /*!40000 ALTER TABLE `words` DISABLE KEYS */;
-INSERT INTO `words` VALUES (1,'a',0,0),(2,'b',0,0),(3,'ccc',0,0),(4,'d',0,0);
+INSERT INTO `words` VALUES (1,'a',0,0),(2,'b',0,0),(3,'ccc',0,0),(4,'d',0,0),(5,'ababab',NULL,NULL),(6,'ababab441',NULL,NULL),(8,'jsjsjs',NULL,NULL),(17,'jsjsjs2',NULL,NULL);
 /*!40000 ALTER TABLE `words` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +204,7 @@ CREATE TABLE `words_in_recipes` (
 
 LOCK TABLES `words_in_recipes` WRITE;
 /*!40000 ALTER TABLE `words_in_recipes` DISABLE KEYS */;
-INSERT INTO `words_in_recipes` VALUES (1,1,1,1,1,1),(2,1,2,2,1,1),(3,1,3,3,1,1),(4,1,4,4,1,1);
+INSERT INTO `words_in_recipes` VALUES (1,1,1,1,1,1),(2,1,2,2,1,1),(3,1,3,3,1,1),(4,1,4,4,1,1),(5,2,7,3,2,2),(8,2,10,10,10,2),(17,2,11,11,11,3),(17,2,12,12,12,3);
 /*!40000 ALTER TABLE `words_in_recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -594,6 +594,51 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `transaction_test` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `transaction_test`(inWordValue varchar(45), inRecipeId int, inLineIndex int, inWordIndexInLine int, inWordIndexInRecipe int, inSectionId int)
+BEGIN
+DECLARE exit handler for sqlexception
+  BEGIN
+    -- ERROR
+    show errors;
+  ROLLBACK;
+END;
+
+DECLARE exit handler for sqlwarning
+ BEGIN
+    -- WARNING
+    select 'WARNING' as 'WARNING';
+ ROLLBACK;
+END;
+
+START TRANSACTION;
+ 
+insert into words(words.value) values (inWordValue)
+ON DUPLICATE KEY UPDATE words.id = LAST_INSERT_ID(words.id);
+
+SET @poid = (SELECT LAST_INSERT_ID());
+
+insert into words_in_recipes(words_in_recipes.word_id, words_in_recipes.recipe_id, 
+words_in_recipes.line_index, words_in_recipes.word_index_in_line,
+ words_in_recipes.word_index_in_recipe, words_in_recipes.section_id)
+values(@poid, inRecipeId, inLineIndex, inWordIndexInLine, inWordIndexInRecipe, inSectionId);
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -604,4 +649,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-03 13:45:52
+-- Dump completed on 2015-09-11 16:31:03
