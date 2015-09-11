@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `concordancedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `concordancedb`;
--- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: concordancedb
+-- Host: localhost    Database: concordancedb
 -- ------------------------------------------------------
--- Server version	5.6.25
+-- Server version	5.7.8-rc-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -108,7 +108,7 @@ CREATE TABLE `relations` (
   `Comment` varchar(140) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Name_UNIQUE` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,11 +375,17 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_recipe_words_by_recipe_id`(inRecipeId int)
 BEGIN
-	select * from words;
+	if(inRecipeId = 0) then -- Return all words
+		select value from words;
+    else
+		select value from words LEFT JOIN (words_in_recipes)
+        ON (words.id=words_in_recipes.word_id) 
+        where (words_in_recipes.recipe_id=inRecipeId);
+    end if;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -455,14 +461,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
 BEGIN
 	if(inGroupId = -1) then -- The -1 is for words without any group
 		select 55 as 'id', 'WordWithNoGroup' as 'value';
-    else
-		select words.id, words.value from words;
+    else if (inGroupId = 0) then -- Return all words
+			select value from words;
+		else
+			select value from words LEFT JOIN (words_in_groups)
+			ON (words.id=words_in_groups.word_id AND words_in_groups.group_id=inGroupId)
+			where (words_in_groups.group_id=inGroupId);
+		end if;
 	end if;
 END ;;
 DELIMITER ;
