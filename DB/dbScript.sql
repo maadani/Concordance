@@ -467,10 +467,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
 BEGIN
 	if(inGroupId = -1) then -- The -1 is for words without any group
 		select 55 as 'id', 'WordWithNoGroup' as 'value';
-    else
-		select value from words LEFT JOIN (words_in_groups)
-        ON (words.id=words_in_groups.word_id AND words_in_groups.group_id=inGroupId)
-        where (words_in_groups.group_id=inGroupId);
+    else if (inGroupId = 0) then -- Return all words
+			select value from words;
+		else
+			select value from words LEFT JOIN (words_in_groups)
+			ON (words.id=words_in_groups.word_id AND words_in_groups.group_id=inGroupId)
+			where (words_in_groups.group_id=inGroupId);
+		end if;
 	end if;
 END ;;
 DELIMITER ;
@@ -612,4 +615,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-11 10:39:09
+-- Dump completed on 2015-09-11 10:45:48
