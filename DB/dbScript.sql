@@ -384,9 +384,8 @@ BEGIN
 	if(inRecipeId = 0) then -- Return all words
 		select value from words;
     else
-		select value from words LEFT JOIN (words_in_recipes)
-        ON (words.id=words_in_recipes.word_id) 
-        where (words_in_recipes.recipe_id=inRecipeId);
+		select value from words JOIN (words_in_recipes)
+        ON (words.id=words_in_recipes.word_id AND words_in_recipes.recipe_id=inRecipeId);
     end if;
 END ;;
 DELIMITER ;
@@ -616,4 +615,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-14  8:53:02
+-- Dump completed on 2015-09-14  9:00:43
