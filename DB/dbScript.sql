@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `concordancedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `concordancedb`;
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
--- Host: localhost    Database: concordancedb
+-- Host: 127.0.0.1    Database: concordancedb
 -- ------------------------------------------------------
--- Server version	5.7.8-rc-log
+-- Server version	5.6.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,59 +41,6 @@ INSERT INTO `groups` VALUES (1,'g1','g1'),(2,'g2','g2'),(3,'test',NULL),(4,'test
 UNLOCK TABLES;
 
 --
--- Table structure for table `recipe_sections`
---
-
-DROP TABLE IF EXISTS `recipe_sections`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `recipe_sections` (
-  `section_id` int(11) NOT NULL AUTO_INCREMENT,
-  `section_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recipe_sections`
---
-
-LOCK TABLES `recipe_sections` WRITE;
-/*!40000 ALTER TABLE `recipe_sections` DISABLE KEYS */;
-INSERT INTO `recipe_sections` VALUES (1,'Ingredients'),(2,'Instructions'),(3,'Serves'),(4,'Notes');
-/*!40000 ALTER TABLE `recipe_sections` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recipes`
---
-
-DROP TABLE IF EXISTS `recipes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `recipes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `author` varchar(45) DEFAULT 'Unknown',
-  `diff` int(11) NOT NULL DEFAULT '0',
-  `file_name` varchar(45) DEFAULT NULL,
-  `full_path` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='		';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recipes`
---
-
-LOCK TABLES `recipes` WRITE;
-/*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (1,'R1',1,'aaa',0,NULL,NULL),(2,'R2',1,'bbb',0,NULL,NULL);
-/*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `relations`
 --
 
@@ -122,6 +67,83 @@ INSERT INTO `relations` VALUES (1,'C1','First Relation'),(2,'C2','Second Relatio
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sonnet_sections`
+--
+
+DROP TABLE IF EXISTS `sonnet_sections`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sonnet_sections` (
+  `section_id` int(11) NOT NULL AUTO_INCREMENT,
+  `section_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`section_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sonnet_sections`
+--
+
+LOCK TABLES `sonnet_sections` WRITE;
+/*!40000 ALTER TABLE `sonnet_sections` DISABLE KEYS */;
+INSERT INTO `sonnet_sections` VALUES (1,'Ingredients'),(2,'Instructions'),(3,'Serves'),(4,'Notes');
+/*!40000 ALTER TABLE `sonnet_sections` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sonnets`
+--
+
+DROP TABLE IF EXISTS `sonnets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sonnets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `rhyme_scheme` varchar(20) NOT NULL,
+  `author` varchar(45) DEFAULT 'Unknown',
+  `sequence_id` int(11) DEFAULT NULL,
+  `file_name` varchar(45) DEFAULT NULL,
+  `full_path` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='		';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sonnets`
+--
+
+LOCK TABLES `sonnets` WRITE;
+/*!40000 ALTER TABLE `sonnets` DISABLE KEYS */;
+INSERT INTO `sonnets` VALUES (1,'R1','1','aaa',0,NULL,NULL),(2,'R2','1','bbb',0,NULL,NULL);
+/*!40000 ALTER TABLE `sonnets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sonnets_sequences`
+--
+
+DROP TABLE IF EXISTS `sonnets_sequences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sonnets_sequences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `year` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sonnets_sequences`
+--
+
+LOCK TABLES `sonnets_sequences` WRITE;
+/*!40000 ALTER TABLE `sonnets_sequences` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sonnets_sequences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `words`
 --
 
@@ -132,10 +154,10 @@ CREATE TABLE `words` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(80) NOT NULL,
   `total_num_of_appearance` int(11) DEFAULT NULL,
-  `num_of_recipes_appearance` int(11) DEFAULT NULL,
+  `num_of_files_appearance` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `value_UNIQUE` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +166,7 @@ CREATE TABLE `words` (
 
 LOCK TABLES `words` WRITE;
 /*!40000 ALTER TABLE `words` DISABLE KEYS */;
-INSERT INTO `words` VALUES (1,'a',0,0),(2,'b',0,0),(3,'ccc',0,0),(4,'d',0,0);
+INSERT INTO `words` VALUES (1,'a',0,0),(2,'b',0,0),(3,'ccc',0,0),(4,'d',0,0),(5,'ababab',NULL,NULL),(6,'ababab441',NULL,NULL),(8,'jsjsjs',NULL,NULL),(17,'jsjsjs2',NULL,NULL);
 /*!40000 ALTER TABLE `words` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,39 +198,6 @@ INSERT INTO `words_in_groups` VALUES (1,1),(2,1),(1,2);
 UNLOCK TABLES;
 
 --
--- Table structure for table `words_in_recipes`
---
-
-DROP TABLE IF EXISTS `words_in_recipes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `words_in_recipes` (
-  `word_id` int(11) NOT NULL,
-  `recipe_id` int(11) NOT NULL,
-  `word_index_in_recipe` int(11) NOT NULL,
-  `line_index` int(11) NOT NULL,
-  `word_index_in_line` int(11) NOT NULL,
-  `section_id` int(11) NOT NULL,
-  PRIMARY KEY (`recipe_id`,`word_index_in_recipe`),
-  KEY `wir_word_id_idx` (`word_id`),
-  KEY `wir_section_id_idx` (`section_id`),
-  CONSTRAINT `wir_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `wir_section_id` FOREIGN KEY (`section_id`) REFERENCES `recipe_sections` (`section_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `wir_word_id` FOREIGN KEY (`word_id`) REFERENCES `words` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `words_in_recipes`
---
-
-LOCK TABLES `words_in_recipes` WRITE;
-/*!40000 ALTER TABLE `words_in_recipes` DISABLE KEYS */;
-INSERT INTO `words_in_recipes` VALUES (1,1,1,1,1,1),(2,1,2,2,1,1),(3,1,3,3,1,1),(4,1,4,4,1,1);
-/*!40000 ALTER TABLE `words_in_recipes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `words_in_relations`
 --
 
@@ -235,6 +224,39 @@ CREATE TABLE `words_in_relations` (
 LOCK TABLES `words_in_relations` WRITE;
 /*!40000 ALTER TABLE `words_in_relations` DISABLE KEYS */;
 /*!40000 ALTER TABLE `words_in_relations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `words_in_sonnets`
+--
+
+DROP TABLE IF EXISTS `words_in_sonnets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `words_in_sonnets` (
+  `word_id` int(11) NOT NULL,
+  `sonnet_id` int(11) NOT NULL,
+  `word_index_in_recipe` int(11) NOT NULL,
+  `line_index` int(11) NOT NULL,
+  `word_index_in_line` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  PRIMARY KEY (`sonnet_id`,`word_index_in_recipe`),
+  KEY `wir_word_id_idx` (`word_id`),
+  KEY `wir_section_id_idx` (`section_id`),
+  CONSTRAINT `fk_section_id` FOREIGN KEY (`section_id`) REFERENCES `sonnet_sections` (`section_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sonnet_id` FOREIGN KEY (`sonnet_id`) REFERENCES `sonnets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_word_id` FOREIGN KEY (`word_id`) REFERENCES `words` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `words_in_sonnets`
+--
+
+LOCK TABLES `words_in_sonnets` WRITE;
+/*!40000 ALTER TABLE `words_in_sonnets` DISABLE KEYS */;
+INSERT INTO `words_in_sonnets` VALUES (1,1,1,1,1,1),(2,1,2,2,1,1),(3,1,3,3,1,1),(4,1,4,4,1,1),(5,2,7,3,2,2),(8,2,10,10,10,2),(17,2,11,11,11,3),(17,2,12,12,12,3);
+/*!40000 ALTER TABLE `words_in_sonnets` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -327,27 +349,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_recipe_by_params` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_recipe_by_params`(inName varchar(45), inAuther varchar(45), inCategoryId int, inContainsText varchar(200))
-BEGIN
-	if(inName != recipes.name)
-		then SELECT recipes.id FROM recipes;
-    end if;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_recipe_names` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -377,16 +378,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_recipe_words_by_recipe_id`(inRecipeId int)
 BEGIN
-	if(inRecipeId = 0) then -- Return all words
-		select value from words;
-    else
-		select value from words JOIN (words_in_recipes)
-        ON (words.id=words_in_recipes.word_id AND words_in_recipes.recipe_id=inRecipeId);
-    end if;
+	select * from words;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -435,6 +431,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_sonnet_by_params` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sonnet_by_params`(inName varchar(45), inAuther varchar(45), inCategoryId int, inContainsText varchar(200))
+BEGIN
+SELECT * FROM concordancedb.sonnets;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_words_by_location` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -462,18 +477,14 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_words_for_group`(inGroupId int)
 BEGIN
 	if(inGroupId = -1) then -- The -1 is for words without any group
 		select 55 as 'id', 'WordWithNoGroup' as 'value';
-    else if (inGroupId = 0) then -- Return all words
-			select value from words;
-		else
-			select value from words JOIN (words_in_groups)
-			ON (words.id=words_in_groups.word_id AND words_in_groups.group_id=inGroupId AND words_in_groups.group_id=inGroupId);
-		end if;
+    else
+		select words.id, words.value from words;
 	end if;
 END ;;
 DELIMITER ;
@@ -605,6 +616,51 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `transaction_test` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `transaction_test`(inWordValue varchar(45), inRecipeId int, inLineIndex int, inWordIndexInLine int, inWordIndexInRecipe int, inSectionId int)
+BEGIN
+DECLARE exit handler for sqlexception
+  BEGIN
+    -- ERROR
+    show errors;
+  ROLLBACK;
+END;
+
+DECLARE exit handler for sqlwarning
+ BEGIN
+    -- WARNING
+    select 'WARNING' as 'WARNING';
+ ROLLBACK;
+END;
+
+START TRANSACTION;
+ 
+insert into words(words.value) values (inWordValue)
+ON DUPLICATE KEY UPDATE words.id = LAST_INSERT_ID(words.id);
+
+SET @poid = (SELECT LAST_INSERT_ID());
+
+insert into words_in_recipes(words_in_recipes.word_id, words_in_recipes.recipe_id, 
+words_in_recipes.line_index, words_in_recipes.word_index_in_line,
+ words_in_recipes.word_index_in_recipe, words_in_recipes.section_id)
+values(@poid, inRecipeId, inLineIndex, inWordIndexInLine, inWordIndexInRecipe, inSectionId);
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -615,4 +671,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-14  9:00:43
+-- Dump completed on 2015-09-26 15:12:05
