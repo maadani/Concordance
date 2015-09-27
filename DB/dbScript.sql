@@ -99,13 +99,15 @@ DROP TABLE IF EXISTS `sonnets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sonnets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
+  `chapter` int(11) NOT NULL DEFAULT '0',
   `rhyme_scheme` varchar(20) NOT NULL,
   `author` varchar(45) DEFAULT 'Unknown',
-  `sequence_id` int(11) DEFAULT NULL,
+  `sequence_id` int(11) NOT NULL DEFAULT '0',
   `file_name` varchar(45) DEFAULT NULL,
   `full_path` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_sequence_id_idx` (`sequence_id`),
+  CONSTRAINT `fk_sequence_id` FOREIGN KEY (`sequence_id`) REFERENCES `sonnets_sequences` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='		';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,7 +117,7 @@ CREATE TABLE `sonnets` (
 
 LOCK TABLES `sonnets` WRITE;
 /*!40000 ALTER TABLE `sonnets` DISABLE KEYS */;
-INSERT INTO `sonnets` VALUES (1,'R1','1','aaa',0,NULL,NULL),(2,'R2','1','bbb',0,NULL,NULL);
+INSERT INTO `sonnets` VALUES (1,0,'abab_cdcd_efef_gg','aaa',0,NULL,NULL),(2,0,'abab_cdcd_efef_gg','bbb',0,NULL,NULL);
 /*!40000 ALTER TABLE `sonnets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +133,7 @@ CREATE TABLE `sonnets_sequences` (
   `name` varchar(200) NOT NULL,
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,6 +142,7 @@ CREATE TABLE `sonnets_sequences` (
 
 LOCK TABLES `sonnets_sequences` WRITE;
 /*!40000 ALTER TABLE `sonnets_sequences` DISABLE KEYS */;
+INSERT INTO `sonnets_sequences` VALUES (0,'unkown',0);
 /*!40000 ALTER TABLE `sonnets_sequences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,11 +239,11 @@ DROP TABLE IF EXISTS `words_in_sonnets`;
 CREATE TABLE `words_in_sonnets` (
   `word_id` int(11) NOT NULL,
   `sonnet_id` int(11) NOT NULL,
-  `word_index_in_recipe` int(11) NOT NULL,
+  `word_index_in_sonnet` int(11) NOT NULL,
   `line_index` int(11) NOT NULL,
   `word_index_in_line` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
-  PRIMARY KEY (`sonnet_id`,`word_index_in_recipe`),
+  PRIMARY KEY (`sonnet_id`,`word_index_in_sonnet`),
   KEY `wir_word_id_idx` (`word_id`),
   KEY `wir_section_id_idx` (`section_id`),
   CONSTRAINT `fk_section_id` FOREIGN KEY (`section_id`) REFERENCES `sonnet_sections` (`section_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -671,4 +674,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-26 15:12:05
+-- Dump completed on 2015-09-27 18:04:47
