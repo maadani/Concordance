@@ -1,0 +1,17 @@
+Sequence:
+{%sequenceName%}
+
+Auther:
+{%auther%}
+
+Year:
+{%year%}
+
+Rhyme Scheme:
+{%rhyme_scheme%}
+
+Name:
+{%name%}
+
+Content:
+{%content%}
