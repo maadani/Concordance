@@ -243,7 +243,7 @@ $localization[$lang]['MYDBR_FILEEDIT_NOTWRITEABLE'] = 'Il file %s non è scrivib
 
 // SQL Editor
 $localization[$lang]['MYDBR_SQLEDIT_ADD_REPORT']= 'Aggiungi il report a myDBR';
-$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'Creato un duplicato.';
+$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'Creato un duplicato. Si desidera spostare il report appena creato?';
 $localization[$lang]['MYDBR_SQLEDIT_COPY_NOT_CREATED'] = 'Impossibile duplicare il report.';
 $localization[$lang]['MYDBR_SQLEDIT_NOFIND'] = 'Impossibile trovare la procedura %s';
 $localization[$lang]['MYDBR_SQLEDIT_EDIT'] = 'Editing';

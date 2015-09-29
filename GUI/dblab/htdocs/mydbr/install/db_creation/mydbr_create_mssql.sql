@@ -2317,6 +2317,7 @@ where g.group_id not in (
   from mydbr_reports_priv p
   where p.group_id>0 and p.report_id = @inReportID
 )
+order by 3 desc, 2
 end
 go
 
@@ -4010,9 +4011,9 @@ if (@vCntAll=0) begin
 
   commit tran
 
-  select 0
+  select @vNewID
 end else begin
-  select @vCntAll
+  select 0
 end
 end
 go
@@ -4873,7 +4874,7 @@ delete from mydbr_update
 go
 delete from mydbr_version
 go
-insert into mydbr_version values ('4.5.1')
+insert into mydbr_version values ('4.5.3')
 go
 if object_id('fn_seconds_to_time_str', 'FN') is not null
 drop function fn_seconds_to_time_str

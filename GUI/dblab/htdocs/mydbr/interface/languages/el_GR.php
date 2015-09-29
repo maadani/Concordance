@@ -242,7 +242,7 @@ $localization[$lang]['MYDBR_EDITREPORT_PARAM_CHARS'] = 'οστεοφυλάκιο
 
 //SQL Editor
 // $localization[$lang]['MYDBR_SQLEDIT_ADD_REPORT']= 'Add report to myDBR';
-// $localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate created.';
+// $localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate was created. Do you want to move to the newly created report?';
 // $localization[$lang]['MYDBR_SQLEDIT_COPY_NOT_CREATED'] = 'Could not duplicate the report.';
 // $localization[$lang]['MYDBR_SQLEDIT_NOFIND'] = 'Cannot find procedure %s';
 // $localization[$lang]['MYDBR_SQLEDIT_EDIT'] = 'Editing';

@@ -1975,7 +1975,8 @@ where g.group_id not in (
 	select p.group_id
 	from mydbr_reports_priv p
 	where p.group_id>0 and p.report_id = inReportID
-);
+)
+order by 3 desc,2;
 END 
 $$
 
@@ -3359,7 +3360,8 @@ group by keyword;
 end
 $$
 
-DROP PROCEDURE IF EXISTS sp_MyDBR_report_copy$$
+DROP PROCEDURE IF EXISTS sp_MyDBR_report_copy
+$$
 create procedure sp_MyDBR_report_copy(
 inOriginal varchar(100),
 inNew varchar(100)
@@ -3449,9 +3451,9 @@ if (vCntAll=0) then
   where report_id = vOriginalID;
 
   COMMIT;
-  select 0;
+  select vNewID;
 else 
-  select vCntAll;
+  select 0;
 end if;
 
 end
@@ -4304,7 +4306,7 @@ $$
  
 delete from mydbr_update$$
 delete from mydbr_version$$
-insert into mydbr_version values ( '4.5.1' )
+insert into mydbr_version values ( '4.5.3' )
 $$
 
 DROP FUNCTION IF EXISTS `mydbr_style` $$

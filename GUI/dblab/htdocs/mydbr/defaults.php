@@ -8,6 +8,7 @@ $mydbr_defaults = array (
     'chart' => array (
         'sizeX' => 600,
         'sizeY' => 350,
+        'size_mobile' => array( 'x' => 430, 'y' => 270),
         'title_color' => 0x00000000, // ImageChart only, ARGB Color 
         'title_font' => 'arialbd.ttf', // ImageChart 
         'title_font_size' => 10, // ImageChart 
@@ -42,15 +43,15 @@ $mydbr_defaults = array (
         'grid_color_horizontal' => 0xC0C0C0,
         'grid_color_vertical' => 0xFF000000,
         'colors' => array(
-            0x0099CC, 
-            0xF6BD0F,
-            0x8BBA00,
-            0xA66EDD,
+            0x3F90F4,
+            0x5AB231,
+            0xF7D921,
+            0xF43011, 
+            0xA05AE5,
             0xF984A1,
-            0xCCCC00, 
-            0x999999, 
+            0xDDE10A,
+            0xAEAEAE, 
             0xAFD8F8,
-            0xFF0000, 
             0x006F00,
             0x0099FF, 
             0xFF66CC, 
@@ -63,6 +64,8 @@ $mydbr_defaults = array (
             0x669900, 
             0x1941A5, 
         ),
+        'bargap' => array('col' => 0.2, 'mscol' => 0.5 ),
+        'subbargap' => -1.69e-100, /* TouchBar */
         'alternate_color' => array('0xFFFFFF', '0xECECEC', '0xc0c0c0', '0xc0c0c0'),
         'meter' => array(
             'size' => 240,
@@ -157,9 +160,42 @@ $mydbr_defaults = array (
                 'name' => 'arial.ttf',
                 'color' => 0x444444 ,
                 ),
-            'orientation' => -1
+            'orientation' => -1,
+            'scale' => 6.25
         ),
         'softlightning' => true, // For column and bar charts toggles the softlightning effect  
+        /*
+        BottomLeft = 1
+        BottomCenter = 2
+        BottomRight = 3
+        Left = 4
+        Center = 5
+        Right = 6
+        TopLeft = 7
+        TopCenter = 8
+        TopRight = 9
+        Top = TopCenter
+        Bottom = BottomCenter
+        TopLeft2 = 10
+        TopRight2 = 11
+        BottomLeft2 = 12
+        BottomRight2 = 13
+        */
+        'softlightning_direction' => array(
+            'column' => 4, // Left
+            'column3d' => 4,
+            'bar' => 8, // TopCenter
+            'stackedbar' => 8,
+            'stackedcolumn' => 4,
+            'bar3d' => 8,
+            'stackedbar3d' => 8,
+            'stackedcolumn3d' => 4,
+            'msbar' => 8,
+            'mscolumn' => 4,
+            'mscolumn3d' => 4,
+            'percentbar' => 8,
+            'percentcolumn' => 4,
+        ),
         'always_use_link_menu' => false, // Whether single linked report shows menu or follows link 
         'default_marker' => 16, // GlassSphere2Shape
         'marker_size' => 10, // Marker size for scatter chart
@@ -259,6 +295,7 @@ $mydbr_defaults = array (
     'updater_users' => array('mydbr_updater'), // Usernames which can use HTTP basic access authentication to call myDBR update URL
     'query_builder_widths' => array('db' => 194, 'table' => 194, 'column' => 373, 'selected' => 454),
     'graphviz_dpi' => 96,
+    'aggregate_null' => ('n/a'),
     'export' => array(
         'cache_storage' => 'Memory',
         'export_choises' => array('Excel', 'PDF', 'CSV'),
@@ -270,6 +307,7 @@ $mydbr_defaults = array (
             'include_image' => true,
             'utf8_replace' => array(),
             'evaluate_formulas' => false,
+            'aggregate_formula' => true,
             'style' => array(
                 'header' => array(
                     'border'=> array(

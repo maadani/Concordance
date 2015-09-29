@@ -187,8 +187,7 @@ $localization[$lang]['MYDBR_FILEEDIT_SAVED'] = "Filen sparad";
 $localization[$lang]['MYDBR_FILEEDIT_NOTWRITEABLE'] = "Filen %s är inte skrivbar";
 $localization[$lang]['MYDBR_SQLEDIT_ADD_REPORT']= 'Lägg rapport till myDBR';
 $localization[$lang]['MYDBR_SQLEDIT_SELECT_OBJECT'] = "Välj databasobjektet i kod vars information du vill visa.";
-
-$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = "En dublett skapades.";
+$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = "En dublett skapades. Vill du flytta till den nya rapporten?";
 $localization[$lang]['MYDBR_SQLEDIT_COPY_NOT_CREATED'] = "Kunde inte duplicera rapport.";
 $localization[$lang]['MYDBR_SQLEDIT_NOFIND'] = "Kan inte hitta proceduren %s";
 $localization[$lang]['MYDBR_SQLEDIT_EDIT'] = "Redigerar";
