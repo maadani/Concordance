@@ -94,17 +94,9 @@ class TextParser {
         $extractedData   = $this->extractData($text, $matchedTemplate);
         if ($extractedData) {
 			$keys = array_keys($extractedData);
-			echo 'keys: <br/>';
-			print_r($keys);
 			foreach($keys as $key){
-				echo '$extractedData['. $key . ']: <br/>';
-				echo $extractedData[$key] . '<br/>';
-				$extractedData[$key] = trim(preg_replace('/EOL/', "\n", $extractedData[$key]));
-				echo '$extractedData['. $key . '] after: <br/>';
-				echo $extractedData[$key] . '<br/>';				
+				$extractedData[$key] = trim(preg_replace('/EOL/', "\n", $extractedData[$key]));	
 			}
-			echo 'extractedData after remove EOL: <br/>';
-			print_r($extractedData);
             $this->logRow('Got this: ' . json_encode($extractedData));
         } else {
             $this->logRow('Got nothing');
