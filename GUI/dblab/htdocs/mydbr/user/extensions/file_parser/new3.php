@@ -38,14 +38,15 @@ $matches2 = preg_split('/$\R?^/m', $text['content']);
 
 $keys = array_keys($matches2);
 
-$format = 'insert into(%1$s, %2$s, %3$s, %4$s);';
+$format = 'insert into(%1$s, %2$s, %3$s, %4$s);' . PHP_EOL;
 
 foreach($keys as $key){
 	echo 'key: ' . $key . '<br/>';
 	$words = (preg_split('/\W/', $matches2[$key], -1, PREG_SPLIT_NO_EMPTY));
 	foreach($words as $word){
-		echo sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']);
-		echo '<br/>';
+		file_put_contents('ttt.txt', sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']), FILE_APPEND);
+		//echo sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']);
+		//echo '<br/>';
 	}	
 }
 			
