@@ -16,7 +16,7 @@ function onReadRow($dataRow){
 function read_text_file($fullPath){
 	
 
-	echo $fullPath;
+	echo basename($fullPath);
 	echo '<br/>';
 
 	$dir = 'generated_scripts';
@@ -24,29 +24,28 @@ function read_text_file($fullPath){
 	if(!is_dir($dir)){
 		mkdir($dir);
 	}
-	$text = getTextFileContents('G:\\OpenU\\Projects\\sonets\\txt_files\\ShakespeareSonnet1.txt');
+	$text = getTextFileContents($fullPath);
 
 	$matches2 = preg_split('/$\R?^/m', $text['content']);
 
 	//print_r($matches2);
 
-	$keys = array_keys($matches2);
+	$indices = array_keys($matches2);
 
 	$format = 'insert into(%1$s, %2$s, %3$s, %4$s);' . PHP_EOL;
+	
+	$numOfWords = 0;
 
-	foreach($keys as $key){
-		echo 'key: ' . $key . '<br/>';
-		$words = (preg_split('/\W/', $matches2[$key], -1, PREG_SPLIT_NO_EMPTY));
+	foreach($indices as $index){
+		echo 'Processing Line #' . ($index+1) . '<br/>';
+		$words = (preg_split('/\W/', $matches2[$index], -1, PREG_SPLIT_NO_EMPTY));
 		foreach($words as $word){
-			file_put_contents($dir . '/' . $fullPath . '.sql', sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']), FILE_APPEND);
-			//echo sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']);
-			//echo '<br/>';
+			file_put_contents($dir . '/' . basename($fullPath) . '.sql', sprintf($format, $word, $index, $text['rhyme_scheme'], $text['auther']), FILE_APPEND);
+			$numOfWords++;
 		}	
 	}
-				
-
-
 	
+	echo 'Done Processing ' . $numOfWords . ' words<br/>';
 }
 
 function getTextFileContents($fullPath) {
