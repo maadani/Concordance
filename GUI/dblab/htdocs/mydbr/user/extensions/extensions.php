@@ -40,6 +40,25 @@ $dbr_extensions = array (
 		),
 	),
 	
+	'file_parser' => array(
+		'enabled' => true,
+		'autoload' => 1,
+		'php' => 'new3.php', 
+		// Define these if you want to do row by row handling
+		'row_by_row_initialization' => 'onStart',
+		'row_by_row_data_row' => 'onReadRow', 
+		'row_by_row_finish' => 'onFinish',
+		// Define this if you want to do row by row handling
+		'single_pass_call' => '', 
+		'javascript' => array(), 
+		'css' => array(), 
+		'cmds' => array(
+			array (
+				'cmd' => 'dbr.file_parser',				
+			),
+		),
+	),	
+	
 	'echart' => array(
 	'name' => 'Extended chart',
 	'enabled' => true, // Set to false in mdbr

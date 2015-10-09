@@ -1,7 +1,51 @@
 <?php
 require_once('TextParserClass.php');
 
+function onStart($id, $options, $colInfo){
+	echo '<pre>';
+}
+
+function onFinish(){
+	print "</pre>";
+}
+
+function onReadRow($dataRow){	
+	read_text_file($dataRow[0]);
+}
+
 function read_text_file($fullPath){
+	
+
+	echo $fullPath;
+	echo '<br/>';
+
+	$dir = 'generated_scripts';
+	
+	if(!is_dir($dir)){
+		mkdir($dir);
+	}
+	$text = getTextFileContents('G:\\OpenU\\Projects\\sonets\\txt_files\\ShakespeareSonnet1.txt');
+
+	$matches2 = preg_split('/$\R?^/m', $text['content']);
+
+	//print_r($matches2);
+
+	$keys = array_keys($matches2);
+
+	$format = 'insert into(%1$s, %2$s, %3$s, %4$s);' . PHP_EOL;
+
+	foreach($keys as $key){
+		echo 'key: ' . $key . '<br/>';
+		$words = (preg_split('/\W/', $matches2[$key], -1, PREG_SPLIT_NO_EMPTY));
+		foreach($words as $word){
+			file_put_contents($dir . '/' . $fullPath . '.sql', sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']), FILE_APPEND);
+			//echo sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']);
+			//echo '<br/>';
+		}	
+	}
+				
+
+
 	
 }
 
@@ -18,41 +62,7 @@ function getTextFileContents($fullPath) {
 	return $result;
 }
 
-echo '<pre>';
-// //if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-// //   echo "File is valid, and was successfully uploaded.\n";
-// //} else {
-// //    echo "Possible file upload attack!\n";
-// //}
 
-// //echo basename($_FILES['userfile']['name']);
-
-
-echo '<br/>';
-
-$text = getTextFileContents('G:\\OpenU\\Projects\\sonets\\txt_files\\ShakespeareSonnet1.txt');
-
-$matches2 = preg_split('/$\R?^/m', $text['content']);
-
-//print_r($matches2);
-
-$keys = array_keys($matches2);
-
-$format = 'insert into(%1$s, %2$s, %3$s, %4$s);' . PHP_EOL;
-
-foreach($keys as $key){
-	echo 'key: ' . $key . '<br/>';
-	$words = (preg_split('/\W/', $matches2[$key], -1, PREG_SPLIT_NO_EMPTY));
-	foreach($words as $word){
-		file_put_contents('ttt.txt', sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']), FILE_APPEND);
-		//echo sprintf($format, $word, $key, $text['rhyme_scheme'], $text['auther']);
-		//echo '<br/>';
-	}	
-}
-			
-
-
-print "</pre>";
 
 
 ?>
