@@ -26,13 +26,15 @@ function read_text_file($fullPath){
 	}
 	$generatedScriptName = $dir . '/' . basename($fullPath) . '.sql';
 	
-	$text = getTextFileContents($fullPath);
+	$text = getTextFileContents($fullPath);	
 
 	$matches2 = preg_split('/$\R?^/m', $text['content']);	
 
 	$indices = array_keys($matches2);
-
-	$format = 'insert into(%1$s, %2$s, %3$s, %4$s, %5$s);' . PHP_EOL;
+	
+	file_put_contents($generatedScriptName, sprintf('call sp_add_sonnet_to_db(%1$s, %2$s, %3$s, %4$s, %5$s);', $text['name'], $text['auther'], $text['year'], $text['sequenceName'], $text['rhyme_scheme']) . PHP_EOL, FILE_APPEND);		
+	
+	$format = 'call sp_add_word_to_db(%1$s, %2$s, %3$s, %4$s, %5$s);' . PHP_EOL;
 	
 	$numOfWords = 0;
 	$numOfWordsInLine = 0;
@@ -42,12 +44,13 @@ function read_text_file($fullPath){
 		echo 'Processing Line #' . ($index+1) . '<br/>';
 		$words = preg_split("/(?<=\w|\W)\b\s*/", $matches2[$index], -1, PREG_SPLIT_NO_EMPTY);
 		
-		print_r($words);
-		// foreach($words as $word){
-			// file_put_contents($generatedScriptName, sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word)), FILE_APPEND);	
-			// $numOfWords++;
-			// $numOfWordsInLine++;		
-		// }	
+		// print_r($words);
+		foreach($words as $word){
+			// echo sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real') . '<br/>';
+			file_put_contents($generatedScriptName, sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real'), FILE_APPEND);	
+			$numOfWords++;
+			$numOfWordsInLine++;		
+		}	
 	}
 	
 	echo 'Done Processing ' . $numOfWords . ' words<br/>';
