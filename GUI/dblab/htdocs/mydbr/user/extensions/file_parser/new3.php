@@ -1,5 +1,6 @@
 <?php
 require_once('TextParserClass.php');
+require_once('ignoreme_db_connection.php');
 
 function onStart($id, $options, $colInfo){
 	echo '<pre>';
@@ -15,7 +16,12 @@ function onReadRow($dataRow){
 
 function read_text_file($fullPath){
 	
-
+	$con = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME,DB_PORT);
+	// Check connection
+	if (mysqli_connect_errno())
+	{
+		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
 	echo basename($fullPath);
 	echo '<br/>';
 
