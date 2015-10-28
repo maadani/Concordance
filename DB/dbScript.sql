@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `concordancedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `concordancedb`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: concordancedb
@@ -133,7 +135,7 @@ CREATE TABLE `sonnets_sequences` (
   `name` varchar(200) NOT NULL,
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,6 +146,30 @@ LOCK TABLES `sonnets_sequences` WRITE;
 /*!40000 ALTER TABLE `sonnets_sequences` DISABLE KEYS */;
 INSERT INTO `sonnets_sequences` VALUES (0,'unkown',0);
 /*!40000 ALTER TABLE `sonnets_sequences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test1`
+--
+
+DROP TABLE IF EXISTS `test1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `test1` (
+  `col1` int(11) NOT NULL AUTO_INCREMENT,
+  `col2` int(11) DEFAULT NULL,
+  PRIMARY KEY (`col1`)
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test1`
+--
+
+LOCK TABLES `test1` WRITE;
+/*!40000 ALTER TABLE `test1` DISABLE KEYS */;
+INSERT INTO `test1` VALUES (8,0),(9,1),(10,2),(11,3),(12,4),(13,5),(14,6),(15,7),(16,8),(17,9),(18,10),(19,11),(20,12),(21,13),(22,14),(23,15),(24,16),(25,17),(26,18),(27,19),(28,20),(29,21),(30,22),(31,23),(32,24),(33,25),(34,26),(35,27),(36,28),(37,29),(38,30),(39,31),(40,32),(41,33),(42,34),(43,35),(44,36),(45,37),(46,38),(47,39),(48,40),(49,41),(50,42),(51,43),(52,44),(53,45),(54,46),(55,47),(56,48),(57,49),(58,50),(59,51),(60,52),(61,53),(62,54),(63,55),(64,56),(65,57),(66,58),(67,59),(68,60),(69,61),(70,62),(71,63),(72,64),(73,65),(74,66),(75,67),(76,68),(77,69),(78,70),(79,71),(80,72),(81,73),(82,74),(83,75),(84,76),(85,77),(86,78),(87,79),(88,80),(89,81),(90,82),(91,83),(92,84),(93,85),(94,86),(95,87),(96,88),(97,89),(98,90),(99,91),(100,92),(101,93),(102,94),(103,95),(104,96),(105,97),(106,98),(107,99),(108,100),(109,101),(110,102),(111,103),(112,104),(113,105),(114,106),(115,107),(116,108),(117,109),(118,110),(119,111),(120,112),(121,113),(122,114),(123,115),(124,116),(125,117),(126,118),(127,119),(128,120),(129,121),(130,122),(131,123),(132,124),(133,125),(134,126),(135,127),(136,128),(137,129),(138,130),(139,131),(140,132),(141,133),(142,134),(143,135),(144,136),(145,137),(146,138),(147,139),(148,140),(149,141),(150,142),(151,143),(152,144),(153,145),(154,146),(155,147),(156,148),(157,149),(158,150),(159,151),(160,152),(161,153),(162,154),(163,155),(164,156),(165,157),(166,158),(167,159);
+/*!40000 ALTER TABLE `test1` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -619,6 +645,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `test1` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test1`(in inVal int)
+BEGIN
+	insert into test1(test1.col2) values(inVal);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `transaction_test` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -674,4 +719,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-27 18:04:47
+-- Dump completed on 2015-10-29  1:56:49
