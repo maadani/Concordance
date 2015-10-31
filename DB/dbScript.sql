@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `concordancedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `concordancedb`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: concordancedb
@@ -75,16 +77,16 @@ DROP TABLE IF EXISTS `sonnets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sonnets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `chapter` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL,
   `rhyme_scheme` varchar(20) NOT NULL,
   `author` varchar(45) DEFAULT 'Unknown',
   `sequence_id` int(11) NOT NULL DEFAULT '0',
   `file_name` varchar(45) DEFAULT NULL,
-  `full_path` varchar(45) DEFAULT NULL,
+  `full_path` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sequence_id_idx` (`sequence_id`),
   CONSTRAINT `fk_sequence_id` FOREIGN KEY (`sequence_id`) REFERENCES `sonnets_sequences` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='		';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='		';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +95,7 @@ CREATE TABLE `sonnets` (
 
 LOCK TABLES `sonnets` WRITE;
 /*!40000 ALTER TABLE `sonnets` DISABLE KEYS */;
-INSERT INTO `sonnets` VALUES (1,0,'abab_cdcd_efef_gg','aaa',0,NULL,NULL),(2,0,'abab_cdcd_efef_gg','bbb',0,NULL,NULL);
+INSERT INTO `sonnets` VALUES (1,'0','abab_cdcd_efef_gg','aaa',0,NULL,NULL),(2,'0','abab_cdcd_efef_gg','bbb',0,NULL,NULL),(5,'test_sonnet','abab_cdcd_efef_gg','Erez',1,'ShakespeareSonnet2.txt','G:\\OpenU\\Projects\\sonets\\txt_files\\ShakespeareSonnet2.txt'),(7,'2','abab_cdcd_efef_gg','William Shakespeare',3,'ShakespeareSonnet2.txt','G:\\\\OpenU\\\\Projects\\\\sonets\\\\txt_files\\\\ShakespeareSonnet2.txt');
 /*!40000 ALTER TABLE `sonnets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +111,7 @@ CREATE TABLE `sonnets_sequences` (
   `name` varchar(200) NOT NULL,
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +120,7 @@ CREATE TABLE `sonnets_sequences` (
 
 LOCK TABLES `sonnets_sequences` WRITE;
 /*!40000 ALTER TABLE `sonnets_sequences` DISABLE KEYS */;
-INSERT INTO `sonnets_sequences` VALUES (0,'unkown',0);
+INSERT INTO `sonnets_sequences` VALUES (0,'unkown',0),(1,'test_seq',1999),(3,'Shakespeare\\\'s sonnets',1609);
 /*!40000 ALTER TABLE `sonnets_sequences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +139,7 @@ CREATE TABLE `words` (
   `is_real` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `value_UNIQUE` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=743 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3230 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +148,7 @@ CREATE TABLE `words` (
 
 LOCK TABLES `words` WRITE;
 /*!40000 ALTER TABLE `words` DISABLE KEYS */;
-INSERT INTO `words` VALUES (1,'a',2,0,NULL),(2,'b',0,0,NULL),(3,'ccc',0,0,NULL),(4,'d',4,0,NULL),(5,'ababab',NULL,NULL,NULL),(6,'ababab441',NULL,NULL,NULL),(8,'jsjsjs',NULL,NULL,NULL),(17,'jsjsjs2',NULL,NULL,NULL),(18,'1',NULL,NULL,NULL),(19,'addWordTest1',NULL,NULL,NULL);
+INSERT INTO `words` VALUES (1,'a',4,0,NULL),(2,'b',0,0,NULL),(3,'ccc',0,0,NULL),(4,'d',8,0,NULL),(5,'ababab',NULL,NULL,NULL),(6,'ababab441',NULL,NULL,NULL),(8,'jsjsjs',NULL,NULL,NULL),(17,'jsjsjs2',NULL,NULL,NULL),(18,'1',NULL,NULL,NULL),(19,'addWordTest1',NULL,NULL,NULL),(3137,'When',3,0,1),(3138,'forty',1,0,1),(3139,'winters',1,0,1),(3140,'shall',2,0,1),(3141,'beseige',1,0,1),(3142,'thy',7,0,1),(3143,'brow',1,0,1),(3144,',',11,0,0),(3145,'And',4,0,1),(3146,'dig',1,0,1),(3147,'deep',2,0,1),(3148,'trenches',1,0,1),(3149,'in',1,0,1),(3150,'beauty',4,0,1),(3151,'\\\'',7,0,0),(3152,'s',3,0,1),(3153,'field',1,0,1),(3154,'youth',1,0,1),(3155,'proud',1,0,1),(3156,'livery',1,0,1),(3157,'so',1,0,1),(3158,'gazed',1,0,1),(3159,'on',1,0,1),(3160,'now',1,0,1),(3161,'Will',1,0,1),(3162,'be',2,0,1),(3163,'tatter',1,0,1),(3164,'weed',1,0,1),(3165,'of',3,0,1),(3166,'small',1,0,1),(3167,'worth',1,0,1),(3168,'held',1,0,1),(3169,':',1,0,0),(3170,'Then',1,0,1),(3171,'being',1,0,1),(3172,'ask',1,0,1),(3173,'where',2,0,1),(3174,'all',3,0,1),(3175,'lies',1,0,1),(3176,'the',1,0,1),(3177,'treasure',1,0,1),(3178,'lusty',1,0,1),(3179,'days',1,0,1),(3180,'To',2,0,1),(3181,'say',1,0,1),(3182,'within',1,0,1),(3183,'thine',2,0,1),(3184,'own',1,0,1),(3185,'-',2,0,0),(3186,'sunken',1,0,1),(3187,'eyes',1,0,1),(3188,'Were',2,0,1),(3189,'an',1,0,1),(3190,'eating',1,0,1),(3191,'shame',1,0,1),(3192,'thriftless',1,0,1),(3193,'praise',2,0,1),(3194,'.',2,0,0),(3195,'How',1,0,1),(3196,'much',1,0,1),(3197,'more',1,0,1),(3198,'deserved',1,0,1),(3199,'use',1,0,1),(3200,'If',1,0,1),(3201,'thou',3,0,1),(3202,'couldst',1,0,1),(3203,'answer',1,0,1),(3204,'This',2,0,1),(3205,'fair',1,0,1),(3206,'child',1,0,1),(3207,'mine',1,0,1),(3208,'sum',1,0,1),(3209,'my',2,0,1),(3210,'count',1,0,1),(3211,'make',1,0,1),(3212,'old',2,0,1),(3213,'excuse',1,0,1),(3214,',\\\'',1,0,0),(3215,'Proving',1,0,1),(3216,'his',1,0,1),(3217,'by',1,0,1),(3218,'succession',1,0,1),(3219,'!',1,0,0),(3220,'new',1,0,1),(3221,'made',1,0,1),(3222,'art',1,0,1),(3223,'see',1,0,1),(3224,'blood',1,0,1),(3225,'warm',1,0,1),(3226,'feel',1,0,1),(3227,'st',1,0,1),(3228,'it',1,0,1),(3229,'cold',1,0,1);
 /*!40000 ALTER TABLE `words` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +234,7 @@ CREATE TABLE `words_in_sonnets` (
 
 LOCK TABLES `words_in_sonnets` WRITE;
 /*!40000 ALTER TABLE `words_in_sonnets` DISABLE KEYS */;
-INSERT INTO `words_in_sonnets` VALUES (1,1,1,1,1),(2,1,2,2,1),(3,1,3,3,1),(4,1,4,4,1);
+INSERT INTO `words_in_sonnets` VALUES (1,1,1,1,1),(2,1,2,2,1),(3,1,3,3,1),(4,1,4,4,1),(3137,7,1,1,1),(3138,7,2,1,2),(3139,7,3,1,3),(3140,7,4,1,4),(3141,7,5,1,5),(3142,7,6,1,6),(3143,7,7,1,7),(3144,7,8,1,8),(3145,7,9,2,1),(3146,7,10,2,2),(3147,7,11,2,3),(3148,7,12,2,4),(3149,7,13,2,5),(3142,7,14,2,6),(3150,7,15,2,7),(3151,7,16,2,8),(3152,7,17,2,9),(3153,7,18,2,10),(3144,7,19,2,11),(3142,7,20,3,1),(3154,7,21,3,2),(3151,7,22,3,3),(3152,7,23,3,4),(3155,7,24,3,5),(3156,7,25,3,6),(3144,7,26,3,7),(3157,7,27,3,8),(3158,7,28,3,9),(3159,7,29,3,10),(3160,7,30,3,11),(3144,7,31,3,12),(3161,7,32,4,1),(3162,7,33,4,2),(1,7,34,4,3),(3163,7,35,4,4),(3151,7,36,4,5),(4,7,37,4,6),(3164,7,38,4,7),(3144,7,39,4,8),(3165,7,40,4,9),(3166,7,41,4,10),(3167,7,42,4,11),(3168,7,43,4,12),(3169,7,44,4,13),(3170,7,45,5,1),(3171,7,46,5,2),(3172,7,47,5,3),(3151,7,48,5,4),(4,7,49,5,5),(3173,7,50,5,6),(3174,7,51,5,7),(3142,7,52,5,8),(3150,7,53,5,9),(3175,7,54,5,10),(3144,7,55,5,11),(3173,7,56,6,1),(3174,7,57,6,2),(3176,7,58,6,3),(3177,7,59,6,4),(3165,7,60,6,5),(3142,7,61,6,6),(3178,7,62,6,7),(3179,7,63,6,8),(3144,7,64,6,9),(3180,7,65,7,1),(3181,7,66,7,2),(3144,7,67,7,3),(3182,7,68,7,4),(3183,7,69,7,5),(3184,7,70,7,6),(3147,7,71,7,7),(3185,7,72,7,8),(3186,7,73,7,9),(3187,7,74,7,10),(3144,7,75,7,11),(3188,7,76,8,1),(3189,7,77,8,2),(3174,7,78,8,3),(3185,7,79,8,4),(3190,7,80,8,5),(3191,7,81,8,6),(3145,7,82,8,7),(3192,7,83,8,8),(3193,7,84,8,9),(3194,7,85,8,10),(3195,7,86,9,1),(3196,7,87,9,2),(3197,7,88,9,3),(3193,7,89,9,4),(3198,7,90,9,5),(3142,7,91,9,6),(3150,7,92,9,7),(3151,7,93,9,8),(3152,7,94,9,9),(3199,7,95,9,10),(3144,7,96,9,11),(3200,7,97,10,1),(3201,7,98,10,2),(3202,7,99,10,3),(3203,7,100,10,4),(3151,7,101,10,5),(3204,7,102,10,6),(3205,7,103,10,7),(3206,7,104,10,8),(3165,7,105,10,9),(3207,7,106,10,10),(3140,7,107,11,1),(3208,7,108,11,2),(3209,7,109,11,3),(3210,7,110,11,4),(3145,7,111,11,5),(3211,7,112,11,6),(3209,7,113,11,7),(3212,7,114,11,8),(3213,7,115,11,9),(3214,7,116,11,10),(3215,7,117,12,1),(3216,7,118,12,2),(3150,7,119,12,3),(3217,7,120,12,4),(3218,7,121,12,5),(3183,7,122,12,6),(3219,7,123,12,7),(3204,7,124,13,1),(3188,7,125,13,2),(3180,7,126,13,3),(3162,7,127,13,4),(3220,7,128,13,5),(3221,7,129,13,6),(3137,7,130,13,7),(3201,7,131,13,8),(3222,7,132,13,9),(3212,7,133,13,10),(3144,7,134,13,11),(3145,7,135,14,1),(3223,7,136,14,2),(3142,7,137,14,3),(3224,7,138,14,4),(3225,7,139,14,5),(3137,7,140,14,6),(3201,7,141,14,7),(3226,7,142,14,8),(3151,7,143,14,9),(3227,7,144,14,10),(3228,7,145,14,11),(3229,7,146,14,12),(3194,7,147,14,13);
 /*!40000 ALTER TABLE `words_in_sonnets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,6 +518,42 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_add_file` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_file`(in inName varchar(50), in inRhymeScheme varchar(20), in inAuthor VARCHAR(45), in inFileName VARCHAR(45), in inFilePath VARCHAR(400), in inSequenceName VARCHAR(200), in inYear int(11))
+BEGIN
+
+	SET @seqId = (SELECT sonnets_sequences.id FROM sonnets_sequences where sonnets_sequences.Name = inSequenceName);
+	if(@seqId IS NULL) THEN
+		insert into sonnets_sequences(sonnets_sequences.Name, sonnets_sequences.year)
+		values(inSequenceName, inYear);
+        SET @seqId = (SELECT LAST_INSERT_ID()); 
+	END IF;
+    
+    
+    SET @sonnetId = (select sonnets.id from sonnets where sonnets.sequence_id = @seqId and sonnets.name = inName);
+    if(@sonnetId IS NULL) THEN    
+		insert into sonnets(sonnets.name, sonnets.rhyme_scheme, sonnets.sequence_id, sonnets.author, sonnets.file_name, sonnets.full_path)
+		values(inName, inRhymeScheme, @seqId, inAuthor, inFileName, inFilePath);
+        SET @sonnetId = (SELECT LAST_INSERT_ID()); 
+    END IF;
+
+	SELECT @sonnetId as 'sonnet_id';
+    #select sonnets.id from sonnets where sonnets.id = @sonnetId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_add_new_relation` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -574,7 +612,8 @@ BEGIN
     where words.value = inWord;
     
     IF(@wordId IS NULL) THEN
-		insert into words(words.value, words.is_real) values(inWord, inIsReal);
+		insert into words(words.value, words.is_real, words.total_num_of_appearance)
+        values(inWord, inIsReal, @totalNumOfAppearances);
         set @wordId = (SELECT LAST_INSERT_ID());
 	ELSE 
 		update words 
@@ -703,4 +742,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-30 18:10:24
+-- Dump completed on 2015-11-01  0:48:03
