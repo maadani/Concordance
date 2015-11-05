@@ -60,7 +60,7 @@ function read_text_file($fullPath){
 					$outWord = mysqli_real_escape_string($con, trim($word));
 					$numOfWordsInLine++;
 					$numOfWords++;
-					$outIsReal = ctype_alnum($outWord) === false ? 0 : 1;
+					$outIsReal = ctype_alnum($outWord) === false ? 0 : 1;					
 					//echo sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real') . '<br/>';
 					// file_put_contents($generatedScriptName, sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real'), FILE_APPEND);					
 					/* execute query */					
