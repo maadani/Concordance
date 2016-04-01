@@ -6,5 +6,7 @@ BEGIN
 
 call concordancedb.sp_new_group(vGroupName);
 
+select 'dbr.text' , concat('Group: ', vGroupName, ' was added.');
+
 END
 $$

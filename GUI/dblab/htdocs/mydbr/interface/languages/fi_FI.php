@@ -82,7 +82,7 @@ $localization[$lang]['MYDBR_TEMPLATE_HEADER'] = 'Alku';
 $localization[$lang]['MYDBR_TEMPLATE_FOOTER'] = 'Loppu';
 $localization[$lang]['MYDBR_TEMPLATE_NO_DEFINED'] = 'Ei määriteltyjä mallipohjia';
 $localization[$lang]['MYDBR_TEMPLATE_DELETE'] = "Poista mallipohja \'%s\'";
-$localization[$lang]['MYDBR_TEMPLATE_SAVE_DUPLICATE'] = "Monistetun mallin nimi";
+$localization[$lang]['MYDBR_TEMPLATE_SAVE_DUPLICATE'] = "Nimi jo käytössä";
 
 // Demo
 $localization[$lang]['MYDBR_DEMO_TITLE'] = 'Demo / Lokalisointi';
@@ -317,6 +317,8 @@ $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_FILE'] = 'Tiedoston "%s" poist
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_DIR'] = 'Hakemiston "%s"  poisto ei onnistunut.';
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_CREATE_DIR'] = 'Hakemiston "%d" luonti ei onnistunut.';
 $localization[$lang]['MYDBR_SQLEDIT_UPLOAD_USER_ONLY'] = 'Tiedostojen lataukset ovat mahdollisia vain user-hakemistoon.';
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Objektia "%s" ei löydy.';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Luo se?';
 
 // Chart
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'Ei tietoja kuvan piirtämiseen';

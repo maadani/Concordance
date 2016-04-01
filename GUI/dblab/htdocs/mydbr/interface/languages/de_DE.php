@@ -533,6 +533,9 @@ $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_DIR'] = 'Konnte nicht auf das 
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_CREATE_DIR'] = 'Verzeichnis "%d" kann nicht erstellt werden.';
 $localization[$lang]['MYDBR_SQLEDIT_UPLOAD_USER_ONLY'] = "Uploads dürfen nur im Benutzer-Verzeichnis.";
 
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Kann Objekt "%s" nicht gefunden.';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Erstellen Sie es?';
+
 $localization[$lang]['MYDBR_STYLES_ADD'] = "Format hinzufügen";
 $localization[$lang]['MYDBR_STYLES_COL'] = "Spalten-Format:";
 $localization[$lang]['MYDBR_STYLES_COLUMN'] = "Spalte";

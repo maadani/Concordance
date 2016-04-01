@@ -340,6 +340,7 @@ create table if not exists mydbr_localization (
 lang_locale char(5) not null,
 keyword varchar(50) not null,
 translation varchar(1024),
+creation_date datetime null,
 PRIMARY KEY USING BTREE (lang_locale, keyword),
 FOREIGN KEY (lang_locale) REFERENCES mydbr_languages (lang_locale)
 ) ENGINE=InnoDB
@@ -356,35 +357,44 @@ CREATE TABLE IF NOT EXISTS mydbr_remote_servers (
 ) ENGINE=InnoDB AUTO_INCREMENT=0$$
 
 CREATE TABLE IF NOT EXISTS mydbr_templates (
-  `id` int NOT NULL auto_increment,
-  `name` varchar(128) NOT NULL,
-  `header` text NULL,
-  `row` text NULL,
-  `footer` text NULL,
-  `folder_id` int NULL,
-  PRIMARY KEY USING BTREE (`id`)
+id int NOT NULL auto_increment,
+name varchar(128) NOT NULL,
+header text NULL,
+row text NULL,
+footer text NULL,
+folder_id int NULL,
+creation_date datetime null,
+PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0
 $$
 
 CREATE TABLE IF NOT EXISTS mydbr_template_folders (
-  `id` int NOT NULL auto_increment,
-  `name` varchar(128) NULL,
-  `parent_id` int null,
-  PRIMARY KEY USING BTREE (`id`)
+id int NOT NULL auto_increment,
+name varchar(128) NULL,
+parent_id int null,
+PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0
 $$
 
 CREATE TABLE IF NOT EXISTS mydbr_snippets (
-  `id` int NOT NULL auto_increment,
-  `name` varchar(30) NULL,
-  `code` text null,
-  `shortcut` varchar(20) NULL,
-  `cright` int NULL,
-  `cdown` int NULL,
-  PRIMARY KEY USING BTREE (`id`)
+id int NOT NULL auto_increment,
+name varchar(30) NULL,
+code text null,
+shortcut varchar(20) NULL,
+cright int NULL,
+cdown int NULL,
+PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0
 $$
 
+CREATE TABLE IF NOT EXISTS mydbr_sync_exclude (
+username varchar(128) NOT NULL,
+authentication int(11) NOT NULL,
+proc_name varchar(100) NOT NULL,
+type varchar(20) NOT NULL,
+primary key (proc_name)
+)
+$$
 
 
 DROP PROCEDURE IF EXISTS `sp_MyDBR_FixTables`
@@ -441,6 +451,23 @@ where table_schema=database() and table_name='mydbr_params' and column_name='tit
 
 if (vCnt!=255) then
   alter table mydbr_params modify column title varchar(255) null;
+end if;
+
+select count(*) into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_folders' and column_name='explanation';
+if (vCnt=0) then
+  alter table mydbr_folders add explanation varchar(4096) null;
+end if;
+
+
+select count(*) into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_folders' and column_name='reportgroup';
+
+if (vCnt=0) then
+  alter table mydbr_folders add reportgroup int not null default 1;
+  alter table mydbr_folders add FOREIGN KEY (reportgroup) REFERENCES mydbr_reportgroups (id);
 end if;
 
 select CHARACTER_MAXIMUM_LENGTH into vCnt
@@ -527,22 +554,6 @@ if (vCnt=0) then
   alter table mydbr_reports add export varchar(10) null;
 end if;
 
-
-select count(*) into vCnt
-from information_schema.columns
-where table_schema=database() and table_name='mydbr_folders' and column_name='reportgroup';
-
-if (vCnt=0) then
-  alter table mydbr_folders add reportgroup int not null default 1;
-  alter table mydbr_folders add FOREIGN KEY (reportgroup) REFERENCES mydbr_reportgroups (id);
-end if;
-
-select count(*) into vCnt
-from information_schema.columns
-where table_schema=database() and table_name='mydbr_folders' and column_name='explanation';
-if (vCnt=0) then
-  alter table mydbr_folders add explanation varchar(4096) null;
-end if;
 
 update mydbr_folders set name='#{MYDBR_AMAIN_HOME}' where folder_id=1;
 
@@ -718,6 +729,29 @@ if (vCnt=0) then
   update mydbr_templates set folder_id = 1;  
 end if;
 
+select count(*) into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_templates' and column_name='creation_date';
+
+if (vCnt=0) then
+  alter table mydbr_templates add creation_date datetime null;
+end if;
+
+select count(*) into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_localization' and column_name='creation_date';
+
+if (vCnt=0) then
+  alter table mydbr_localization add creation_date datetime null;
+end if;
+
+select count(*) into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_sync_exclude' and column_name='type';
+
+if (vCnt=0) then
+  alter table mydbr_sync_exclude add type varchar(20) null;
+end if;
 
 /* 4.0 -> 4.2.1 user belonging to bogus 0 group  */
 delete from mydbr_groupsusers where group_id = 0;
@@ -840,7 +874,6 @@ $$
 
 DROP PROCEDURE IF EXISTS sp_MyDBR_FixTables
 $$
-
 
 DROP PROCEDURE IF EXISTS `sp_MyDBR_LicensesGet`$$
 CREATE PROCEDURE `sp_MyDBR_LicensesGet` ()
@@ -1032,8 +1065,8 @@ inExplanation varchar(4096)
 )
 BEGIN
 
-insert into mydbr_folders ( folder_id, mother_id, name, invisible, reportgroup, explanation )
-values (null, inLevel, inFolder, 2, inReportgroup, inExplanation);
+insert into mydbr_folders ( mother_id, name, invisible, reportgroup, explanation )
+values ( inLevel, inFolder, 2, inReportgroup, inExplanation);
 	
 select 'OK', last_insert_id();
 
@@ -3340,11 +3373,11 @@ if (inTranslation='') then
 	where keyword = inKeyword and lang_locale =inLangLocale;
 else 
 	if (vCnt=0) then
-		insert into mydbr_localization ( keyword, lang_locale, translation)
-		values (inKeyword, inLangLocale, inTranslation);
+		insert into mydbr_localization ( keyword, lang_locale, translation, creation_date)
+		values (inKeyword, inLangLocale, inTranslation, now());
 	else 
 		update mydbr_localization
-		set translation = inTranslation
+		set translation = inTranslation, creation_date = now()
 		where keyword = inKeyword and lang_locale =inLangLocale;
 	end if;
 end if;
@@ -3704,20 +3737,53 @@ else
 	where id = inId and ifnull(inId,0)!=0;
 
 	if (vCnt=0) then
-		insert into mydbr_templates ( name, header, row, footer, folder_id )
-		values ( inName, inHeader, inRow, inFooter, inFolder_id );
+		insert into mydbr_templates ( name, header, row, footer, folder_id, creation_date )
+		values ( inName, inHeader, inRow, inFooter, inFolder_id, now() );
 	
 		select 1;
 	else 
 		update mydbr_templates
-		set name=inName, 
-			header=inHeader,
-			row=inRow,
-			footer=inFooter
+		set name = inName, 
+			header = inHeader,
+			row = inRow,
+			footer = inFooter,
+      creation_date = now()
 		where id=inId;
 
 		select 1;
 	end if;
+end if;
+end
+$$
+
+
+drop procedure if exists sp_MyDBR_template_set_sync
+$$
+create procedure sp_MyDBR_template_set_sync(
+inName varchar(128),
+inHeader text,
+inRow text,
+inFooter text
+)
+begin
+
+declare vCnt int;
+
+select count(*) into vCnt
+from mydbr_templates
+where name = inName;
+
+if (vCnt=0) then
+  insert into mydbr_templates ( name, header, row, footer, folder_id, creation_date )
+  values ( inName, inHeader, inRow, inFooter, 1, now() );
+else 
+  update mydbr_templates
+  set 
+    header = inHeader,
+    row = inRow,
+    footer = inFooter,
+    creation_date = now()
+  where name=inName;
 end if;
 end
 $$
@@ -4086,8 +4152,248 @@ where id = in_id;
 end
 $$ 
 
+DROP PROCEDURE IF EXISTS sp_MyDBR_sync_latest_reports
+$$
+CREATE PROCEDURE `sp_MyDBR_sync_latest_reports`( 
+inUser varchar(128),
+inAuthentication int,
+in_date date,
+in_no_excluded int
+)
+begin
+
+create temporary table procs_tmp( 
+name varchar(150),
+type varchar(20)
+);
+
+create temporary table routines_tmp (
+name varchar(150)
+);
+
+insert into procs_tmp
+select ROUTINE_NAME, ROUTINE_TYPE
+from information_schema.ROUTINES
+where ROUTINE_SCHEMA = database() and CREATED >= in_date and 
+  ROUTINE_NAME not like 'sp_MyDBR%' and
+  ROUTINE_NAME not like 'sp_DBR_demo_%' and
+  ROUTINE_NAME != 'mydbr_style' and
+  ROUTINE_NAME not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary')
+  and ROUTINE_NAME not in (
+    select proc_name
+    from mydbr_sync_exclude
+    where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='routine'
+  );
 
 
+insert into routines_tmp
+select t.name
+from procs_tmp t
+  join mydbr_reports r on t.name=r.proc_name;
+
+
+insert into routines_tmp
+/* Additional procs & functions */
+select t.name
+from procs_tmp t
+  left join mydbr_reports r on t.name=r.proc_name 
+where r.proc_name  is null
+  and t.name not in (
+    select proc_name
+    from mydbr_sync_exclude
+    where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='routine'
+  );
+
+/* PARAMETER QUERIES */
+insert into routines_tmp
+select ro.ROUTINE_NAME as 'name'
+from information_schema.ROUTINES ro
+  join mydbr_param_queries q on q.query=ro.ROUTINE_NAME
+  join mydbr_params p on p.query_name=q.name
+  join procs_tmp t on t.name = p.proc_name and t.name!=q.query
+where t.type='PROCEDURE' and ro.ROUTINE_SCHEMA = database()
+;
+
+select 'routines' as 'MYDBRTYPE';
+
+select distinct name 
+from routines_tmp
+order by name;
+
+select 'table' as 'MYDBRTYPE', 'mydbr_templates' as 'table_name', 'name';
+
+select name, header, row, footer
+from mydbr_templates
+where creation_date >= in_date
+and name not in (
+  select proc_name
+  from mydbr_sync_exclude
+  where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='template'
+)
+order by name;
+
+select 'table' as 'MYDBRTYPE', 'mydbr_localization' as 'table_name', 'lang_locale', 'keyword';
+
+select *
+from mydbr_localization
+where creation_date >= in_date
+and keyword not in (
+  select proc_name
+  from mydbr_sync_exclude
+  where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='localization'
+);
+
+
+select 'table' as 'MYDBRTYPE', 'mydbr_params' as 'table_name', 'proc_name', 'params';
+
+select p.*
+from mydbr_params p
+  join procs_tmp t on t.name = p.proc_name 
+where t.type='PROCEDURE';
+
+
+select 'table' as 'MYDBRTYPE', 'mydbr_param_queries' as 'table_name', 'name';
+
+select q.*
+from mydbr_param_queries q
+  join mydbr_params p on p.query_name=q.name or p.default_value=q.name
+  join procs_tmp t on t.name = p.proc_name 
+where t.type='PROCEDURE';
+
+
+select 'table' as 'MYDBRTYPE', 'mydbr_report_extensions' as 'table_name', 'proc_name', 'extension';
+
+select e.*
+from mydbr_report_extensions e
+  join procs_tmp t on t.name=e.proc_name
+where t.type='PROCEDURE';
+
+
+select 'table' as 'MYDBRTYPE', 'mydbr_reports' as 'table_name', 'report_id';
+
+select r.*
+from procs_tmp t
+  join mydbr_reports r on t.name=r.proc_name 
+;
+
+
+drop temporary table procs_tmp;
+drop temporary table routines_tmp;
+
+end
+$$
+
+DROP PROCEDURE IF EXISTS sp_MyDBR_table_columns
+$$
+CREATE PROCEDURE `sp_MyDBR_table_columns`( 
+in_table varchar(150) 
+)
+begin
+
+select COLUMN_NAME, DATA_TYPE 
+from information_schema.COLUMNS 
+where TABLE_SCHEMA = database() and table_name=in_table;
+
+end
+$$
+
+DROP PROCEDURE IF EXISTS sp_MyDBR_sync_mydbr_reports
+$$
+CREATE PROCEDURE `sp_MyDBR_sync_mydbr_reports`(
+in_sync_folder_name varchar(150),
+in_name varchar(150),
+in_proc_name varchar(100),
+in_explanation varchar(4096),
+in_sortorder int,
+in_runreport varchar(50),
+in_autoexecute tinyint(4),
+in_parameter_help varchar(10000),
+in_export varchar(10)
+)
+begin
+
+declare v_cnt int;
+declare v_folder_id int;
+declare v_report_group_id int;
+
+select count(*) into v_cnt
+from mydbr_reports
+where proc_name = in_proc_name;
+
+if (v_cnt=0) then
+  select folder_id into v_folder_id
+  from mydbr_folders
+  where name = in_sync_folder_name and mother_id=1;
+  
+  if (v_folder_id is null) then
+    select min(id) into v_report_group_id
+    from mydbr_reportgroups
+    where id>0;
+
+    insert into mydbr_folders ( mother_id, name, invisible, reportgroup, explanation )
+    values ( 1, in_sync_folder_name, 2, v_report_group_id, 'Temporary folder for new myDBR sync reports');
+    
+    select folder_id into v_folder_id
+    from mydbr_folders
+    where name = in_sync_folder_name and mother_id=1;
+  end if;
+  
+  insert into mydbr_reports (name, proc_name, folder_id, explanation, sortorder, runreport, autoexecute, parameter_help, export )
+  values (in_name, in_proc_name, v_folder_id, in_explanation, in_sortorder, in_runreport, in_autoexecute, in_parameter_help, in_export);
+else 
+  update mydbr_reports
+  set
+    name = in_name,
+    proc_name = in_proc_name,
+    explanation = in_explanation,
+    sortorder = in_sortorder,
+    runreport = in_runreport,
+    autoexecute = in_autoexecute,
+    parameter_help = in_parameter_help,
+    export = in_export
+  where proc_name = in_proc_name;
+end if;
+
+end
+$$
+
+
+DROP PROCEDURE IF EXISTS sp_MyDBR_sync_exclude_toggle
+$$
+CREATE PROCEDURE sp_MyDBR_sync_exclude_toggle(
+inUser varchar(128),
+inAuthentication int,
+inProcName varchar(100),
+inType varchar(20)
+)
+begin
+
+delete 
+from mydbr_sync_exclude
+where username = inUser and authentication=inAuthentication and proc_name=inProcName and type=inType;
+
+if (row_count() = 0) then
+  insert into mydbr_sync_exclude ( username, authentication, proc_name, type )
+  values ( inUser, inAuthentication, inProcName, inType );
+end if;
+
+end
+$$
+
+DROP PROCEDURE IF EXISTS sp_MyDBR_sync_exclude_get
+$$
+CREATE PROCEDURE sp_MyDBR_sync_exclude_get(
+inUser varchar(128),
+inAuthentication int
+)
+begin
+
+select proc_name, type
+from mydbr_sync_exclude
+where username = inUser and authentication=inAuthentication;
+
+end
+$$
 
 DROP PROCEDURE IF EXISTS sp_DBR_StatisticsReport
 $$
@@ -4306,7 +4612,7 @@ $$
  
 delete from mydbr_update$$
 delete from mydbr_version$$
-insert into mydbr_version values ( '4.5.3' )
+insert into mydbr_version values ( '4.6.1' )
 $$
 
 DROP FUNCTION IF EXISTS `mydbr_style` $$

@@ -121,7 +121,7 @@ class ClickatellSender extends SMSSender {
  */
 function Ext_SMS( $id, $options,  $dataIn, $colInfo )
 {
-	global $log, $mydbr_sms;
+	global $mydbr_sms;
 
 	if (!function_exists('mb_convert_encoding')) {
 		echo '<div class="error">SMS extension requires that the <a href="http://www.php.net/manual/en/book.mbstring.php">Multibyte String</a> PHP support is installed.</div>';

@@ -126,7 +126,9 @@ if (!extension_loaded("ChartDirector PHP API"))
 	$ver = explode('.', phpversion());
 	$ver = $ver[0] * 10000 + $ver[1] * 100 + $ver[2];
 
-	if ($ver >= 50600)
+	if ($ver >= 70000)
+		$ext = "phpchartdir700.dll";
+	else if ($ver >= 50600)
 		$ext = "phpchartdir560.dll";
 	else if ($ver >= 50500)
 		$ext = "phpchartdir550.dll";
@@ -678,12 +680,16 @@ define("AggregateFirst", 7);
 define("AggregateLast", 8);
 define("AggregateCount", 9);
 	
-class TTFText
+class TTFText 
 {
-	function TTFText($ptr) {
+	function __construct($ptr) {
 		$this->ptr = $ptr;
 		autoDestroy($this);
 	}
+	function TTFText($ptr) {
+		$this->ptr = $ptr;
+		autoDestroy($this);;
+	}	
 	function __del__() {
 		callmethod("TTFText.destroy", $this->ptr);
 	}
@@ -704,8 +710,15 @@ class TTFText
 	}
 }
 
-class DrawArea {
+class DrawArea 
+{
+	function __construct($ptr = Null) {
+		$this->DrawAreaInit($ptr);
+	}
 	function DrawArea($ptr = Null) {
+		$this->DrawAreaInit($ptr);
+	}
+	function DrawAreaInit($ptr) {
 		if (is_null($ptr)) {
 			$this->ptr = callmethod("DrawArea.create");
 			autoDestroy($this);
@@ -1013,7 +1026,11 @@ class DrawArea {
     }
 }
 
-class Box {
+class Box 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Box($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1046,7 +1063,11 @@ class Box {
 	}
 }
 
-class TextBox extends Box {
+class TextBox extends Box 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function TextBox($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1092,7 +1113,11 @@ class TextBox extends Box {
 	}	
 }
 
-class Line {
+class Line 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Line($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1110,7 +1135,11 @@ class Line {
 	}
 }
 
-class CDMLTable {
+class CDMLTable 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function CDMLTable($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1175,7 +1204,11 @@ class CDMLTable {
 	}
 }
 
-class LegendBox extends TextBox {
+class LegendBox extends TextBox 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function LegendBox($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1211,7 +1244,8 @@ class LegendBox extends TextBox {
 	}
 }
 
-class BaseChart {
+class BaseChart 
+{
 	function __del__() {
 		callmethod("BaseChart.destroy", $this->ptr);
 	}
@@ -1457,8 +1491,15 @@ class BaseChart {
 	}
 }
 
-class MultiChart extends BaseChart {
+class MultiChart extends BaseChart 
+{
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->MultiChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function MultiChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->MultiChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function MultiChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("MultiChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		$this->charts = array();
 		$this->mainChart = null;
@@ -1486,7 +1527,11 @@ class MultiChart extends BaseChart {
 	}	
 }
 
-class Sector {
+class Sector 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Sector($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1522,8 +1567,15 @@ class Sector {
 	}
 }
 
-class PieChart extends BaseChart {
+class PieChart extends BaseChart 
+{
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PieChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function PieChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PieChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function PieChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("PieChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		autoDestroy($this);
 	}
@@ -1586,7 +1638,11 @@ class PieChart extends BaseChart {
 	}
 }
 
-class Mark extends TextBox {
+class Mark extends TextBox 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Mark($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1607,7 +1663,11 @@ class Mark extends TextBox {
 	}
 }
 
-class Axis {
+class Axis 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Axis($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1849,7 +1909,11 @@ class Axis {
 	}
 }
 
-class AngularAxis {
+class AngularAxis 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function AngularAxis($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1911,7 +1975,11 @@ class AngularAxis {
 	}	
 }
 
-class ColorAxis extends Axis {
+class ColorAxis extends Axis 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function ColorAxis($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -1957,7 +2025,11 @@ class ColorAxis extends Axis {
 	}
 }
 
-class DataSet {
+class DataSet 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function DataSet($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2035,7 +2107,11 @@ class DataSet {
 	}		
 }
 
-class Layer {
+class Layer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function Layer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2197,7 +2273,11 @@ class Layer {
 	}
 }
 
-class BarLayer extends Layer {
+class BarLayer extends Layer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function BarLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2233,7 +2313,11 @@ class BarLayer extends Layer {
 	}
 }
 
-class LineLayer extends Layer {
+class LineLayer extends Layer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function LineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2254,13 +2338,21 @@ class LineLayer extends Layer {
 	}
 }
 
-class ScatterLayer extends LineLayer {
+class ScatterLayer extends LineLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function ScatterLayer($ptr) {
 		$this->ptr = $ptr;
 	}
 }
 
-class InterLineLayer extends LineLayer {
+class InterLineLayer extends LineLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function InterLineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2269,7 +2361,11 @@ class InterLineLayer extends LineLayer {
 	}
 }
 
-class SplineLayer extends LineLayer {
+class SplineLayer extends LineLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function SplineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2281,7 +2377,11 @@ class SplineLayer extends LineLayer {
 	}
 }
 
-class StepLineLayer extends LineLayer {
+class StepLineLayer extends LineLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function StepLineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2290,7 +2390,11 @@ class StepLineLayer extends LineLayer {
 	}
 }
 
-class AreaLayer extends Layer {
+class AreaLayer extends Layer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function AreaLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2302,7 +2406,11 @@ class AreaLayer extends Layer {
 	}
 }
 
-class TrendLayer extends Layer {
+class TrendLayer extends Layer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function TrendLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2344,6 +2452,9 @@ class TrendLayer extends Layer {
 
 class BaseBoxLayer extends Layer
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function BaseBoxLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2361,7 +2472,11 @@ class BaseBoxLayer extends Layer
 	}
 }
 
-class HLOCLayer extends BaseBoxLayer {
+class HLOCLayer extends BaseBoxLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function HLOCLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2370,7 +2485,11 @@ class HLOCLayer extends BaseBoxLayer {
 	}
 }
 
-class CandleStickLayer extends BaseBoxLayer {
+class CandleStickLayer extends BaseBoxLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function CandleStickLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2382,7 +2501,11 @@ class CandleStickLayer extends BaseBoxLayer {
 	}
 }
 
-class BoxWhiskerLayer extends BaseBoxLayer {
+class BoxWhiskerLayer extends BaseBoxLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function BoxWhiskerLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2397,8 +2520,11 @@ class BoxWhiskerLayer extends BaseBoxLayer {
 	}
 }
 
-class VectorLayer extends Layer
+class VectorLayer extends Layer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function VectorLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2428,8 +2554,12 @@ class VectorLayer extends Layer
 	}
 }
 
-class ContourLayer extends Layer
+class ContourLayer extends Layer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+		$this->colorAxis = $this->colorAxis();
+	}
 	function ContourLayer($ptr) {
 		$this->ptr = $ptr;
 		$this->colorAxis = $this->colorAxis();
@@ -2462,7 +2592,11 @@ class ContourLayer extends Layer
 	}
 }
 
-class PlotArea {
+class PlotArea 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PlotArea($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2510,8 +2644,15 @@ class PlotArea {
 	}
 }
 
-class XYChart extends BaseChart {
+class XYChart extends BaseChart 
+{
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->XYChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function XYChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->XYChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function XYChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("XYChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		$this->xAxis = $this->xAxis();
 		$this->xAxis2 = $this->xAxis2();
@@ -2685,7 +2826,7 @@ class XYChart extends BaseChart {
 	}
 }
 
-class ThreeDChart extends BaseChart
+class ThreeDChart extends BaseChart 
 {
 	function setPlotRegion($cx, $cy, $xWidth, $yDepth, $zHeight) {
 		callmethod("ThreeDChart.setPlotRegion", $this->ptr, $cx, $cy, $xWidth, $yDepth, $zHeight); 
@@ -2740,9 +2881,15 @@ class ThreeDChart extends BaseChart
 	}
 }
 
-class SurfaceChart extends ThreeDChart
+class SurfaceChart extends ThreeDChart 
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->SurfaceChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function SurfaceChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->SurfaceChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function SurfaceChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("SurfaceChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		$this->xAxis = $this->xAxis();
 		$this->yAxis = $this->yAxis();
@@ -2787,7 +2934,11 @@ class SurfaceChart extends ThreeDChart
 	}
 }
 
-class ThreeDScatterGroup {
+class ThreeDScatterGroup 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function ThreeDScatterGroup($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2826,9 +2977,15 @@ class ThreeDScatterGroup {
 	}
 }
 
-class ThreeDScatterChart extends ThreeDChart
+class ThreeDScatterChart extends ThreeDChart 
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->ThreeDScatterChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function ThreeDScatterChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->ThreeDScatterChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function ThreeDScatterChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("ThreeDScatterChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		$this->xAxis = $this->xAxis();
 		$this->yAxis = $this->yAxis();
@@ -2842,8 +2999,11 @@ class ThreeDScatterChart extends ThreeDChart
 	}
 }
 
-class PolarLayer
+class PolarLayer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2915,13 +3075,21 @@ class PolarLayer
 	}
 }
 
-class PolarAreaLayer extends PolarLayer {
+class PolarAreaLayer extends PolarLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarAreaLayer($ptr) {
 		$this->ptr = $ptr;
 	}
 }
 
-class PolarLineLayer extends PolarLayer {
+class PolarLineLayer extends PolarLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarLineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2933,7 +3101,11 @@ class PolarLineLayer extends PolarLayer {
 	}
 }
 
-class PolarSplineLineLayer extends PolarLineLayer {
+class PolarSplineLineLayer extends PolarLineLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarSplineLineLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2942,7 +3114,11 @@ class PolarSplineLineLayer extends PolarLineLayer {
 	}
 }
 
-class PolarSplineAreaLayer extends PolarAreaLayer {
+class PolarSplineAreaLayer extends PolarAreaLayer 
+{
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarSplineAreaLayer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -2951,8 +3127,11 @@ class PolarSplineAreaLayer extends PolarAreaLayer {
 	}
 }
 
-class PolarVectorLayer extends PolarLayer
+class PolarVectorLayer extends PolarLayer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PolarVectorLayer($ptr) {
 		$this->ptr = $ptr;
 	}	
@@ -2982,9 +3161,15 @@ class PolarVectorLayer extends PolarLayer
 	}
 }
 
-class PolarChart extends BaseChart
+class PolarChart extends BaseChart 
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PolarChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function PolarChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PolarChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function PolarChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect = 0) {
 		$this->ptr = callmethod("PolarChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		$this->angularAxis = $this->angularAxis();
 		$this->radialAxis = $this->radialAxis();
@@ -3036,8 +3221,11 @@ class PolarChart extends BaseChart
 	}
 }
 
-class PyramidLayer
+class PyramidLayer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function PyramidLayer($ptr) {
 		$this->ptr = $ptr;
 	}	
@@ -3069,9 +3257,15 @@ class PyramidLayer
 	}
 }
 
-class PyramidChart extends BaseChart
+class PyramidChart extends BaseChart 
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PyramidChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function PyramidChart($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->PyramidChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function PyramidChartInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("PyramidChart.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		autoDestroy($this);
 	}
@@ -3130,8 +3324,11 @@ class PyramidChart extends BaseChart
 	}
 }
 
-class MeterPointer
+class MeterPointer 
 {
+	function __construct($ptr) {
+		$this->ptr = $ptr;
+	}
 	function MeterPointer($ptr) {
 		$this->ptr = $ptr;
 	}
@@ -3222,7 +3419,13 @@ class BaseMeter extends BaseChart
 
 class AngularMeter extends BaseMeter
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->AngularMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function AngularMeter($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->AngularMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function AngularMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("AngularMeter.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		autoDestroy($this);
 	}
@@ -3272,7 +3475,13 @@ class AngularMeter extends BaseMeter
 
 class LinearMeter extends BaseMeter
 {
+	function __construct($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->LinearMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
 	function LinearMeter($width, $height, $bgColor = BackgroundColor, $edgeColor = Transparent, $raisedEffect = 0) {
+		$this->LinearMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect);
+	}
+	function LinearMeterInit($width, $height, $bgColor, $edgeColor, $raisedEffect) {
 		$this->ptr = callmethod("LinearMeter.create", $width, $height, $bgColor, $edgeColor, $raisedEffect);
 		autoDestroy($this);
 	}
@@ -3339,6 +3548,10 @@ function getChartWeekDay($t) {
 
 class RanTable
 {
+	function __construct($seed, $noOfCols, $noOfRows) {
+		$this->ptr = callmethod("RanTable.create", $seed, $noOfCols, $noOfRows);
+		autoDestroy($this);
+	}
 	function RanTable($seed, $noOfCols, $noOfRows) {
 		$this->ptr = callmethod("RanTable.create", $seed, $noOfCols, $noOfRows);
 		autoDestroy($this);
@@ -3372,6 +3585,10 @@ class RanTable
 
 class RanSeries
 {
+	function __construct($seed) {
+		$this->ptr = callmethod("RanSeries.create", $seed);
+		autoDestroy($this);
+	}
 	function RanSeries($seed) {
 		$this->ptr = callmethod("RanSeries.create", $seed);
 		autoDestroy($this);
@@ -3401,7 +3618,13 @@ class RanSeries
 
 class FinanceSimulator
 {
+	function __construct($seed, $startTime, $endTime, $resolution) {
+		$this->FinanceSimulatorInit($seed, $startTime, $endTime, $resolution);
+	}
 	function FinanceSimulator($seed, $startTime, $endTime, $resolution) {
+		$this->FinanceSimulatorInit($seed, $startTime, $endTime, $resolution);
+	}
+	function FinanceSimulatorInit($seed, $startTime, $endTime, $resolution) {
 		if (is_int($seed))
 			$this->ptr = callmethod("FinanceSimulator.create", $seed, $startTime, $endTime, $resolution);
 		else
@@ -3433,6 +3656,10 @@ class FinanceSimulator
 
 class ArrayMath
 {
+	function __construct($a) {
+		$this->ptr = callmethod("ArrayMath.create", $a);
+		autoDestroy($this);
+	}
 	function ArrayMath($a) {
 		$this->ptr = callmethod("ArrayMath.create", $a);
 		autoDestroy($this);
@@ -3658,7 +3885,13 @@ define("DirectionHorizontalVertical", 2);
 
 class WebChartViewer
 {
+	function __construct($id) {
+		$this->WebChartViewerInit($id);
+	}
 	function WebChartViewer($id) {
+		$this->WebChartViewerInit($id);
+	}
+	function WebChartViewerInit($id) {
 		global $_REQUEST;
 		$this->ptr = callmethod("WebChartViewer.create");
 		autoDestroy($this);
@@ -3843,7 +4076,13 @@ class WebChartViewer
 
 class WebViewPortControl
 {
+	function __construct($id) {
+		$this->WebViewPortControlInit($id);
+	}
 	function WebViewPortControl($id) {
+		$this->WebViewPortControlInit($id);
+	}
+	function WebViewPortControlInit($id) {
 		$this->ptr = callmethod("WebChartViewer.create");
 		autoDestroy($this);
 		$this->putAttrF(":vpc", 1);

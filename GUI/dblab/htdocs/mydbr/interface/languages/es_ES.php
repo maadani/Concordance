@@ -276,6 +276,8 @@ $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_CURSOR'] = 'Mover el cursor';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_RIGHT'] = 'Derecho';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_DOWN'] = 'Abajo';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_SAVE'] = 'Salvar';
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'No se puede encontrar el objeto "%s".';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Créalo?';
 
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = "No hay datos que mostrar";
 $localization[$lang]['MYDBR_USER_USERS'] = "Usuarios";

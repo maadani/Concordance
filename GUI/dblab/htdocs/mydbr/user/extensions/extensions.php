@@ -59,6 +59,51 @@ $dbr_extensions = array (
 		),
 	),	
 	
+	'context_displayer' => array(
+		'enabled' => true,
+		'autoload' => 1,
+		'php' => 'context_displayer.php', 
+		// Define these if you want to do row by row handling
+		//'row_by_row_initialization' => 'onContextDisplayerStart',
+		//'row_by_row_data_row' => 'onContextDisplayerReadRow', 
+		//'row_by_row_finish' => 'onContextDisplayerFinish',
+		'row_by_row_initialization' => '',
+		'row_by_row_data_row' => '',
+		'row_by_row_finish' => '',
+		// Define this if you want to do row by row handling
+		'single_pass_call' => 'foo', 
+		'javascript' => array(), 
+		'css' => array(), 
+		'cmds' => array(
+			array (
+				'cmd' => 'dbr.context_displayer',				
+			),
+		),
+	),	
+	
+	'index_displayer' => array(
+		'enabled' => true,
+		'autoload' => 1,
+		'php' => 'index_displayer.php', 
+		// Define these if you want to do row by row handling
+		//'row_by_row_initialization' => 'onContextDisplayerStart',
+		//'row_by_row_data_row' => 'onContextDisplayerReadRow', 
+		//'row_by_row_finish' => 'onContextDisplayerFinish',
+		'row_by_row_initialization' => '',
+		'row_by_row_data_row' => '',
+		'row_by_row_finish' => '',
+		// Define this if you want to do row by row handling
+		'single_pass_call' => 'displayIndeces', 
+		'javascript' => array(), 
+		'css' => array(), 
+		'cmds' => array(
+			array (
+				'cmd' => 'dbr.index_displayer',				
+			),
+		),
+	),		
+	
+	
 	'echart' => array(
 	'name' => 'Extended chart',
 	'enabled' => true, // Set to false in mdbr

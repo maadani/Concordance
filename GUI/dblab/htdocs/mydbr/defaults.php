@@ -1,7 +1,7 @@
 <?php
 // myDBR defaults
-// 
-// If you want to change the default values, do it in /user/defaults.php as this file will be overridden in updates
+// DO NOT CHANGE THIS FILE
+// If you want to change the default values, override them in /user/defaults.php as this file will be overridden in updates
 //
 
 $mydbr_defaults = array (
@@ -66,7 +66,8 @@ $mydbr_defaults = array (
         ),
         'bargap' => array('col' => 0.2, 'mscol' => 0.5 ),
         'subbargap' => -1.69e-100, /* TouchBar */
-        'alternate_color' => array('0xFFFFFF', '0xECECEC', '0xc0c0c0', '0xc0c0c0'),
+        'alternate_color' => array('0xFFFFFF', '0xF6F6F6', '0xc0c0c0', '0xc0c0c0'),
+        'polar_radar'=> array( 'xSize' => 500, 'grid_color' => array(0x80000000, 1, 0xc0000000, 1) ),
         'meter' => array(
             'size' => 240,
             'inner' => 0xF4F4F4,
@@ -107,6 +108,7 @@ $mydbr_defaults = array (
                     'border' => 0x888888,
                     'ring1' => 0x707070, // Meter chart ring second to outer
                     'ring2' => 0xA0A0A0, // Meter chart outer ring
+                    'ring3' => 0x222222, // inner for second ring
                     'title-color' => 0x000000,
                     'text-color' => 0xffffff,
                     'tick-color' => 0xffffff,
@@ -118,10 +120,11 @@ $mydbr_defaults = array (
                 ),
                 'white' => array(
                     'background' => 0xffffff,
-                    'label-color' => 0x818180,
+                    'label-color' => 0x444444,
                     'border' => 0xffffff,
                     'ring1' => 0xD5D5D5,
                     'ring2' => 0xA0A0A0, //0x736F6E
+                    'ring3' => 0xCCCCCC, // inner for second ring
                     'title-color' => 0x000000,
                     'text-color' => 0x000000,
                     'tick-color' => 0x000000,
@@ -138,6 +141,7 @@ $mydbr_defaults = array (
                     'rectangular-border' => 0x3fcccccc,
                     'ring1' => 0xD5D5D5,
                     'ring2' => 0x736F6E,
+                    'ring3' => 0xCCCCCC, // inner for second ring
                     'title-color' => 0x000000,
                     'text-color' => 0x000000,
                     'tick-color' => 0x000000,
@@ -147,7 +151,7 @@ $mydbr_defaults = array (
                     'rectangular-bottom' => 0x9fcccccc,
                     'glare' => array()
                 ),
-            )
+            ),
         ),
         'semicircle' => array( 'size' => 350 ),
         'rectangularmeter' => array( 
@@ -199,6 +203,7 @@ $mydbr_defaults = array (
         'always_use_link_menu' => false, // Whether single linked report shows menu or follows link 
         'default_marker' => 16, // GlassSphere2Shape
         'marker_size' => 10, // Marker size for scatter chart
+        'marker_edge' => -1, // Marker edge color (-1=linecolor)
         'autoscale' => array('top'=>0.1, 'bottom'=>0.1, 'zeroaffinity'=>0.5),
         'embed_image' => false,
         'pie_label_format' => '$c->setLabelLayout("SideLayout",-1, 10);$c->setLabelStyle()->setBackground(Transparent, -1, 0);',
@@ -206,7 +211,7 @@ $mydbr_defaults = array (
         'width_per_item' => 110,
         'width_extra' => 80,
         'height_per_item' => 60,
-        'height_extra' => 80,
+        'height_extra' => 37,
         'gantt' => array(
             'baseline_pattern' => array('color' => 0xe0e0e0, 'border' => 0x808080, 'height' => 8),
             'baseline_text' => 'Baseline',
@@ -232,10 +237,30 @@ $mydbr_defaults = array (
         		array('from' => 66, 'to' => 100, 'color' => 0x40FF0000),
             )
         ),
+        'fix_y_axis' => array('yaxis_margin_right' => 8),
+        'boxwhisker' => array( 'fill_color' => 0x3F90F4, 'whisker_color' => 0x3644CC, 'edge_color' => 0xCCCCCC),
+        'floatingbox' => array( 'edge_color' => 0x444444),
         'skip_null_values' => true,
         'radar_transparency' => 30,
-        'bubble_transparency' => 30,
+        'bubble' => array( 'transparency' => 10, 'edge_color' => 0xCCCCCC ),
         'fix_apple_browser_gradient_svg_bug' => 'png', // png = use png instead, step = use step, none = bug fixed
+        'session_cache_clear' => 180, // How long the chart is kept in session in seconds
+        'target' => array(
+            'width' => 2,
+            'gap' => 0.1
+        ),
+        'area' => array(
+            'line' => array(
+                'color' => null,
+                'width' => 2
+            ),
+            'opacity' => 20, // Percentage
+        ),
+        'scatter3d' => array(
+            'view_angle' => array(array( 30, 45 )),
+            'wall_color' => array(array( '0xeeeeee', '0xeeeeee', '0xeeeeee', '0x888888' )),
+            'drop_line_color' => '0x888888'
+        )
     ),
     'pager' => 20, // Default pager page size in rows 
     'automatic_parameters' => array(
@@ -248,7 +273,8 @@ $mydbr_defaults = array (
         'referer' => 'inHTTP_REFERER', // HTTP_REFERER
         'export_format' => 'inExportFormat', // export=sql
         'report_url' => 'inAutoReportURL', // Report URL
-        'theme' => 'inAutoTheme'
+        'theme' => 'inAutoTheme',
+        'session_id' => 'inSessionIDHash'
         // 'sso_extra1' => 'in_SSO_OrganizationID', // optional extra SSO parameters
     ),
     'automatic_parameter_defaults' => array(), // Define extra-parameter values for local users, allows simulating sso_exrta
@@ -295,10 +321,10 @@ $mydbr_defaults = array (
     'updater_users' => array('mydbr_updater'), // Usernames which can use HTTP basic access authentication to call myDBR update URL
     'query_builder_widths' => array('db' => 194, 'table' => 194, 'column' => 373, 'selected' => 454),
     'graphviz_dpi' => 96,
-    'aggregate_null' => ('n/a'),
+    'aggregate_null' => '',
     'export' => array(
         'cache_storage' => 'Memory',
-        'export_choises' => array('Excel', 'PDF', 'CSV'),
+        'export_choises' => array('Excel', 'PDF', 'CSV', 'SQL'),
         'colwidth' => 1,
         'excel' => array(
             'type' => 'xlsx', // xls or xlsx as a default output format
@@ -378,7 +404,8 @@ $mydbr_defaults = array (
                         'type' => 'solid',
                         'color' => array( 'rgb' => 'FFFFCC' )
                     ),
-                ),    
+                ),
+                'cell' => 'vertical-align:top;',
             ),
         ),
         'csv' => array(
@@ -393,7 +420,9 @@ $mydbr_defaults = array (
             'enclose_string_with_leading_or_trailing_space' => true,
             'enclose_always' => false,
             'linefeed_between_resultsets' => true,
-            'use_BOM_in_UTF' => true
+            'use_BOM_in_UTF' => true,
+            'direct_mode' => false,
+            'skip_formatting' => false
         ),
         'pdf' => array(
             'font' => 'Arial',
@@ -409,9 +438,12 @@ $mydbr_defaults = array (
             'command' => 'wkhtmltopdf', 
             'use_as_default' => true,
             'tmp_directory' => null,
+            'clean_tmp_file_in_case_of_error' => true,
+            'show_failed_command_to_all' => false,
+            'remind_missing' => true,
             'options' => array(
-                'margin-top' => '--margin-top 20',
-                'header-spacing' => '--header-spacing 8'
+                'margin-top' => '--margin-top "20"',
+                'header-spacing' => '--header-spacing "8"'
             ),
             'svg_modifications' => array(
                 'chartdirector' => array( 
@@ -455,7 +487,7 @@ $mydbr_defaults = array (
         'wkhtml_missing' => 1,
         'new_version_is_for_admin_only' => false
     ),
-    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT  & ~E_DEPRECATED,
     'logout' => array( 
         'url_redirect' => null, 
         'url' => 'thankyou.html', 
@@ -506,6 +538,10 @@ $mydbr_defaults = array (
         'coded' => array( '#0A', '#0D' ),
         'to' => array( '_ x*_LF_*x_', '_ x*_CR_*x_' )
     ),
+    'tooltip' => array(
+        'last' => '<div class="tt_all"><div class="tt_value">%2$s</div><hr>%1$s</div>',
+        'floatingbox' => '<div class="tt_all"><div class="tt_value">[%3$s] - [%4$s]</div><hr>[%1$s] / [%2$s]</div>',
+    ),
     'crosstab' => array( 'tooltip' => true ),
     'password_reset' => array(
         'from' => array( 
@@ -526,7 +562,7 @@ $mydbr_defaults = array (
     ),
     'https' => array(
         'https_in_use' => null, // If server does not use $_SERVER['https'] and you still use https, set this flag to true to force https.
-        'HTTP_X_FORWARDED_PROTO' => true  // use HTTP_X_FORWARDED_PROTO? This is in AWS
+        'HTTP_X_FORWARDED_PROTO' => true,  // use HTTP_X_FORWARDED_PROTO? This is in AWS
     ),
     'header_cache' => array(
       'Expires: Mon, 14 Oct 2002 05:00:00 GMT',              // Date in the past
@@ -558,6 +594,13 @@ $mydbr_defaults = array (
         'MYDBR_PARAM_DATE_RANGE_LASTYEAR' => array('from' => array('value' => -1, 'type' => 'year'), 'to' => array('value' => -1, 'type' => 'year')),
         'MYDBR_PARAM_DATE_RANGE_YEAR' => array('from' => array('value' => -1, 'type' => 'year'), 'to' => array('value' => 0, 'type' => 'year')),
     ),
+    'remote_files' => array('export_header_pdf.php'),
+    'user_interface' => array(
+        'tablets_use_desktop_ui' => true,
+        'force_mobile' => '',
+        'force_desktop' => '',
+    )
 );
+
 // User's definitions for $mydbr_defaults
 require_once( dirname(__FILE__).'/user/defaults.php' );

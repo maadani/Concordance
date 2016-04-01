@@ -1,7 +1,7 @@
 <?php
 require_once('TextParserClass.php');
 require_once('ignoreme_db_connection.php');
-
+	
 function onStart($id, $options, $colInfo){
 	echo '<pre>';
 }
@@ -29,23 +29,31 @@ function read_text_file($fullPath){
 		
 	//test($con);
 	
-	if ($stmt = mysqli_prepare($con, "call concordancedb.sp_add_word(?, ?, ?, ?, ?, ?);")){	
+	if ($stmt = mysqli_prepare($con, "call concordancedb.sp_add_word(?, ?, ?, ?, ?, ?, ?);")){	
 				
+		$rhyme_scheme = mysqli_real_escape_string($con, $text['rhyme_scheme']);		
+		
 		$matches2 = preg_split('/$\R?^/m', $text['content']);	
-		$indices = array_keys($matches2);
-				
+		$indices = array_keys($matches2);				
 		$outSonnetId = $sonnetId;
 		$outWord = '';
 		$outLine_index = 0;		
 		$numOfWords = 0;
 		$numOfWordsInLine = 0;
 		$outIsReal = 1;
-		mysqli_stmt_bind_param($stmt, "siiiii",$outWord, $outSonnetId, $numOfWords, $outLine_index, $numOfWordsInLine, $outIsReal);
+		$section = 1;
+		$rhyme_index = 0;
+		mysqli_stmt_bind_param($stmt, "siiiiii",$outWord, $outSonnetId, $numOfWords, $outLine_index, $numOfWordsInLine, $outIsReal, $section);
 
 				
 		foreach($indices as $index){
 			$numOfWordsInLine = 0;
 			$outLine_index++;
+			if(strcmp(substr($rhyme_scheme, $rhyme_index, 1), "_") == 0) {
+				$rhyme_index++;
+				$section++;
+			}
+			$rhyme_index++;
 			echo 'Processing Line #' . ($index+1) . '<br/>';
 			$words = preg_split("/(?<=\w|\W)\b\s*/", $matches2[$index], -1, PREG_SPLIT_NO_EMPTY);
 			

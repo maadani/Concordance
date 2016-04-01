@@ -202,7 +202,6 @@ background: -webkit-gradient(linear,left top,left bottom,color-stop(0,white),col
 background-image: -o-linear-gradient(top,white 0%,#eee 100%);
 background-image: linear-gradient(top,white 0%,#eee 100%);
 background-image: -ms-linear-gradient(top,white 0%,#eee 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFF',endColorstr='#eeeeee');
 font-size: 11px;
 margin-left: 0px;
 outline: none;

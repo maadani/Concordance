@@ -242,7 +242,7 @@ $localization[$lang]['MYDBR_EDITREPORT_PARAM_CHARS'] = 'οστεοφυλάκιο
 
 //SQL Editor
 // $localization[$lang]['MYDBR_SQLEDIT_ADD_REPORT']= 'Add report to myDBR';
-// $localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate was created. Do you want to move to the newly created report?';
+// $localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate was created. Do you want to change to the newly created report?';
 // $localization[$lang]['MYDBR_SQLEDIT_COPY_NOT_CREATED'] = 'Could not duplicate the report.';
 // $localization[$lang]['MYDBR_SQLEDIT_NOFIND'] = 'Cannot find procedure %s';
 // $localization[$lang]['MYDBR_SQLEDIT_EDIT'] = 'Editing';
@@ -314,6 +314,8 @@ $localization[$lang]['MYDBR_EDITREPORT_PARAM_CHARS'] = 'οστεοφυλάκιο
 // $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_SAVE'] = 'Save';
 //Chart
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'Δεν βρέθηκαν δεδομένα για εμφάνιση';
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Δεν μπορείτε να βρείτε το αντικείμενο "%s".';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Δημιουργήστε το?';
 
 //Users
 // $localization[$lang]['MYDBR_USER_USERS'] = 'Users';
@@ -556,7 +558,7 @@ $localization[$lang]['MYDBR_PW_RESET_MAIL_TIMEOUT'] = 'Η αίτηση για ε
 // $localization[$lang]['MYDBR_LIC_EXPIRES'] = 'Expires';
 // $localization[$lang]['MYDBR_LIC_TYPE'] = 'Type';
 // $localization[$lang]['MYDBR_LIC_VERSION'] = 'Version';
-// $localization[$lang]['MYDBR_LIC_REQNEWER'] = 'Some of your licenses are valid for a newer version of myDBR.<br/>Update myDBR to use these licenses. Your myDBR version is %s';
+// $localization[$lang]['MYDBR_LIC_REQNEWER'] = 'Some of your licenses are valid for a newer version of myDBR.<br>Update myDBR to use these licenses. Your myDBR version is %s';
 // $localization[$lang]['MYDBR_LIC_UPDATE'] = 'Update myDBR';
 // $localization[$lang]['MYDBR_LIC_GET'] = 'Get a License';
 // $localization[$lang]['MYDBR_LIC_PASTE'] = 'Copy and paste your license here:';

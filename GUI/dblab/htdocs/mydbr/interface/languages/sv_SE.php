@@ -257,6 +257,9 @@ $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_FILE'] = 'Kunde inte ta bort f
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_DIR'] = 'Kunde inte ta bort katalogen "%s".';
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_CREATE_DIR'] = 'Kan inte skapa katalogen %d".';
 $localization[$lang]['MYDBR_SQLEDIT_UPLOAD_USER_ONLY'] = "Uppladdningar tillåts endast till användare-katalogen.";
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Kan inte hitta objektet "%s".';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Skapa det?';
+
 // Chart
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'Inga data att visa';
 

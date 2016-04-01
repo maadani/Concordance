@@ -242,7 +242,7 @@ $localization[$lang]['MYDBR_FILEEDIT_NOTWRITEABLE'] = 'The file %s is not writab
 
 // SQL Editor
 $localization[$lang]['MYDBR_SQLEDIT_ADD_REPORT']= 'Add report to myDBR';
-$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate was created. Do you want to move to the newly created report?';
+$localization[$lang]['MYDBR_SQLEDIT_COPY_CREATED'] = 'A duplicate was created. Do you want to change to the newly created report?';
 $localization[$lang]['MYDBR_SQLEDIT_COPY_NOT_CREATED'] = 'Could not duplicate the report.';
 $localization[$lang]['MYDBR_SQLEDIT_NOFIND'] = 'Cannot find procedure %s';
 $localization[$lang]['MYDBR_SQLEDIT_EDIT'] = 'Editing';
@@ -312,6 +312,8 @@ $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_CURSOR'] = 'Move cursor';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_RIGHT'] = 'Right';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_DOWN'] = 'Down';
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_SAVE'] = 'Save';
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Cannot find object "%s".';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Create it?';
 // Chart
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'No data to display';
 

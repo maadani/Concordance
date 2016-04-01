@@ -4,11 +4,10 @@ $$
 CREATE PROCEDURE `sp_DBR_context_for_word`(in_word_id int)
 BEGIN
 
-  select 'dbr.title', in_word_id;
+  #select 'dbr.title', in_word_id;
 
-  select 'dbr.read_recipe';
-  call concordancedb.get_locations_for_word(in_word_id);
-  select 'dbr.text', 'Text';
+  select 'dbr.context_displayer';
+  call concordancedb.sp_get_context_words_for_word_id(in_word_id);
 
 END
 $$

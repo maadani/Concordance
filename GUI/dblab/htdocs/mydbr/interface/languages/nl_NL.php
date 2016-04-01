@@ -296,6 +296,8 @@ $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_CURSOR'] = "Cursor verplaatsen"
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_RIGHT'] = "Recht";
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_DOWN'] = "Down";
 $localization[$lang]['MYDBR_SQLEDIT_SNIPPET_MOVE_SAVE'] = "Opslaan";
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = 'Kan object "%s" niet vinden.';
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Maak het?';
 
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'Er zijn geen gegevens om weer te geven';
 

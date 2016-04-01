@@ -118,7 +118,7 @@ $dbr_extensions = array (
 	'row_by_row_data_row' => '', 
 	'row_by_row_finish' => '',
 	'single_pass_call' => 'Ext_GoogleMaps', 
-	'javascript' => array('http[s]://maps.google.com/maps/api/js?'.$google_maps_key.'libraries=visualization&amp;sensor=true','extensions/googlemaps/map.js'), 
+	'javascript' => array('http[s]://maps.google.com/maps/api/js?'.$google_maps_key.'libraries=visualization&amp','extensions/googlemaps/map.js'), 
 	'css' => array(),
 	'mydbrextension' => 1,
 	'cmds' => array(
@@ -237,7 +237,9 @@ $dbr_extensions = array (
   		'single_pass_call' => 'Ext_d3', 
   		'javascript' => array(
             Extension::getBaseURL().'extensions/d3/d3.min.js', 
-            Extension::getBaseURL().'extensions/d3/charts/sankey.js'
+            Extension::getBaseURL().'extensions/d3/charts/sankey/sankey.js',
+            Extension::getBaseURL().'extensions/d3/charts/chord/js/underscore.js',
+            Extension::getBaseURL().'extensions/d3/charts/chord/chord.js',
         ), 
   		'css' => array(Extension::getBaseURL().'extensions/d3/d3.css'),
   		'mydbrextension' => 1,
@@ -253,6 +255,10 @@ $dbr_extensions = array (
   				'cmd' => 'dbr.d3.sankey_format',
   				'number' => 1,
   				'suffix' => 1,
+  			),            
+  			array(
+  				'cmd' => 'dbr.d3.zoom',
+  				'value' => 1,
   			),            
   		),
   	),

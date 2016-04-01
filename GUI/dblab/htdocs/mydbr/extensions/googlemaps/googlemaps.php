@@ -54,7 +54,7 @@ function Ext_GoogleGetCoordinates( $address )
     	$tryit = false;
 
 		$url_start = 'http' . (is_secure_connection() ? 's' : '') . '://maps.googleapis.com';
-		$url = $url_start . Ext_GoogleBusinessURL('/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
+		$url = $url_start . Ext_GoogleBusinessURL('/maps/api/geocode/json?address='.urlencode($address).'');
 
 		$error = null;
 		$json = get_url_content($url, $error, 20, true);

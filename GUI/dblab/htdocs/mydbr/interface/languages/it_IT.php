@@ -315,6 +315,8 @@ $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_FILE'] = 'Non era in grado di 
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_DELETE_DIR'] = 'Non era in grado di rimuovere la cartella "%s".';
 $localization[$lang]['MYDBR_SQLEDIT_CANNOT_CREATE_DIR'] = 'Impossibile creare la directory "%d".';
 $localization[$lang]['MYDBR_SQLEDIT_UPLOAD_USER_ONLY'] = "Caricamenti sono consentiti solo nella directory di utente.";
+$localization[$lang]['MYDBR_SQLEDIT_NO_OBJECT'] = "Impossibile trovare l\'oggetto \"%s\".";
+$localization[$lang]['MYDBR_SQLEDIT_CREATE_IT'] = ' Crearlo?';
 
 
 $localization[$lang]['MYDBR_CHART_NO_DATA'] = 'Nessun dato da visualizzare';
