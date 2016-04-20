@@ -6,6 +6,5 @@ BEGIN
 
 call concordancedb.get_sonnet_by_params(inName, inAuther, inSequenceId, inContainsText);
 
-
 END
 $$
