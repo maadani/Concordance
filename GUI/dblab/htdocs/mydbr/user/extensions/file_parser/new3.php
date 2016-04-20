@@ -27,8 +27,6 @@ function read_text_file($fullPath){
 	
 	$sonnetId = addSonnetToDB($con, $text, $fullPath);
 		
-	//test($con);
-	
 	if ($stmt = mysqli_prepare($con, "call concordancedb.sp_add_word(?, ?, ?, ?, ?, ?, ?);")){	
 				
 		$rhyme_scheme = mysqli_real_escape_string($con, $text['rhyme_scheme']);		
@@ -57,21 +55,13 @@ function read_text_file($fullPath){
 			echo 'Processing Line #' . ($index+1) . '<br/>';
 			$words = preg_split("/(?<=\w|\W)\b\s*/", $matches2[$index], -1, PREG_SPLIT_NO_EMPTY);
 			
-			// TODO:
-			// 1. Remove empty words - Done
-			// 2. Use trim on words. - Done
-			// 3. Add isRealWord flag for each word. - Done
-			// 4. Update word counts.
-			// 5. Update Sonnet id. - Done
 			foreach($words as $word){
 				if(trim($word) != "") {
 					$outWord = mysqli_real_escape_string($con, trim($word));
-					$numOfWordsInLine++;
+					//$numOfWordsInLine++;
 					$numOfWords++;
-					$outIsReal = ctype_alnum($outWord) === false ? 0 : 1;					
-					//echo sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real') . '<br/>';
-					// file_put_contents($generatedScriptName, sprintf($format, '"'. $word . '"', $index, $numOfWords,$numOfWordsInLine, ctype_alnum($word) === false ? 'fake' : 'real'), FILE_APPEND);					
-					/* execute query */					
+					$outIsReal = ctype_alnum($outWord) === false ? 0 : 1;
+					$numOfWordsInLine = $numOfWordsInLine + $outIsReal;
 					mysqli_stmt_execute($stmt);					
 				}
 			}	
