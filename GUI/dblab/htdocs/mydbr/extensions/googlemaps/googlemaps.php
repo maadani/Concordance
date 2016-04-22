@@ -267,5 +267,3 @@ function Ext_GoogleMaps( $id, $options,  $dataIn, $colInfo )
 		echo '</div>';
 	}
 }
-
-?>

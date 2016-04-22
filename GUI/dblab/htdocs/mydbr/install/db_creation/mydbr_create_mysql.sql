@@ -1,5 +1,5 @@
 /*  
-    myDBR. Copyright mydbr.com 2008-2015
+    myDBR. Copyright mydbr.com 2008-2017
 */
 delimiter $$
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `mydbr_params` (
   `default_value` varchar(30) default NULL,
   `optional` int not null default 0,
   `only_default` int not null default 0,
-  `suffix` varchar(80) default NULL,
+  `suffix` varchar(255) default NULL,
   `options` varchar(1024) NULL,
   PRIMARY KEY  USING BTREE (`proc_name`,`param`)
 ) ENGINE=InnoDB;
@@ -624,8 +624,17 @@ from information_schema.columns
 where table_schema=database() and table_name='mydbr_params' and column_name='suffix';
 
 if (vCnt=0) then
-  alter table mydbr_params add suffix varchar(80) default NULL;
+  alter table mydbr_params add suffix varchar(255) default NULL;
 end if;
+
+select CHARACTER_MAXIMUM_LENGTH into vCnt
+from information_schema.columns
+where table_schema=database() and table_name='mydbr_params' and column_name='suffix';
+
+if (vCnt!=255) then
+  alter table mydbr_params modify column suffix varchar(255) null;
+end if;
+
 
 select count(*) into vCnt
 from information_schema.columns
@@ -1496,7 +1505,7 @@ inTitle varchar(255),
 inDefault varchar(30),
 inOptional int,
 inOnlyDefault int,
-inSuffix varchar(80),
+inSuffix varchar(255),
 inOptions varchar(1024)
 )
 begin
@@ -4158,7 +4167,8 @@ CREATE PROCEDURE `sp_MyDBR_sync_latest_reports`(
 inUser varchar(128),
 inAuthentication int,
 in_date date,
-in_no_excluded int
+in_no_excluded int,
+in_sp_single varchar(128)
 )
 begin
 
@@ -4171,20 +4181,23 @@ create temporary table routines_tmp (
 name varchar(150)
 );
 
-insert into procs_tmp
-select ROUTINE_NAME, ROUTINE_TYPE
-from information_schema.ROUTINES
-where ROUTINE_SCHEMA = database() and CREATED >= in_date and 
-  ROUTINE_NAME not like 'sp_MyDBR%' and
-  ROUTINE_NAME not like 'sp_DBR_demo_%' and
-  ROUTINE_NAME != 'mydbr_style' and
-  ROUTINE_NAME not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary')
-  and ROUTINE_NAME not in (
-    select proc_name
-    from mydbr_sync_exclude
-    where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='routine'
-  );
-
+if (in_sp_single is not null) then
+  insert into procs_tmp values (in_sp_single, 'PROCEDURE');
+else 
+  insert into procs_tmp
+  select ROUTINE_NAME, ROUTINE_TYPE
+  from information_schema.ROUTINES
+  where ROUTINE_SCHEMA = database() and CREATED >= in_date and 
+    ROUTINE_NAME not like 'sp_MyDBR%' and
+    ROUTINE_NAME not like 'sp_DBR_demo_%' and
+    ROUTINE_NAME != 'mydbr_style' and
+    ROUTINE_NAME not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary')
+    and ROUTINE_NAME not in (
+      select proc_name
+      from mydbr_sync_exclude
+      where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='routine'
+    );
+end if;
 
 insert into routines_tmp
 select t.name
@@ -4202,7 +4215,7 @@ where r.proc_name  is null
     select proc_name
     from mydbr_sync_exclude
     where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='routine'
-  );
+  ) and in_sp_single is null;
 
 /* PARAMETER QUERIES */
 insert into routines_tmp
@@ -4229,7 +4242,7 @@ and name not in (
   select proc_name
   from mydbr_sync_exclude
   where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='template'
-)
+) and in_sp_single is null
 order by name;
 
 select 'table' as 'MYDBRTYPE', 'mydbr_localization' as 'table_name', 'lang_locale', 'keyword';
@@ -4241,7 +4254,7 @@ and keyword not in (
   select proc_name
   from mydbr_sync_exclude
   where username = inUser and authentication=inAuthentication and in_no_excluded=1 and type='localization'
-);
+) and in_sp_single is null;
 
 
 select 'table' as 'MYDBRTYPE', 'mydbr_params' as 'table_name', 'proc_name', 'params';
@@ -4612,7 +4625,7 @@ $$
  
 delete from mydbr_update$$
 delete from mydbr_version$$
-insert into mydbr_version values ( '4.6.1' )
+insert into mydbr_version values ( '4.6.3' )
 $$
 
 DROP FUNCTION IF EXISTS `mydbr_style` $$

@@ -274,7 +274,8 @@ $mydbr_defaults = array (
         'export_format' => 'inExportFormat', // export=sql
         'report_url' => 'inAutoReportURL', // Report URL
         'theme' => 'inAutoTheme',
-        'session_id' => 'inSessionIDHash'
+        'session_id' => 'inSessionIDHash',
+        'import_filename' => 'inImportFilename'
         // 'sso_extra1' => 'in_SSO_OrganizationID', // optional extra SSO parameters
     ),
     'automatic_parameter_defaults' => array(), // Define extra-parameter values for local users, allows simulating sso_exrta
@@ -599,7 +600,8 @@ $mydbr_defaults = array (
         'tablets_use_desktop_ui' => true,
         'force_mobile' => '',
         'force_desktop' => '',
-    )
+    ),
+    'sync' => array('folder' => 'myDBR Sync')
 );
 
 // User's definitions for $mydbr_defaults

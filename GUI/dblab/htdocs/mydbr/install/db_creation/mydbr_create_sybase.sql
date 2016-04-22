@@ -158,21 +158,23 @@ title varchar(255) null,
 default_value varchar(30) null,
 optional tinyint not null,
 only_default tinyint not null,
-suffix varchar(80) null,
+suffix varchar(255) null,
 optionss varchar(1024) null,
 primary key (proc_name, param)
 )
 ")
 go
-
+if not exists (select * from syscolumns where object_name(id)='mydbr_params' and  name='suffix')
+alter table mydbr_params add suffix varchar(255) null
+go
 if (select length from syscolumns where id=object_id('mydbr_params') and name='title')!=255
 EXECUTE("alter table mydbr_params modify title varchar(255) null")
 go
+if (select length from syscolumns where id=object_id('mydbr_params') and name='suffix')!=255
+EXECUTE("alter table mydbr_params modify suffix varchar(255) null")
+go
 if not exists (select * from syscolumns where object_name(id)='mydbr_params' and  name='only_default')
 alter table mydbr_params add only_default tinyint null
-go
-if not exists (select * from syscolumns where object_name(id)='mydbr_params' and  name='suffix')
-alter table mydbr_params add suffix varchar(80) null
 go
 if not exists (select * from syscolumns where object_name(id)='mydbr_params' and  name='optionss')
 alter table mydbr_params add optionss varchar(1024) null
@@ -1860,7 +1862,7 @@ create procedure sp_MyDBR_ParamSet
 @inDefault varchar(30),
 @inOptional tinyint,
 @inOnly_default tinyint,
-@inSuffix varchar(80),
+@inSuffix varchar(255),
 @inOptions varchar(1024)
 as
 begin
@@ -4845,7 +4847,8 @@ CREATE PROCEDURE sp_MyDBR_sync_latest_reports(
 @inUser varchar(128),
 @inAuthentication int,
 @in_date date,
-@in_no_excluded int
+@in_no_excluded int,
+@in_sp_single varchar(128)
 )
 as
 begin
@@ -4859,19 +4862,23 @@ create table #routines_tmp (
 name sysname
 )
 
-insert into #procs_tmp 
-select name, case when type='P' then 'PROCEDURE' else 'FUNCTION' end
-from sysobjects 
-where type in ('P','SF') and crdate >= @in_date and 
-  name not like 'sp_MyDBR%' and
-  name not like 'sp_DBR_demo_%' and
-  name not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary', 'fn_mydbr_column_exists', 'fn_BegOfDay', 'fn_EndOfDay', 'mydbr_style', 'fn_YYYMMDD_us')
-  and name not in (
-    select proc_name
-    from mydbr_sync_exclude
-    where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1
-  )
 
+if (@in_sp_single is not null) begin
+  insert into #procs_tmp values (@in_sp_single, 'PROCEDURE')
+end else begin
+  insert into #procs_tmp 
+  select name, case when type='P' then 'PROCEDURE' else 'FUNCTION' end
+  from sysobjects 
+  where type in ('P','SF') and crdate >= @in_date and 
+    name not like 'sp_MyDBR%' and
+    name not like 'sp_DBR_demo_%' and
+    name not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary', 'fn_mydbr_column_exists', 'fn_BegOfDay', 'fn_EndOfDay', 'mydbr_style', 'fn_YYYMMDD_us')
+    and name not in (
+      select proc_name
+      from mydbr_sync_exclude
+      where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1
+    )
+end
 
 insert into #routines_tmp
 select t.name
@@ -4889,7 +4896,7 @@ where r.proc_name  is null
     select proc_name
     from mydbr_sync_exclude
     where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='routine'
-  )
+  ) and @in_sp_single is null
 
 /* PARAMETER QUERIES */
 insert into #routines_tmp
@@ -4916,7 +4923,7 @@ and name not in (
   select proc_name
   from mydbr_sync_exclude
   where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='template'
-)
+) and @in_sp_single is null
 order by name
 
 select 'table' as 'MYDBRTYPE', 'mydbr_localization' as 'table_name', 'lang_locale', 'keyword'
@@ -4928,7 +4935,7 @@ and keyword not in (
   select proc_name
   from mydbr_sync_exclude
   where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='localization'
-)
+) and @in_sp_single is null
 
 select 'table' as 'MYDBRTYPE', 'mydbr_params' as 'table_name', 'proc_name', 'params'
 
@@ -5215,7 +5222,7 @@ delete from mydbr_update
 go
 delete from mydbr_version
 go
-insert into mydbr_version values ('4.6.1')
+insert into mydbr_version values ('4.6.3')
 go
 
 

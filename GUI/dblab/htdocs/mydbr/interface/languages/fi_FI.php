@@ -490,6 +490,7 @@ $localization[$lang]['MYDBR_ENV_PW_RESET_MINUTES'] = " minuuttia";
 $localization[$lang]['MYDBR_ENV_PW_RESET_SHOW_ONLY_AFTER_LOGIN_FAILURE'] = "Näytä linkki vasta käyttäjän syötettyä väärän salasanan";
 
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Metodi';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'Sähköposti';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Palvelin';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Portti';

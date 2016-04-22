@@ -435,6 +435,7 @@ $localization[$lang]['MYDBR_ENV_AUTOLOGIN_TITLE'] = "Automatische login";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_USERNAME'] = "Gebruikersnaam";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_PASSWORD'] = "Wachtwoord";
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Methode';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'E-mail';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Server';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Poort';

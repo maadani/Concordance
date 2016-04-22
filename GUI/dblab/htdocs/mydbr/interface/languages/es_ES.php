@@ -428,6 +428,7 @@ $localization[$lang]['MYDBR_ENV_AUTOLOGIN_TITLE'] = "Inicio de sesión automáti
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_USERNAME'] = "Nombre de usuario";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_PASSWORD'] = "Contraseña";
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Método';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'Correo electrónico';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Servidor';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Portti';

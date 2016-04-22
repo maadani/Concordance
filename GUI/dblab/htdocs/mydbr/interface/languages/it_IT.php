@@ -473,6 +473,7 @@ $localization[$lang]['MYDBR_ENV_AUTOLOGIN_TITLE'] = 'Accesso automatico';
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_USERNAME'] = 'Nome utente';
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_PASSWORD'] = 'Password';
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Metodo';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'Posta elettronica';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Server';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Porta';

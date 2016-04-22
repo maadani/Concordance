@@ -371,5 +371,3 @@ $dbr_extensions = array (
 );
 
 require_once( dirname(__FILE__).'/../user/extensions/extensions.php' );
-
-?>

@@ -172,7 +172,7 @@ title nvarchar(255) null,
 default_value nvarchar(30) null,
 optional tinyint not null default 0,
 only_default tinyint not null default 0,
-suffix nvarchar(80) null,
+suffix nvarchar(255) null,
 options nvarchar(1024) null
 )
 create unique clustered index mydbr_params_ind on mydbr_params(proc_name, param)
@@ -187,7 +187,7 @@ if (select dbo.fn_mydbr_column_exists('mydbr_params', 'only_default'))=0 begin
 end
 go
 if (select dbo.fn_mydbr_column_exists('mydbr_params', 'suffix'))=0 begin
-  alter table mydbr_params add suffix nvarchar(80) null
+  alter table mydbr_params add suffix nvarchar(255) null
 end
 go
 if (select dbo.fn_mydbr_column_exists('mydbr_params', 'options'))=0 begin
@@ -195,6 +195,8 @@ if (select dbo.fn_mydbr_column_exists('mydbr_params', 'options'))=0 begin
 end
 go
 alter table mydbr_params alter column title nvarchar(255) null
+go
+alter table mydbr_params alter column suffix nvarchar(255) null
 go
 if not exists (select * from mydbr_params where proc_name='sp_DBR_StatisticsSummary' and param='inEndDate' )
 insert into mydbr_params 
@@ -1868,7 +1870,7 @@ create procedure sp_MyDBR_ParamSet
 @inDefault nvarchar(30),
 @inOptional tinyint,
 @inOnly_default tinyint,
-@inSuffix nvarchar(80),
+@inSuffix nvarchar(255),
 @inOptions nvarchar(1024)
 as
 begin
@@ -4821,8 +4823,9 @@ go
 CREATE PROCEDURE sp_MyDBR_sync_latest_reports( 
 @inUser varchar(128),
 @inAuthentication int,
-@in_date date,
-@in_no_excluded int
+@in_date datetime,
+@in_no_excluded int,
+@in_sp_single sysname
 )
 as
 begin
@@ -4836,19 +4839,22 @@ create table #routines_tmp (
 name sysname
 )
 
-insert into #procs_tmp
-select ROUTINE_NAME, ROUTINE_TYPE
-from information_schema.ROUTINES
-where ROUTINE_CATALOG = DB_NAME() and CREATED >= @in_date and 
-  ROUTINE_NAME not like 'sp_MyDBR%' and
-  ROUTINE_NAME not like 'sp_DBR_demo_%' and
-  ROUTINE_NAME not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary', 'fn_mydbr_column_exists', 'fn_BegOfDay', 'fn_EndOfDay', 'mydbr_style')
-  and ROUTINE_NAME not in (
-    select proc_name
-    from mydbr_sync_exclude
-    where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1
-  )
-
+if (@in_sp_single is not null) begin
+  insert into #procs_tmp values (@in_sp_single, 'PROCEDURE')
+end else begin
+  insert into #procs_tmp
+  select ROUTINE_NAME, ROUTINE_TYPE
+  from information_schema.ROUTINES
+  where ROUTINE_CATALOG = DB_NAME() and CREATED >= @in_date and 
+    ROUTINE_NAME not like 'sp_MyDBR%' and
+    ROUTINE_NAME not like 'sp_DBR_demo_%' and
+    ROUTINE_NAME not in ('sp_DBR_StatisticsReport', 'sp_DBR_StatisticsSummary', 'fn_mydbr_column_exists', 'fn_BegOfDay', 'fn_EndOfDay', 'mydbr_style')
+    and ROUTINE_NAME not in (
+      select proc_name
+      from mydbr_sync_exclude
+      where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1
+    )
+end
 
 insert into #routines_tmp
 select t.name
@@ -4866,7 +4872,7 @@ where r.proc_name  is null
     select proc_name
     from mydbr_sync_exclude
     where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='routine'
-  )
+  ) and @in_sp_single is null
 
 /* PARAMETER QUERIES */
 insert into #routines_tmp
@@ -4893,7 +4899,7 @@ and name not in (
   select proc_name
   from mydbr_sync_exclude
   where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='template'
-)
+) and @in_sp_single is null
 order by name
 
 select 'table' as 'MYDBRTYPE', 'mydbr_localization' as 'table_name', 'lang_locale', 'keyword'
@@ -4905,7 +4911,7 @@ and keyword not in (
   select proc_name
   from mydbr_sync_exclude
   where username = @inUser and authentication=@inAuthentication and @in_no_excluded=1 and type='localization'
-)
+) and @in_sp_single is null
 
 select 'table' as 'MYDBRTYPE', 'mydbr_params' as 'table_name', 'proc_name', 'params'
 
@@ -5160,7 +5166,7 @@ if (@vDayCnt<32) begin
   select 'dbr.chart', 'bar'
   select 'dbr.chart.color', '0x0099CC'
   
-  select day, sum(cnt)
+  select day as 'type=date', sum(cnt)
   from #tmp_cnt
   group by day
 
@@ -5189,7 +5195,7 @@ delete from mydbr_update
 go
 delete from mydbr_version
 go
-insert into mydbr_version values ('4.6.1')
+insert into mydbr_version values ('4.6.3')
 go
 if object_id('fn_seconds_to_time_str', 'FN') is not null
 drop function fn_seconds_to_time_str

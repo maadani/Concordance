@@ -235,6 +235,7 @@ $localization[$lang]['MYDBR_ENV_AUTOLOGIN_PASSWORD'] = "Passwort";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_TITLE'] = "Automatische Anmeldung";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_USERNAME'] = "Benutzername";
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Methode';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'E-Mail';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Server';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Port';

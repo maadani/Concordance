@@ -399,6 +399,7 @@ $localization[$lang]['MYDBR_ENV_AUTOLOGIN_TITLE'] = "Automatisk inloggning";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_USERNAME'] = "Användarnamn";
 $localization[$lang]['MYDBR_ENV_AUTOLOGIN_PASSWORD'] = "Lösenord";
 
+$localization[$lang]['MYDBR_ENV_MAIL_MAILER'] = 'Metod';
 $localization[$lang]['MYDBR_ENV_MAIL_TITLE'] = 'E-post';
 $localization[$lang]['MYDBR_ENV_MAIL_HOST'] = 'Server';
 $localization[$lang]['MYDBR_ENV_MAIL_PORT'] = 'Port';
