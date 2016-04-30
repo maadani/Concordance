@@ -32,12 +32,6 @@ $section_id = 0;
 		}		
 	}
 	
-	
-	//echo '<tr><td valign="center" style="border: 1px solid black">';
-	//echo var_dump($dataRow);
-	//echo '</td></tr>';//<td valign="center" style="border: 1px solid black; padding: 15px">';
-
-	//read_text_file($dataRow[0]);
 }
 
 /*

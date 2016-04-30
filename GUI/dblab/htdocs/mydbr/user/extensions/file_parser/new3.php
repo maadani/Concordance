@@ -57,8 +57,9 @@ function read_text_file($fullPath){
 			
 			foreach($words as $word){
 				if(trim($word) != "") {
-					$outWord = mysqli_real_escape_string($con, trim($word));
-					//$numOfWordsInLine++;
+					//$outWord = mysqli_real_escape_string($con, trim($word));
+					$outWord = trim($word);
+					
 					$numOfWords++;
 					$outIsReal = ctype_alnum($outWord) === false ? 0 : 1;
 					$numOfWordsInLine = $numOfWordsInLine + $outIsReal;

@@ -32,12 +32,6 @@ $section_id = 0;
 		}		
 	}
 	
-	
-	//echo '<tr><td valign="center" style="border: 1px solid black">';
-	//echo var_dump($dataRow);
-	//echo '</td></tr>';//<td valign="center" style="border: 1px solid black; padding: 15px">';
-
-	//read_text_file($dataRow[0]);
 }
 
 /*
@@ -97,13 +91,5 @@ function displayIndeces ($id, $options,  $dataIn, $colInfo){
 	echo '</table></div>';			
 }
 
-// function handle_item($dataRow, $key, $section)
-// {
-	// if($section == 0){
-		// echo '<div align="center"><table style="width:80%">' ;
-	// }
-	// if($section != 
-    // $item1 = "$prefix: $item1";
-// }
 
 ?>
