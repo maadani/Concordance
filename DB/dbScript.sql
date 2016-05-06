@@ -62,6 +62,19 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `real_word_list_with_empty`
+--
+
+DROP TABLE IF EXISTS `real_word_list_with_empty`;
+/*!50001 DROP VIEW IF EXISTS `real_word_list_with_empty`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `real_word_list_with_empty` AS SELECT 
+ 1 AS `-1`,
+ 1 AS `Name_exp_2`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `real_words_view`
 --
 
@@ -155,7 +168,7 @@ CREATE TABLE `sonnets_sequences` (
 
 LOCK TABLES `sonnets_sequences` WRITE;
 /*!40000 ALTER TABLE `sonnets_sequences` DISABLE KEYS */;
-INSERT INTO `sonnets_sequences` VALUES (0,'unkown',0),(4,'Shakespeare\\\'s sonnets',1609);
+INSERT INTO `sonnets_sequences` VALUES (0,'No Sequence',0),(4,'Shakespeare\\\'s sonnets',1609);
 /*!40000 ALTER TABLE `sonnets_sequences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -755,6 +768,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_authors` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_authors`()
+BEGIN
+	select 'NA'
+    union
+	select distinct(sonnets.author) from sonnets;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_char_count_per_line_for_section` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -994,7 +1028,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_seq_names`()
 BEGIN
-	select 0, 'All' 
+	select -1, 'Unknown' 
     union
     select sonnets_sequences.id, sonnets_sequences.name from sonnets_sequences;	
 END ;;
@@ -1013,13 +1047,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sonnet_by_params`(inName varchar(45), inAuther varchar(45), inSeqId int, inContainsText varchar(20))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sonnet_by_params`(inSonnetId int, inAuther varchar(45), inSeqId int, inContainsText int)
 BEGIN
 SELECT * FROM concordancedb.sonnets
 WHERE 
-(IF(inName IS NULL or inName = '', -1, inName) = -1 OR sonnets.name = inName)
+(IF(inSonnetId IS NULL or inSonnetId = '', -1, inSonnetId) = -1 OR sonnets.id = inSonnetId)
 AND
-(IF(inAuther IS NULL or inAuther = '', -1, inAuther) = -1 OR sonnets.author = inAuther)
+(IF(inAuther IS NULL or inAuther = 'NA', -1, inAuther) = -1 OR sonnets.author = inAuther)
 AND
 (IF(inSeqId IS NULL or inSeqId = '', -1, inSeqId) = -1 OR sonnets.sequence_id = inSeqId)
 AND
@@ -1044,6 +1078,27 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sonnet_names`()
 BEGIN
 	select 0, 'All' 
+    union
+    select sonnets.id, sonnets.name from sonnets;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_sonnet_names_with_unknown` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sonnet_names_with_unknown`()
+BEGIN
+	select -1, 'Unknown' 
     union
     select sonnets.id, sonnets.name from sonnets;
 END ;;
@@ -1350,6 +1405,25 @@ BEGIN
 	select real_words_view.word_id as 'id', real_words_view.word as 'value'
     from real_words_view
     ;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_word_list_with_empty` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_word_list_with_empty`()
+BEGIN	
+    select * from real_word_list_with_empty;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1763,6 +1837,24 @@ DELIMITER ;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `real_word_list_with_empty`
+--
+
+/*!50001 DROP VIEW IF EXISTS `real_word_list_with_empty`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `real_word_list_with_empty` AS select -(1) AS `-1`,'' AS `Name_exp_2` union select `real_words_view`.`word_id` AS `id`,`real_words_view`.`word` AS `value` from `real_words_view` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `real_words_view`
 --
 
@@ -1775,7 +1867,7 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `real_words_view` AS select `words`.`id` AS `word_id`,`words`.`value` AS `word`,`words`.`total_num_of_appearance` AS `total_num_of_appearance`,`words`.`num_of_files_appearance` AS `num_of_files_appearance`,`words`.`is_real` AS `is_real` from `words` where (`words`.`is_real` = 1) */;
+/*!50001 VIEW `real_words_view` AS select `words`.`id` AS `word_id`,`words`.`value` AS `word`,`words`.`total_num_of_appearance` AS `total_num_of_appearance`,`words`.`num_of_files_appearance` AS `num_of_files_appearance`,`words`.`is_real` AS `is_real` from `words` where (`words`.`is_real` = 1) order by `words`.`value` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1789,4 +1881,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-01  1:45:13
+-- Dump completed on 2016-05-06 10:46:55
