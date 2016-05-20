@@ -123,13 +123,13 @@ function addSonnetToDB($con, $text, $fullPath) {
 		
 	$result = NULL;
 	if ($stmt = mysqli_prepare($con, $sqlText)){
-		$name = mysqli_real_escape_string($con, $text['name']);
-		$rhyme_scheme = mysqli_real_escape_string($con, $text['rhyme_scheme']);
-		$auther = mysqli_real_escape_string($con, $text['auther']);
-		$file_name = mysqli_real_escape_string($con, basename($fullPath));
-		$full_path = mysqli_real_escape_string($con, $fullPath);
-		$seq_name = mysqli_real_escape_string($con, $text['sequenceName']);
-		$year = mysqli_real_escape_string($con, $text['year']);
+		$name = $text['name'];
+		$rhyme_scheme = $text['rhyme_scheme'];
+		$auther = $text['auther'];
+		$file_name = basename($fullPath);
+		$full_path = $fullPath;
+		$seq_name = $text['sequenceName'];
+		$year = $text['year'];
 				
 		mysqli_stmt_bind_param($stmt, "ssssssi",$name, $rhyme_scheme, $auther, $file_name,
 								$full_path, $seq_name, $year);
