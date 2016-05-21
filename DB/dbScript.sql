@@ -143,8 +143,36 @@ CREATE TABLE `sonnets` (
 
 LOCK TABLES `sonnets` WRITE;
 /*!40000 ALTER TABLE `sonnets` DISABLE KEYS */;
-INSERT INTO `sonnets` VALUES (15,'1','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet1.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet1.txt'),(16,'2','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet2.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet2.txt'),(17,'4','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet4.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet4.txt'),(18,'5','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet5.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet5.txt'),(19,'8','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet8.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet8.txt');
+INSERT INTO `sonnets` VALUES (15,'1','aaaa_bbbb_cccc_gg','William Shakespeare',5,'ShakespeareSonnet1.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet1.txt'),(16,'2','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet2.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet2.txt'),(17,'4','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet4.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet4.txt'),(18,'5','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet5.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet5.txt'),(19,'8','abab_cdcd_efef_gg','William Shakespeare',5,'ShakespeareSonnet8.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet8.txt');
 /*!40000 ALTER TABLE `sonnets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sonnets_sections`
+--
+
+DROP TABLE IF EXISTS `sonnets_sections`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sonnets_sections` (
+  `sonnet_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `first_line` int(11) NOT NULL,
+  `section_length_in_lines` int(11) NOT NULL,
+  PRIMARY KEY (`sonnet_id`,`section_id`),
+  KEY `sonnetIndex` (`sonnet_id`) USING BTREE KEY_BLOCK_SIZE=3,
+  CONSTRAINT `sonnetFK` FOREIGN KEY (`sonnet_id`) REFERENCES `sonnets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sonnets_sections`
+--
+
+LOCK TABLES `sonnets_sections` WRITE;
+/*!40000 ALTER TABLE `sonnets_sections` DISABLE KEYS */;
+INSERT INTO `sonnets_sections` VALUES (15,1,1,4),(15,2,5,4),(15,3,9,4),(15,4,13,2);
+/*!40000 ALTER TABLE `sonnets_sections` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -763,6 +791,23 @@ BEGIN
   END IF;
 	RETURN (pri);
 END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `strSplit` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `strSplit`(x varchar(255), delim varchar(12), pos int) RETURNS varchar(255) CHARSET utf8
+return replace(substring(substring_index(x, delim, pos), length(substring_index(x, delim, pos - 1)) + 1), delim, '') ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -1536,6 +1581,65 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `set_sections_for_sonnet` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `set_sections_for_sonnet`(IN inSonnetId int, IN inRhymeScheme varchar(50))
+BEGIN
+
+	DECLARE section_id INT DEFAULT 1;
+	DECLARE last_pos INT DEFAULT 1;
+    DECLARE delim varchar(32);    
+    DECLARE section_length_in_lines INT DEFAULT 0;
+    DECLARE current_pos INT DEFAULT 1;
+    DECLARE first_line INT DEFAULT 1;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+    BEGIN
+        ROLLBACK;
+        #EXIT PROCEDURE;
+    END;
+    
+    START TRANSACTION;
+    
+    delete from sonnets_sections where sonnets_sections.sonnet_id = inSonnetId;
+    
+    SET delim = '_';
+    SET last_pos = locate(delim, inRhymeScheme, current_pos);		
+    
+    WHILE(last_pos > 0) DO		
+		SET section_length_in_lines = length(substr(inRhymeScheme, current_pos, last_pos - current_pos));
+		#SELECT section_id, first_line, current_pos, last_pos, substr(inRhymeScheme, current_pos, last_pos - current_pos), section_length_in_lines; 
+        insert into sonnets_sections values(inSonnetId, section_id, first_line, section_length_in_lines);
+        SET section_id = section_id + 1;
+        SET first_line = first_line + section_length_in_lines;
+        SET current_pos = last_pos + length(delim);
+        SET last_pos = locate(delim, inRhymeScheme, current_pos);		
+    END WHILE;
+    
+    SET last_pos = length(inRhymeScheme) + 1;    
+	SET section_length_in_lines = length(substr(inRhymeScheme, current_pos, last_pos - current_pos));
+	#SELECT section_id, first_line, current_pos, last_pos, substr(inRhymeScheme, current_pos, last_pos - current_pos), section_length_in_lines;     
+	insert into sonnets_sections values(inSonnetId, section_id, first_line, section_length_in_lines);
+    
+    update sonnets 
+    set sonnets.rhyme_scheme = inRhymeScheme
+    where sonnets.id = inSonnetId;
+    
+    COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `set_seq_for_sonnet` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1991,4 +2095,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-20 15:17:00
+-- Dump completed on 2016-05-22  1:24:30
