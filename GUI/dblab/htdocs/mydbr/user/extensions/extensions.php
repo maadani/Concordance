@@ -76,7 +76,8 @@ $dbr_extensions = array (
 		'css' => array(), 
 		'cmds' => array(
 			array (
-				'cmd' => 'dbr.context_displayer',				
+				'cmd' => 'dbr.context_displayer',	
+				'org_word_id' => 0,
 			),
 		),
 	),	

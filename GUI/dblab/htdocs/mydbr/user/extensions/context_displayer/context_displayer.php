@@ -2,8 +2,7 @@
 
 
 
-function onContextDisplayerStart($id, $options, $colInfo){
-	
+function onContextDisplayerStart($id, $options, $colInfo){	
 }
 
 function onContextDisplayerFinish(){
@@ -42,7 +41,8 @@ $section_id = 0;
 	$colInfo: column info - not needed in Google Maps
 */
 function foo ($id, $options,  $dataIn, $colInfo){
-	
+		
+	$org_word_id = intval($options["dbr.context_displayer"]["org_word_id"]);	
 	$sonnet_name = null;
 	$section_id = 0;	
 	$line_index = 0;	
@@ -51,9 +51,7 @@ function foo ($id, $options,  $dataIn, $colInfo){
 	$is_sonnet_changed = TRUE;
 	$is_section_changed = TRUE;
 	$is_word_changed = TRUE;
-	$is_first_run = TRUE;
-	
-	echo 'Consider adding key for multiple apprearences of same word in same section.<br/>';
+	$is_first_run = TRUE;	
 	
 	for ($i=0; $i<sizeof($dataIn) ; $i++) {		
 			
@@ -94,22 +92,18 @@ function foo ($id, $options,  $dataIn, $colInfo){
 			}
 			$line_index = $dataIn[$i][2];
 		}
-		
-		echo $dataIn[$i][5] . ' ';
+		if($org_word_id == $dataIn[$i][4]) {
+			echo '<mark>' . $dataIn[$i][5] . '</mark> ';
+		}
+		else {
+			echo $dataIn[$i][5] . ' ';
+		}
+				
 		$is_first_run = FALSE;
 	}
 	
 	echo '</td></tr>';
 	echo '</table></div>';
 }
-
-// function handle_item($dataRow, $key, $section)
-// {
-	// if($section == 0){
-		// echo '<div align="center"><table style="width:80%">' ;
-	// }
-	// if($section != 
-    // $item1 = "$prefix: $item1";
-// }
 
 ?>

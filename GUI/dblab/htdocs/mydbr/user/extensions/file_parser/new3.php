@@ -20,14 +20,15 @@ function read_text_file($fullPath){
 	// Check connection
 	if (mysqli_connect_errno())
 	{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+		// echo "Failed to connect to MySQL: " . mysqli_connect_error();
+		throw new Exception("Problem with connection: " . mysqli_connect_error());
 	}		
 		
 	$text = getTextFileContents($fullPath);	
 	
 	$sonnetId = addSonnetToDB($con, $text, $fullPath);
 		
-	if ($stmt = mysqli_prepare($con, "call concordancedb.sp_add_word(?, ?, ?, ?, ?, ?, ?);")){	
+	if ($stmt = mysqli_prepare($con, "call concordancedb.sp_add_word(?, ?, ?, ?, ?, ?);")){	
 				
 		$rhyme_scheme = mysqli_real_escape_string($con, $text['rhyme_scheme']);		
 		
@@ -38,21 +39,18 @@ function read_text_file($fullPath){
 		$outLine_index = 0;		
 		$numOfWords = 0;
 		$numOfWordsInLine = 0;
-		$outIsReal = 1;
-		$section = 1;
+		$outIsReal = 1;		
 		$rhyme_index = 0;
-		mysqli_stmt_bind_param($stmt, "siiiiii",$outWord, $outSonnetId, $numOfWords, $outLine_index, $numOfWordsInLine, $outIsReal, $section);
+		mysqli_stmt_bind_param($stmt, "siiiii",$outWord, $outSonnetId, $numOfWords, $outLine_index, $numOfWordsInLine, $outIsReal);
 
 				
 		foreach($indices as $index){
 			$numOfWordsInLine = 0;
 			$outLine_index++;
 			if(strcmp(substr($rhyme_scheme, $rhyme_index, 1), "_") == 0) {
-				$rhyme_index++;
-				$section++;
+				$rhyme_index++;				
 			}
-			$rhyme_index++;
-			echo 'Processing Line #' . ($index+1) . '<br/>';
+			$rhyme_index++;			
 			$words = preg_split("/(?<=\w|\W)\b\s*/", $matches2[$index], -1, PREG_SPLIT_NO_EMPTY);
 			
 			foreach($words as $word){
@@ -66,9 +64,7 @@ function read_text_file($fullPath){
 					mysqli_stmt_execute($stmt);					
 				}
 			}	
-		}
-		
-		echo 'Done Processing ' . $numOfWords . ' words<br/>';
+		}			
 	
 
 		/* close statement */
@@ -79,8 +75,8 @@ function read_text_file($fullPath){
 		mysqli_close($con);
 		throw new Exception("Problem with prepare stat (1)");
 	}
-	echo basename($fullPath);
-	echo '<br/>';
+	// echo basename($fullPath);
+	// echo '<br/>';
 	
 	
 	

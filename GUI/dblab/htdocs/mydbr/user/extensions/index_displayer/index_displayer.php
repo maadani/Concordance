@@ -60,30 +60,43 @@ function displayIndeces ($id, $options,  $dataIn, $colInfo){
 			}
 			echo '<h2 align="center">' . $dataIn[$i][1] . '</h2><br/>';					
 			echo '<div align="center"><table style="width:80%">';
-			echo '<tr><td style="font-weight:bold; border: 1px solid black; text-align:center">';
-			echo 'line number';
-			echo '</td><td style="font-weight:bold; border: 1px solid black; text-align:center">';
-			echo 'word pos in line';
-			echo '</td><td style="font-weight:bold; border: 1px solid black; text-align:center">';
-			echo 'word pos in sonnet';
-			echo '</td><td style="font-weight:bold; border: 1px solid black; text-align:center">';
+			echo '<tr>';
+			echo '<td style="font-weight:bold; border: 1px solid black; text-align:center">';
+			echo 'Sonnet';			
+			echo '</td>';
+			echo '<td style="font-weight:bold; border: 1px solid black; text-align:center">';
 			echo 'section index';
-			echo '</td><td style="font-weight:bold; border: 1px solid black; text-align:center">';
-			echo 'Sonnet';
-			echo '</td></tr>';			
+			echo '</td>';
+			echo '<td style="font-weight:bold; border: 1px solid black; text-align:center">';
+			echo 'line number';			
+			echo '</td>';
+			echo '<td style="font-weight:bold; border: 1px solid black; text-align:center">';
+			echo 'word pos in line';
+			echo '</td>';
+			echo '<td style="font-weight:bold; border: 1px solid black; text-align:center">';
+			echo 'word pos in sonnet';
+			echo '</td>';
+			echo '</tr>';			
 		}
 	
-		echo '<tr><td style="border: 1px solid black; text-align:center">';	
-		echo $dataIn[$i][2];
-		echo '</td><td style="border: 1px solid black; text-align:center">';
-		echo $dataIn[$i][3];
-		echo '</td><td style="border: 1px solid black; text-align:center">';
-		echo $dataIn[$i][4];
-		echo '</td><td style="border: 1px solid black; text-align:center">';
-		echo $dataIn[$i][5];
-		echo '</td><td style="border: 1px solid black; text-align:center">';
+		
+		echo '<tr>';
+		echo '<td style="border: 1px solid black; text-align:center">';
 		echo $dataIn[$i][7];
-		echo '</td></tr>';		
+		echo '</td>';
+		echo '<td style="border: 1px solid black; text-align:center">';
+		echo $dataIn[$i][5];
+		echo '</td>';
+		echo '<td style="border: 1px solid black; text-align:center">';	
+		echo $dataIn[$i][2];
+		echo '</td>';
+		echo '<td style="border: 1px solid black; text-align:center">';
+		echo $dataIn[$i][3];
+		echo '</td>';
+		echo '<td style="border: 1px solid black; text-align:center">';
+		echo $dataIn[$i][4];
+		echo '</td>';
+		echo '</tr>';		
 		$is_first_run = FALSE;
 		$last_word_id = $dataIn[$i][0];
 	}

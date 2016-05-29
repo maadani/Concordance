@@ -6,7 +6,7 @@ BEGIN
 
   #select 'dbr.title', in_word_id;
 
-  select 'dbr.context_displayer';
+  select 'dbr.context_displayer', in_word_id;
   call concordancedb.sp_get_context_words_for_word_id(in_word_id);
 
 END
