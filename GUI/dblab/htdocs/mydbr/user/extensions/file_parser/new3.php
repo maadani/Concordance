@@ -14,6 +14,36 @@ function onReadRow($dataRow){
 	read_text_file($dataRow[0]);
 }
 
+function isReal($word){
+	return ctype_alnum($word) === false ? 0 : 1;	
+} 
+
+function releaseStatement($stmt){
+	mysqli_stmt_close($stmt);
+}
+
+function relesaaeDB($con){
+	mysqli_close($con);
+}
+
+
+
+function splitToToWords($expression){
+	return preg_split("/(?<=\w|\W)\b\s*/", $expression, -1, PREG_SPLIT_NO_EMPTY);
+}
+
+function connectToDB(){
+	$con = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME,DB_PORT);
+	// Check connection
+	if (mysqli_connect_errno())
+	{
+		// echo "Failed to connect to MySQL: " . mysqli_connect_error();
+		throw new Exception("Problem with connection: " . mysqli_connect_error());
+	}		
+	return $con;
+
+}
+
 function read_text_file($fullPath){
 	
 	$con = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME,DB_PORT);

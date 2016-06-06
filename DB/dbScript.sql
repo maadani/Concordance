@@ -18,6 +18,55 @@ USE `concordancedb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `expression_words`
+--
+
+DROP TABLE IF EXISTS `expression_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `expression_words` (
+  `id` int(11) NOT NULL,
+  `word_index` int(11) NOT NULL,
+  `word_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`word_index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `expression_words`
+--
+
+LOCK TABLES `expression_words` WRITE;
+/*!40000 ALTER TABLE `expression_words` DISABLE KEYS */;
+INSERT INTO `expression_words` VALUES (1,1,6215),(1,2,6216),(1,3,6217),(2,1,6216),(2,2,6217),(29,1,6216),(29,2,6217);
+/*!40000 ALTER TABLE `expression_words` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `expressions`
+--
+
+DROP TABLE IF EXISTS `expressions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `expressions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `expressions`
+--
+
+LOCK TABLES `expressions` WRITE;
+/*!40000 ALTER TABLE `expressions` DISABLE KEYS */;
+INSERT INTO `expressions` VALUES (2,'Expr #2'),(29,'\'s');
+/*!40000 ALTER TABLE `expressions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `groups`
 --
 
@@ -234,7 +283,7 @@ CREATE TABLE `words` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `value_UNIQUE` (`value`),
   KEY `idx_is_read` (`is_real`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6602 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6604 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +292,7 @@ CREATE TABLE `words` (
 
 LOCK TABLES `words` WRITE;
 /*!40000 ALTER TABLE `words` DISABLE KEYS */;
-INSERT INTO `words` VALUES (6206,'From',1,1,1),(6207,'fairest',1,1,1),(6208,'creatures',1,1,1),(6209,'we',1,1,1),(6210,'desire',1,1,1),(6211,'increase',1,1,1),(6212,',',72,7,0),(6213,'That',11,5,1),(6214,'thereby',1,1,1),(6215,'beauty',11,5,1),(6216,'\'',31,7,0),(6217,'s',16,6,1),(6218,'rose',1,1,1),(6219,'might',2,1,1),(6220,'never',2,2,1),(6221,'die',3,3,1),(6222,'But',9,6,1),(6223,'as',1,1,1),(6224,'the',25,7,1),(6225,'riper',1,1,1),(6226,'should',2,2,1),(6227,'by',6,4,1),(6228,'time',4,3,1),(6229,'decease',1,1,1),(6230,'His',5,4,1),(6231,'tender',2,1,1),(6232,'heir',1,1,1),(6233,'bear',2,2,1),(6234,'memory',1,1,1),(6235,':',9,5,0),(6236,'thou',24,6,1),(6237,'contracted',1,1,1),(6238,'to',19,7,1),(6239,'thine',8,4,1),(6240,'own',3,2,1),(6241,'bright',1,1,1),(6242,'eyes',3,3,1),(6243,'Feed',1,1,1),(6244,'st',4,3,1),(6245,'thy',20,5,1),(6246,'light',1,1,1),(6247,'flame',1,1,1),(6248,'with',10,5,1),(6249,'self',5,3,1),(6250,'-',6,5,0),(6251,'substantial',1,1,1),(6252,'fuel',1,1,1),(6253,'Making',1,1,1),(6254,'a',6,5,1),(6255,'famine',1,1,1),(6256,'where',6,4,1),(6257,'abundance',1,1,1),(6258,'lies',2,2,1),(6259,'foe',1,1,1),(6260,'sweet',4,4,1),(6261,'too',1,1,1),(6262,'cruel',1,1,1),(6263,'art',3,3,1),(6264,'now',4,3,1),(6265,'world',9,3,1),(6266,'fresh',2,2,1),(6267,'ornament',1,1,1),(6268,'And',19,7,1),(6269,'only',1,1,1),(6270,'herald',1,1,1),(6271,'gaudy',1,1,1),(6272,'spring',1,1,1),(6273,'Within',2,2,1),(6274,'bud',1,1,1),(6275,'buriest',1,1,1),(6276,'content',1,1,1),(6277,'churl',1,1,1),(6278,'mak',1,1,1),(6279,'waste',2,2,1),(6280,'in',14,6,1),(6281,'niggarding',1,1,1),(6282,'Pity',1,1,1),(6283,'or',3,3,1),(6284,'else',2,2,1),(6285,'this',5,4,1),(6286,'glutton',1,1,1),(6287,'be',9,5,1),(6288,'eat',1,1,1),(6289,'due',1,1,1),(6290,'grave',1,1,1),(6291,'thee',10,5,1),(6292,'.',16,7,0),(6293,'When',5,3,1),(6294,'forty',1,1,1),(6295,'winters',1,1,1),(6296,'shall',3,2,1),(6297,'beseige',1,1,1),(6298,'brow',1,1,1),(6299,'dig',1,1,1),(6300,'deep',2,1,1),(6301,'trenches',1,1,1),(6302,'field',1,1,1),(6303,'youth',1,1,1),(6304,'proud',1,1,1),(6305,'livery',1,1,1),(6306,'so',6,4,1),(6307,'gazed',1,1,1),(6308,'on',3,3,1),(6309,'Will',5,4,1),(6310,'tatter',1,1,1),(6311,'d',8,4,1),(6312,'weed',1,1,1),(6313,'of',13,6,1),(6314,'small',1,1,1),(6315,'worth',1,1,1),(6316,'held',1,1,1),(6317,'Then',4,3,1),(6318,'being',3,3,1),(6319,'ask',1,1,1),(6320,'all',4,2,1),(6321,'treasure',1,1,1),(6322,'lusty',2,2,1),(6323,'days',1,1,1),(6324,'say',1,1,1),(6325,'sunken',1,1,1),(6326,'Were',4,2,1),(6327,'an',3,2,1),(6328,'eating',1,1,1),(6329,'shame',2,2,1),(6330,'thriftless',1,1,1),(6331,'praise',2,1,1),(6332,'How',3,3,1),(6333,'much',1,1,1),(6334,'more',1,1,1),(6335,'deserved',1,1,1),(6336,'use',2,2,1),(6337,'If',5,4,1),(6338,'couldst',1,1,1),(6339,'answer',1,1,1),(6340,'fair',2,2,1),(6341,'child',2,2,1),(6342,'mine',1,1,1),(6343,'sum',2,2,1),(6344,'my',2,1,1),(6345,'count',1,1,1),(6346,'make',1,1,1),(6347,'old',2,1,1),(6348,'excuse',1,1,1),(6349,',\'',1,1,0),(6350,'Proving',1,1,1),(6351,'succession',1,1,1),(6352,'!',2,2,0),(6353,'new',1,1,1),(6354,'made',1,1,1),(6355,'see',2,2,1),(6356,'blood',1,1,1),(6357,'warm',1,1,1),(6358,'feel',1,1,1),(6359,'it',6,3,1),(6360,'cold',1,1,1),(6361,'Look',2,2,1),(6362,'glass',3,2,1),(6363,'tell',1,1,1),(6364,'face',2,1,1),(6365,'viewest',1,1,1),(6366,'is',4,2,1),(6367,'form',2,2,1),(6368,'another',2,2,1),(6369,';',5,3,0),(6370,'Whose',3,2,1),(6371,'repair',1,1,1),(6372,'not',6,4,1),(6373,'renewest',1,1,1),(6374,'dost',5,2,1),(6375,'beguile',1,1,1),(6376,'unbless',1,1,1),(6377,'some',1,1,1),(6378,'mother',3,2,1),(6379,'For',5,4,1),(6380,'she',3,2,1),(6381,'unear',1,1,1),(6382,'womb',1,1,1),(6383,'Disdains',1,1,1),(6384,'tillage',1,1,1),(6385,'husbandry',1,1,1),(6386,'?',9,4,0),(6387,'who',3,2,1),(6388,'he',1,1,1),(6389,'fond',1,1,1),(6390,'tomb',2,2,1),(6391,'love',2,2,1),(6392,'stop',1,1,1),(6393,'posterity',1,1,1),(6394,'Calls',2,2,1),(6395,'back',1,1,1),(6396,'lovely',2,2,1),(6397,'April',1,1,1),(6398,'her',2,2,1),(6399,'prime',1,1,1),(6400,'through',1,1,1),(6401,'windows',1,1,1),(6402,'age',1,1,1),(6403,'Despite',1,1,1),(6404,'wrinkles',1,1,1),(6405,'golden',1,1,1),(6406,'live',2,2,1),(6407,'remember',1,1,1),(6408,'single',3,3,1),(6409,'image',1,1,1),(6410,'dies',1,1,1),(6411,'Unthrifty',1,1,1),(6412,'loveliness',1,1,1),(6413,'why',5,2,1),(6414,'spend',2,2,1),(6415,'Upon',1,1,1),(6416,'thyself',4,2,1),(6417,'legacy',1,1,1),(6418,'Nature',2,1,1),(6419,'bequest',1,1,1),(6420,'gives',1,1,1),(6421,'nothing',1,1,1),(6422,'doth',4,3,1),(6423,'lend',1,1,1),(6424,'frank',1,1,1),(6425,'lends',1,1,1),(6426,'those',2,2,1),(6427,'are',1,1,1),(6428,'free',1,1,1),(6429,'beauteous',1,1,1),(6430,'niggard',1,1,1),(6431,'abuse',1,1,1),(6432,'bounteous',1,1,1),(6433,'largess',1,1,1),(6434,'given',1,1,1),(6435,'give',1,1,1),(6436,'Profitless',1,1,1),(6437,'usurer',1,1,1),(6438,'great',1,1,1),(6439,'sums',1,1,1),(6440,'yet',1,1,1),(6441,'canst',2,1,1),(6442,'having',1,1,1),(6443,'traffic',1,1,1),(6444,'alone',1,1,1),(6445,'deceive',1,1,1),(6446,'gone',2,2,1),(6447,'What',3,3,1),(6448,'acceptable',1,1,1),(6449,'audit',1,1,1),(6450,'leave',1,1,1),(6451,'unused',2,2,1),(6452,'must',1,1,1),(6453,'Which',3,3,1),(6454,'used',1,1,1),(6455,'lives',2,2,1),(6456,'th',1,1,1),(6457,'executor',1,1,1),(6458,'hours',1,1,1),(6459,'gentle',1,1,1),(6460,'work',1,1,1),(6461,'did',1,1,1),(6462,'frame',1,1,1),(6463,'gaze',1,1,1),(6464,'every',3,2,1),(6465,'eye',2,2,1),(6466,'dwell',1,1,1),(6467,'play',1,1,1),(6468,'tyrants',1,1,1),(6469,'very',1,1,1),(6470,'same',1,1,1),(6471,'unfair',1,1,1),(6472,'fairly',1,1,1),(6473,'excel',1,1,1),(6474,'resting',1,1,1),(6475,'leads',1,1,1),(6476,'summer',2,1,1),(6477,'hideous',1,1,1),(6478,'winter',2,1,1),(6479,'confounds',2,2,1),(6480,'him',1,1,1),(6481,'there',1,1,1),(6482,'Sap',1,1,1),(6483,'cheque',1,1,1),(6484,'frost',1,1,1),(6485,'leaves',1,1,1),(6486,'quite',1,1,1),(6487,'o',1,1,1),(6488,'ersnow',1,1,1),(6489,'bareness',1,1,1),(6490,'distillation',1,1,1),(6491,'left',2,2,1),(6492,'liquid',1,1,1),(6493,'prisoner',1,1,1),(6494,'pent',1,1,1),(6495,'walls',1,1,1),(6496,'effect',1,1,1),(6497,'bereft',1,1,1),(6498,'Nor',2,1,1),(6499,'no',3,2,1),(6500,'remembrance',1,1,1),(6501,'was',1,1,1),(6502,'flowers',1,1,1),(6503,'distill',1,1,1),(6504,'though',1,1,1),(6505,'they',2,2,1),(6506,'meet',1,1,1),(6507,'Leese',1,1,1),(6508,'their',2,1,1),(6509,'show',1,1,1),(6510,'substance',1,1,1),(6511,'still',3,2,1),(6512,'Music',2,1,1),(6513,'hear',2,1,1),(6514,'sadly',1,1,1),(6515,'Sweets',2,1,1),(6516,'war',1,1,1),(6517,'joy',2,1,1),(6518,'delights',1,1,1),(6519,'lovest',1,1,1),(6520,'receivest',2,1,1),(6521,'gladly',1,1,1),(6522,'pleasure',1,1,1),(6523,'annoy',1,1,1),(6524,'true',1,1,1),(6525,'concord',1,1,1),(6526,'well',2,2,1),(6527,'tuned',1,1,1),(6528,'sounds',1,1,1),(6529,'unions',1,1,1),(6530,'married',1,1,1),(6531,'do',3,1,1),(6532,'offend',1,1,1),(6533,'ear',1,1,1),(6534,'sweetly',1,1,1),(6535,'chide',1,1,1),(6536,'singleness',1,1,1),(6537,'parts',1,1,1),(6538,'shouldst',1,1,1),(6539,'Mark',1,1,1),(6540,'one',4,1,1),(6541,'string',1,1,1),(6542,'husband',2,2,1),(6543,'Strikes',1,1,1),(6544,'each',2,1,1),(6545,'mutual',1,1,1),(6546,'ordering',1,1,1),(6547,'Resembling',1,1,1),(6548,'sire',1,1,1),(6549,'happy',1,1,1),(6550,'pleasing',1,1,1),(6551,'note',1,1,1),(6552,'sing',1,1,1),(6553,'speechless',1,1,1),(6554,'song',1,1,1),(6555,'many',1,1,1),(6556,'seeming',1,1,1),(6557,'Sings',1,1,1),(6558,': \'',1,1,0),(6559,'wilt',1,1,1),(6560,'prove',1,1,1),(6561,'none',1,1,1),(6562,'.\'',1,1,0),(6563,'fear',1,1,1),(6564,'wet',1,1,1),(6565,'widow',3,1,1),(6566,'consumest',1,1,1),(6567,'life',1,1,1),(6568,'Ah',1,1,1),(6569,'issueless',1,1,1),(6570,'shalt',1,1,1),(6571,'hap',1,1,1),(6572,'wail',1,1,1),(6573,'like',1,1,1),(6574,'makeless',1,1,1),(6575,'wife',1,1,1),(6576,'weep',1,1,1),(6577,'hast',1,1,1),(6578,'behind',1,1,1),(6579,'private',1,1,1),(6580,'may',1,1,1),(6581,'keep',1,1,1),(6582,'children',1,1,1),(6583,'shape',1,1,1),(6584,'mind',1,1,1),(6585,'unthrift',1,1,1),(6586,'Shifts',1,1,1),(6587,'place',1,1,1),(6588,'enjoys',1,1,1),(6589,'hath',1,1,1),(6590,'end',1,1,1),(6591,'kept',1,1,1),(6592,'user',1,1,1),(6593,'destroys',1,1,1),(6594,'toward',1,1,1),(6595,'others',1,1,1),(6596,'bosom',1,1,1),(6597,'sits',1,1,1),(6598,'himself',1,1,1),(6599,'such',1,1,1),(6600,'murderous',1,1,1),(6601,'commits',1,1,1);
+INSERT INTO `words` VALUES (6206,'From',1,1,1),(6207,'fairest',1,1,1),(6208,'creatures',1,1,1),(6209,'we',1,1,1),(6210,'desire',1,1,1),(6211,'increase',1,1,1),(6212,',',72,7,0),(6213,'That',11,5,1),(6214,'thereby',1,1,1),(6215,'beauty',11,5,1),(6216,'\'',31,7,0),(6217,'s',16,6,1),(6218,'rose',1,1,1),(6219,'might',2,1,1),(6220,'never',2,2,1),(6221,'die',3,3,1),(6222,'But',9,6,1),(6223,'as',1,1,1),(6224,'the',25,7,1),(6225,'riper',1,1,1),(6226,'should',2,2,1),(6227,'by',6,4,1),(6228,'time',4,3,1),(6229,'decease',1,1,1),(6230,'His',5,4,1),(6231,'tender',2,1,1),(6232,'heir',1,1,1),(6233,'bear',2,2,1),(6234,'memory',1,1,1),(6235,':',9,5,0),(6236,'thou',24,6,1),(6237,'contracted',1,1,1),(6238,'to',19,7,1),(6239,'thine',8,4,1),(6240,'own',3,2,1),(6241,'bright',1,1,1),(6242,'eyes',3,3,1),(6243,'Feed',1,1,1),(6244,'st',4,3,1),(6245,'thy',20,5,1),(6246,'light',1,1,1),(6247,'flame',1,1,1),(6248,'with',10,5,1),(6249,'self',5,3,1),(6250,'-',6,5,0),(6251,'substantial',1,1,1),(6252,'fuel',1,1,1),(6253,'Making',1,1,1),(6254,'a',6,5,1),(6255,'famine',1,1,1),(6256,'where',6,4,1),(6257,'abundance',1,1,1),(6258,'lies',2,2,1),(6259,'foe',1,1,1),(6260,'sweet',4,4,1),(6261,'too',1,1,1),(6262,'cruel',1,1,1),(6263,'art',3,3,1),(6264,'now',4,3,1),(6265,'world',9,3,1),(6266,'fresh',2,2,1),(6267,'ornament',1,1,1),(6268,'And',19,7,1),(6269,'only',1,1,1),(6270,'herald',1,1,1),(6271,'gaudy',1,1,1),(6272,'spring',1,1,1),(6273,'Within',2,2,1),(6274,'bud',1,1,1),(6275,'buriest',1,1,1),(6276,'content',1,1,1),(6277,'churl',1,1,1),(6278,'mak',1,1,1),(6279,'waste',2,2,1),(6280,'in',14,6,1),(6281,'niggarding',1,1,1),(6282,'Pity',1,1,1),(6283,'or',3,3,1),(6284,'else',2,2,1),(6285,'this',5,4,1),(6286,'glutton',1,1,1),(6287,'be',9,5,1),(6288,'eat',1,1,1),(6289,'due',1,1,1),(6290,'grave',1,1,1),(6291,'thee',10,5,1),(6292,'.',16,7,0),(6293,'When',5,3,1),(6294,'forty',1,1,1),(6295,'winters',1,1,1),(6296,'shall',3,2,1),(6297,'beseige',1,1,1),(6298,'brow',1,1,1),(6299,'dig',1,1,1),(6300,'deep',2,1,1),(6301,'trenches',1,1,1),(6302,'field',1,1,1),(6303,'youth',1,1,1),(6304,'proud',1,1,1),(6305,'livery',1,1,1),(6306,'so',6,4,1),(6307,'gazed',1,1,1),(6308,'on',3,3,1),(6309,'Will',5,4,1),(6310,'tatter',1,1,1),(6311,'d',8,4,1),(6312,'weed',1,1,1),(6313,'of',13,6,1),(6314,'small',1,1,1),(6315,'worth',1,1,1),(6316,'held',1,1,1),(6317,'Then',4,3,1),(6318,'being',3,3,1),(6319,'ask',1,1,1),(6320,'all',4,2,1),(6321,'treasure',1,1,1),(6322,'lusty',2,2,1),(6323,'days',1,1,1),(6324,'say',1,1,1),(6325,'sunken',1,1,1),(6326,'Were',4,2,1),(6327,'an',3,2,1),(6328,'eating',1,1,1),(6329,'shame',2,2,1),(6330,'thriftless',1,1,1),(6331,'praise',2,1,1),(6332,'How',3,3,1),(6333,'much',1,1,1),(6334,'more',1,1,1),(6335,'deserved',1,1,1),(6336,'use',2,2,1),(6337,'If',5,4,1),(6338,'couldst',1,1,1),(6339,'answer',1,1,1),(6340,'fair',2,2,1),(6341,'child',2,2,1),(6342,'mine',1,1,1),(6343,'sum',2,2,1),(6344,'my',2,1,1),(6345,'count',1,1,1),(6346,'make',1,1,1),(6347,'old',2,1,1),(6348,'excuse',1,1,1),(6349,',\'',1,1,0),(6350,'Proving',1,1,1),(6351,'succession',1,1,1),(6352,'!',2,2,0),(6353,'new',1,1,1),(6354,'made',1,1,1),(6355,'see',2,2,1),(6356,'blood',1,1,1),(6357,'warm',1,1,1),(6358,'feel',1,1,1),(6359,'it',6,3,1),(6360,'cold',1,1,1),(6361,'Look',2,2,1),(6362,'glass',3,2,1),(6363,'tell',1,1,1),(6364,'face',2,1,1),(6365,'viewest',1,1,1),(6366,'is',4,2,1),(6367,'form',2,2,1),(6368,'another',2,2,1),(6369,';',5,3,0),(6370,'Whose',3,2,1),(6371,'repair',1,1,1),(6372,'not',6,4,1),(6373,'renewest',1,1,1),(6374,'dost',5,2,1),(6375,'beguile',1,1,1),(6376,'unbless',1,1,1),(6377,'some',1,1,1),(6378,'mother',3,2,1),(6379,'For',5,4,1),(6380,'she',3,2,1),(6381,'unear',1,1,1),(6382,'womb',1,1,1),(6383,'Disdains',1,1,1),(6384,'tillage',1,1,1),(6385,'husbandry',1,1,1),(6386,'?',9,4,0),(6387,'who',3,2,1),(6388,'he',1,1,1),(6389,'fond',1,1,1),(6390,'tomb',2,2,1),(6391,'love',2,2,1),(6392,'stop',1,1,1),(6393,'posterity',1,1,1),(6394,'Calls',2,2,1),(6395,'back',1,1,1),(6396,'lovely',2,2,1),(6397,'April',1,1,1),(6398,'her',2,2,1),(6399,'prime',1,1,1),(6400,'through',1,1,1),(6401,'windows',1,1,1),(6402,'age',1,1,1),(6403,'Despite',1,1,1),(6404,'wrinkles',1,1,1),(6405,'golden',1,1,1),(6406,'live',2,2,1),(6407,'remember',1,1,1),(6408,'single',3,3,1),(6409,'image',1,1,1),(6410,'dies',1,1,1),(6411,'Unthrifty',1,1,1),(6412,'loveliness',1,1,1),(6413,'why',5,2,1),(6414,'spend',2,2,1),(6415,'Upon',1,1,1),(6416,'thyself',4,2,1),(6417,'legacy',1,1,1),(6418,'Nature',2,1,1),(6419,'bequest',1,1,1),(6420,'gives',1,1,1),(6421,'nothing',1,1,1),(6422,'doth',4,3,1),(6423,'lend',1,1,1),(6424,'frank',1,1,1),(6425,'lends',1,1,1),(6426,'those',2,2,1),(6427,'are',1,1,1),(6428,'free',1,1,1),(6429,'beauteous',1,1,1),(6430,'niggard',1,1,1),(6431,'abuse',1,1,1),(6432,'bounteous',1,1,1),(6433,'largess',1,1,1),(6434,'given',1,1,1),(6435,'give',1,1,1),(6436,'Profitless',1,1,1),(6437,'usurer',1,1,1),(6438,'great',1,1,1),(6439,'sums',1,1,1),(6440,'yet',1,1,1),(6441,'canst',2,1,1),(6442,'having',1,1,1),(6443,'traffic',1,1,1),(6444,'alone',1,1,1),(6445,'deceive',1,1,1),(6446,'gone',2,2,1),(6447,'What',3,3,1),(6448,'acceptable',1,1,1),(6449,'audit',1,1,1),(6450,'leave',1,1,1),(6451,'unused',2,2,1),(6452,'must',1,1,1),(6453,'Which',3,3,1),(6454,'used',1,1,1),(6455,'lives',2,2,1),(6456,'th',1,1,1),(6457,'executor',1,1,1),(6458,'hours',1,1,1),(6459,'gentle',1,1,1),(6460,'work',1,1,1),(6461,'did',1,1,1),(6462,'frame',1,1,1),(6463,'gaze',1,1,1),(6464,'every',3,2,1),(6465,'eye',2,2,1),(6466,'dwell',1,1,1),(6467,'play',1,1,1),(6468,'tyrants',1,1,1),(6469,'very',1,1,1),(6470,'same',1,1,1),(6471,'unfair',1,1,1),(6472,'fairly',1,1,1),(6473,'excel',1,1,1),(6474,'resting',1,1,1),(6475,'leads',1,1,1),(6476,'summer',2,1,1),(6477,'hideous',1,1,1),(6478,'winter',2,1,1),(6479,'confounds',2,2,1),(6480,'him',1,1,1),(6481,'there',1,1,1),(6482,'Sap',1,1,1),(6483,'cheque',1,1,1),(6484,'frost',1,1,1),(6485,'leaves',1,1,1),(6486,'quite',1,1,1),(6487,'o',1,1,1),(6488,'ersnow',1,1,1),(6489,'bareness',1,1,1),(6490,'distillation',1,1,1),(6491,'left',2,2,1),(6492,'liquid',1,1,1),(6493,'prisoner',1,1,1),(6494,'pent',1,1,1),(6495,'walls',1,1,1),(6496,'effect',1,1,1),(6497,'bereft',1,1,1),(6498,'Nor',2,1,1),(6499,'no',3,2,1),(6500,'remembrance',1,1,1),(6501,'was',1,1,1),(6502,'flowers',1,1,1),(6503,'distill',1,1,1),(6504,'though',1,1,1),(6505,'they',2,2,1),(6506,'meet',1,1,1),(6507,'Leese',1,1,1),(6508,'their',2,1,1),(6509,'show',1,1,1),(6510,'substance',1,1,1),(6511,'still',3,2,1),(6512,'Music',2,1,1),(6513,'hear',2,1,1),(6514,'sadly',1,1,1),(6515,'Sweets',2,1,1),(6516,'war',1,1,1),(6517,'joy',2,1,1),(6518,'delights',1,1,1),(6519,'lovest',1,1,1),(6520,'receivest',2,1,1),(6521,'gladly',1,1,1),(6522,'pleasure',1,1,1),(6523,'annoy',1,1,1),(6524,'true',1,1,1),(6525,'concord',1,1,1),(6526,'well',2,2,1),(6527,'tuned',1,1,1),(6528,'sounds',1,1,1),(6529,'unions',1,1,1),(6530,'married',1,1,1),(6531,'do',3,1,1),(6532,'offend',1,1,1),(6533,'ear',1,1,1),(6534,'sweetly',1,1,1),(6535,'chide',1,1,1),(6536,'singleness',1,1,1),(6537,'parts',1,1,1),(6538,'shouldst',1,1,1),(6539,'Mark',1,1,1),(6540,'one',4,1,1),(6541,'string',1,1,1),(6542,'husband',2,2,1),(6543,'Strikes',1,1,1),(6544,'each',2,1,1),(6545,'mutual',1,1,1),(6546,'ordering',1,1,1),(6547,'Resembling',1,1,1),(6548,'sire',1,1,1),(6549,'happy',1,1,1),(6550,'pleasing',1,1,1),(6551,'note',1,1,1),(6552,'sing',1,1,1),(6553,'speechless',1,1,1),(6554,'song',1,1,1),(6555,'many',1,1,1),(6556,'seeming',1,1,1),(6557,'Sings',1,1,1),(6558,': \'',1,1,0),(6559,'wilt',1,1,1),(6560,'prove',1,1,1),(6561,'none',1,1,1),(6562,'.\'',1,1,0),(6563,'fear',1,1,1),(6564,'wet',1,1,1),(6565,'widow',3,1,1),(6566,'consumest',1,1,1),(6567,'life',1,1,1),(6568,'Ah',1,1,1),(6569,'issueless',1,1,1),(6570,'shalt',1,1,1),(6571,'hap',1,1,1),(6572,'wail',1,1,1),(6573,'like',1,1,1),(6574,'makeless',1,1,1),(6575,'wife',1,1,1),(6576,'weep',1,1,1),(6577,'hast',1,1,1),(6578,'behind',1,1,1),(6579,'private',1,1,1),(6580,'may',1,1,1),(6581,'keep',1,1,1),(6582,'children',1,1,1),(6583,'shape',1,1,1),(6584,'mind',1,1,1),(6585,'unthrift',1,1,1),(6586,'Shifts',1,1,1),(6587,'place',1,1,1),(6588,'enjoys',1,1,1),(6589,'hath',1,1,1),(6590,'end',1,1,1),(6591,'kept',1,1,1),(6592,'user',1,1,1),(6593,'destroys',1,1,1),(6594,'toward',1,1,1),(6595,'others',1,1,1),(6596,'bosom',1,1,1),(6597,'sits',1,1,1),(6598,'himself',1,1,1),(6599,'such',1,1,1),(6600,'murderous',1,1,1),(6601,'commits',1,1,1),(6602,'Hello',0,0,1),(6603,'lklk',0,0,1);
 /*!40000 ALTER TABLE `words` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -849,6 +898,54 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `find_expr_in_sonnet` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_expr_in_sonnet`(inExprId int, inSonnetId int)
+BEGIN
+
+	DECLARE first_word_id INT;	
+    DECLARE expr_length INT;	
+
+	select word_id, count(*) into first_word_id, expr_length
+    from expression_words
+	where id = inExprId;
+    
+	select sonnets.id as 'sonnet id', sonnets.name as 'sonnet name', expr_start_word_index
+	from
+	(
+		select wis1.sonnet_id, wis1.word_id as 'expr_start_word_id', wis1.word_index_in_sonnet as 'expr_start_word_index',
+				wis2.word_id, wis2.word_index_in_sonnet
+		from words_in_sonnets wis1 inner join words_in_sonnets wis2
+		on wis1.sonnet_id = wis2.sonnet_id
+		AND wis2.word_index_in_sonnet - wis1.word_index_in_sonnet < expr_length
+		AND wis2.word_index_in_sonnet - wis1.word_index_in_sonnet >= 0
+		where
+		wis1.word_id = first_word_id
+	) radius_words 
+    inner join expression_words
+		ON radius_words.word_id = expression_words.word_id
+	inner join sonnets
+		on radius_words.sonnet_id = sonnets.id
+	where expression_words.id = 1
+    AND (inSonnetId = 0 or radius_words.sonnet_id = inSonnetId)
+	group by sonnet_id, expr_start_word_index
+	having count(*) = expr_length
+	;    
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_authors` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -989,6 +1086,26 @@ BEGIN
 		ON (a.sonnet_id = b.sonnet_id and a.section_id = b.section_id)) section_words
 	ON section_words.word_id = words.id 
 	;	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_expressions` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_expressions`()
+BEGIN
+	select expressions.id, expressions.label
+    from expressions;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1695,6 +1812,29 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_new_word` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_new_word`(in inWord varchar(50), in inIsReal tinyint, 
+	IN inTotalNumOfAppearance int,
+	IN inNumOfFilesAppearance int, OUT outWordId int)
+BEGIN
+		insert into words(words.value, words.is_real, words.total_num_of_appearance, words.num_of_files_appearance)
+        values(inWord, inIsReal, inTotalNumOfAppearance, inNumOfFilesAppearance);
+        set outWordId = (SELECT LAST_INSERT_ID());
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `set_author_for_sonnet` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1860,6 +2000,70 @@ BEGIN
     select sonnets_sequences.name into outSeqName
 	from sonnets_sequences
 	where sonnets_sequences.id = inSeqId; 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_add_expression` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_expression`(IN inLabel varchar(512))
+BEGIN
+	insert into expressions (label)
+    values(inLabel);    
+    set @outNewExprId = (SELECT LAST_INSERT_ID());
+    
+    select @outNewExprId as 'expr_id';
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_add_expression_word` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_expression_word`(in inWord varchar(50), IN inExprId int, in inWwordIndex int,in inIsReal tinyint)
+BEGIN
+
+    DECLARE exit handler for SQLEXCEPTION
+    BEGIN       
+        ROLLBACK;
+    END;
+    
+	START TRANSACTION;
+    set @wordId = NULL;    
+    
+	SELECT words.id
+    INTO @wordId
+    FROM words 
+    where words.value = inWord;    
+    
+	IF(@wordId IS NULL) THEN
+		call insert_new_word(inWord, inIsReal, 0, 0, @wordId);
+	END IF;
+        
+    insert into expression_words (expression_words.id, expression_words.word_index, expression_words.word_id)
+    values(inExprId, inWwordIndex, @wordId);
+    
+    COMMIT;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2145,6 +2349,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `test` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test`()
+BEGIN
+
+set @exprId = NULL;
+
+call sp_add_expression("Expr #2", @exprId);
+call sp_add_expression_word("'", @exprId, 1, 0);
+call sp_add_expression_word("s", @exprId, 2, 1);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `transaction_test` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2343,4 +2572,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-29 22:20:08
+-- Dump completed on 2016-06-07  2:37:14
