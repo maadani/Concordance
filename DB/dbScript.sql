@@ -38,7 +38,7 @@ CREATE TABLE `expression_words` (
 
 LOCK TABLES `expression_words` WRITE;
 /*!40000 ALTER TABLE `expression_words` DISABLE KEYS */;
-INSERT INTO `expression_words` VALUES (1,1,6215),(1,2,6216),(1,3,6217),(2,1,6216),(2,2,6217),(29,1,6216),(29,2,6217);
+INSERT INTO `expression_words` VALUES (1,1,6215),(1,2,6216),(1,3,6217),(2,1,6216),(2,2,6217),(29,1,6216),(29,2,6217),(30,1,6227),(30,2,6213),(31,1,6563),(31,2,6238),(31,3,6564);
 /*!40000 ALTER TABLE `expression_words` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +53,7 @@ CREATE TABLE `expressions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `expressions` (
 
 LOCK TABLES `expressions` WRITE;
 /*!40000 ALTER TABLE `expressions` DISABLE KEYS */;
-INSERT INTO `expressions` VALUES (2,'Expr #2'),(29,'\'s');
+INSERT INTO `expressions` VALUES (2,'Expr #2'),(29,'\'s'),(30,'by that'),(31,'fear to wet');
 /*!40000 ALTER TABLE `expressions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,6 +109,35 @@ SET character_set_client = utf8;
  1 AS `sonnet_id`,
  1 AS `sonnet_name`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `latest_searches_circular_log_table`
+--
+
+DROP TABLE IF EXISTS `latest_searches_circular_log_table`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `latest_searches_circular_log_table` (
+  `log_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `row_id` int(10) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `term` varchar(255) DEFAULT NULL,
+  `sound_score` varchar(45) NOT NULL,
+  PRIMARY KEY (`log_id`),
+  UNIQUE KEY `row_id` (`row_id`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `latest_searches_circular_log_table`
+--
+
+LOCK TABLES `latest_searches_circular_log_table` WRITE;
+/*!40000 ALTER TABLE `latest_searches_circular_log_table` DISABLE KEYS */;
+INSERT INTO `latest_searches_circular_log_table` VALUES (10,10,'2016-06-08 21:09:47','Search #3',''),(11,1,'2016-06-08 21:09:48','Search #3',''),(12,2,'2016-06-08 21:09:48','Search #3',''),(13,3,'2016-06-08 21:09:48','Search #3',''),(14,4,'2016-06-08 21:09:49','Search #3',''),(15,5,'2016-06-08 21:15:02','Search #4','S620'),(16,6,'2016-06-08 21:15:39','Search #3','S620'),(17,7,'2016-06-08 21:16:04','Look','L200'),(18,8,'2016-06-08 21:16:13','Luke','L200'),(19,9,'2016-06-08 21:16:37','Luke','L200');
+/*!40000 ALTER TABLE `latest_searches_circular_log_table` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary view structure for view `real_word_list_with_empty`
@@ -192,7 +221,7 @@ CREATE TABLE `sonnets` (
 
 LOCK TABLES `sonnets` WRITE;
 /*!40000 ALTER TABLE `sonnets` DISABLE KEYS */;
-INSERT INTO `sonnets` VALUES (32,'1','abab_cdcd_efef_gg','William Shakespeare',10,'ShakespeareSonnet1.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet1.txt'),(33,'2','abab_cdcd_efef_gg','Author2',10,'ShakespeareSonnet2.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet2.txt'),(34,'Sonnet3','abab_cdcd_efef_gg','Author2',10,'ShakespeareSonnet3.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet3.txt'),(35,'4','abab_cdcd_efef_gg','William Shakespeare',0,'ShakespeareSonnet4.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet4.txt'),(36,'5','aaaa_bbbb_cccc_ggggg','William Shakespeare',10,'ShakespeareSonnet5.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet5.txt'),(37,'8','abab_cdcd_efef_gg','William Shakespeare',10,'ShakespeareSonnet8.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet8.txt'),(38,'9','abab_cdcd_efef_gg','William Shakespeare',10,'ShakespeareSonnet9.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet9.txt');
+INSERT INTO `sonnets` VALUES (32,'1','abab_cdcd_efef_gg','William Shakespeare',10,'ShakespeareSonnet1.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet1.txt'),(33,'2','abab_cdcd_efef_gg','Author2',10,'ShakespeareSonnet2.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet2.txt'),(34,'Sonnet3','abab_cdcd_efef_gg','Author2',10,'ShakespeareSonnet3.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet3.txt'),(35,'4','abab_cdcd_efef_gg','William Shakespeare',0,'ShakespeareSonnet4.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet4.txt'),(36,'5','aaaa_bbbb_cccc_ggggg','William Shakespeare',10,'ShakespeareSonnet5.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet5.txt'),(37,'8','abab_cdcd_efef_gg','William Shakespeare',10,'ShakespeareSonnet8.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet8.txt'),(38,'#9','aaaa_bbbb_cccc_ggggg','author #9',0,'ShakespeareSonnet9.txt','G:\\OpenU\\Projects\\sonnets\\txt_files\\ShakespeareSonnet9.txt');
 /*!40000 ALTER TABLE `sonnets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +248,7 @@ CREATE TABLE `sonnets_sections` (
 
 LOCK TABLES `sonnets_sections` WRITE;
 /*!40000 ALTER TABLE `sonnets_sections` DISABLE KEYS */;
-INSERT INTO `sonnets_sections` VALUES (32,1,1),(32,2,1),(32,3,1),(32,4,1),(32,5,2),(32,6,2),(32,7,2),(32,8,2),(32,9,3),(32,10,3),(32,11,3),(32,12,3),(32,13,4),(32,14,4),(33,1,1),(33,2,1),(33,3,1),(33,4,1),(33,5,2),(33,6,2),(33,7,2),(33,8,2),(33,9,3),(33,10,3),(33,11,3),(33,12,3),(33,13,4),(33,14,4),(34,1,1),(34,2,1),(34,3,1),(34,4,1),(34,5,2),(34,6,2),(34,7,2),(34,8,2),(34,9,3),(34,10,3),(34,11,3),(34,12,3),(34,13,4),(34,14,4),(35,1,1),(35,2,1),(35,3,1),(35,4,1),(35,5,2),(35,6,2),(35,7,2),(35,8,2),(35,9,3),(35,10,3),(35,11,3),(35,12,3),(35,13,4),(35,14,4),(36,1,1),(36,2,1),(36,3,1),(36,4,1),(36,5,2),(36,6,2),(36,7,2),(36,8,2),(36,9,3),(36,10,3),(36,11,3),(36,12,3),(36,13,4),(36,14,4),(36,15,4),(36,16,4),(36,17,4),(37,1,1),(37,2,1),(37,3,1),(37,4,1),(37,5,2),(37,6,2),(37,7,2),(37,8,2),(37,9,3),(37,10,3),(37,11,3),(37,12,3),(37,13,4),(37,14,4),(38,1,1),(38,2,1),(38,3,1),(38,4,1),(38,5,2),(38,6,2),(38,7,2),(38,8,2),(38,9,3),(38,10,3),(38,11,3),(38,12,3),(38,13,4),(38,14,4);
+INSERT INTO `sonnets_sections` VALUES (32,1,1),(32,2,1),(32,3,1),(32,4,1),(32,5,2),(32,6,2),(32,7,2),(32,8,2),(32,9,3),(32,10,3),(32,11,3),(32,12,3),(32,13,4),(32,14,4),(33,1,1),(33,2,1),(33,3,1),(33,4,1),(33,5,2),(33,6,2),(33,7,2),(33,8,2),(33,9,3),(33,10,3),(33,11,3),(33,12,3),(33,13,4),(33,14,4),(34,1,1),(34,2,1),(34,3,1),(34,4,1),(34,5,2),(34,6,2),(34,7,2),(34,8,2),(34,9,3),(34,10,3),(34,11,3),(34,12,3),(34,13,4),(34,14,4),(35,1,1),(35,2,1),(35,3,1),(35,4,1),(35,5,2),(35,6,2),(35,7,2),(35,8,2),(35,9,3),(35,10,3),(35,11,3),(35,12,3),(35,13,4),(35,14,4),(36,1,1),(36,2,1),(36,3,1),(36,4,1),(36,5,2),(36,6,2),(36,7,2),(36,8,2),(36,9,3),(36,10,3),(36,11,3),(36,12,3),(36,13,4),(36,14,4),(36,15,4),(36,16,4),(36,17,4),(37,1,1),(37,2,1),(37,3,1),(37,4,1),(37,5,2),(37,6,2),(37,7,2),(37,8,2),(37,9,3),(37,10,3),(37,11,3),(37,12,3),(37,13,4),(37,14,4),(38,1,1),(38,2,1),(38,3,1),(38,4,1),(38,5,2),(38,6,2),(38,7,2),(38,8,2),(38,9,3),(38,10,3),(38,11,3),(38,12,3),(38,13,4),(38,14,4),(38,15,4),(38,16,4),(38,17,4);
 /*!40000 ALTER TABLE `sonnets_sections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2419,6 +2448,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_latest_search` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_latest_search`(IN inTerm varchar(255))
+BEGIN
+
+	set @MAX_CIRCULAR_LOG_ROWS = 10; 
+	REPLACE INTO latest_searches_circular_log_table
+	SET row_id = (SELECT COALESCE(MAX(log_id), 0) % @MAX_CIRCULAR_LOG_ROWS + 1
+				  FROM latest_searches_circular_log_table AS t),
+		term = inTerm,
+        sound_score = SOUNDEX(inTerm);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `while_test` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2572,4 +2626,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-07  2:37:14
+-- Dump completed on 2016-06-10 12:06:02
