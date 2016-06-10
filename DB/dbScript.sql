@@ -945,7 +945,7 @@ BEGIN
 
 	select word_id, count(*) into first_word_id, expr_length
     from expression_words
-	where id = inExprId;
+	where id = inExprId;	
     
 	select sonnets.id as 'sonnet id', sonnets.name as 'sonnet name', expr_start_word_index
 	from
@@ -963,7 +963,7 @@ BEGIN
 		ON radius_words.word_id = expression_words.word_id
 	inner join sonnets
 		on radius_words.sonnet_id = sonnets.id
-	where expression_words.id = 1
+	where expression_words.id = inExprId
     AND (inSonnetId = 0 or radius_words.sonnet_id = inSonnetId)
 	group by sonnet_id, expr_start_word_index
 	having count(*) = expr_length
@@ -2626,4 +2626,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-10 12:06:02
+-- Dump completed on 2016-06-10 14:40:23
